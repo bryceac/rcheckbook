@@ -1,6 +1,14 @@
 mod rcheckbook;
 
-use rcheckbook::
+use rcheckbook::RCheckbook;
+use clap::Clap;
+
 fn main() {
-    let checkbook: RCheckbook
+    let checkbook: RCheckbook = RCheckbook::parse();
+
+    if checkbook.file_path.starts_with("~") {
+
+    } else {
+
+    }
 }
