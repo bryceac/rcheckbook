@@ -1,5 +1,6 @@
 mod rcheckbook;
 
+use rcheckbook::
 fn main() {
-    println!("Hello, world!");
+    let checkbook: RCheckbook
 }
