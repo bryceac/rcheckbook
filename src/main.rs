@@ -1,4 +1,5 @@
 mod rcheckbook;
+mod records;
 
 use rcheckbook::RCheckbook;
 use clap::Clap;
