@@ -1,0 +1,28 @@
+=rcheckbook=
+
+'''Author:''' Bryce Campbell
+
+'''License:''' See LICENSE
+
+'''Description:''' A Rust-based CLI reader for bcheck files, which is the format used by <a href="https://github.com/bryceac/BCheckbook">BCheckbook</a> for Mac and iOS.
+
+'''Version:''' 0.2
+
+==Notes==
+
+This program has been tested on macOS Big Sur, but <strong>should</strong> work on any platform.
+
+===Questions===
+
+<ol>
+<li>
+<dl>
+<dt style="font-weight:bold">Why create this progrm, instead of porting the application you made?</dt>
+<dd>
+<p>While I would like to port over the application itself, which should not take much work, due to this program utilizing a library I made that can read and write bcheck files, it does not seem feasible at this time.</p>
+<p>Also, since bcheck files are just JSON files with a different extension, it is possible to pretty much do everything in a text editor, so no real dedicated editor is needed for any platform.</p>
+<p>This program was mainly design to only be a reader, so that Windows and Linux users can read their save files from the application, and get details of their current balance.</p>
+</dd>
+</dl>
+</li>
+</ol>
