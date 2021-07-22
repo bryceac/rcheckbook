@@ -32,7 +32,7 @@ impl Records {
 
         for record in stored_records.iter_mut() {
             if let Some(previous_record) = self.record_before(&record) {
-                record.previous_record = Some(Box::new(previous_record))
+                record.previous_record = Some(Box::new(previous_record));
             }
         }
 
