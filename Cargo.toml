@@ -1,7 +1,13 @@
 [package]
 name = "rcheckbook"
+authors = ["Bryce Campbell <tonyhawk2100@gmail.com>"]
 version = "0.1.0"
 edition = "2018"
+license = "MIT"
+description = "CLI reader for bcheck files"
+homepage = "https://github.com/bryceac/rcheckbook"
+readme = "README.mediawiki"
+repository = "https://github.com/bryceac/rcheckbook"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
