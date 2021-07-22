@@ -33,10 +33,12 @@ impl Records {
         for record in stored_records.iter_mut() {
             if let Some(previous_record) = self.record_before(&record) {
                 record.previous_record = Some(Box::new(previous_record));
+
+                if let Some(index) = self.records.iter().position(|r| r == record) {
+                    self.records[index] = record.clone();
+                }
             }
         }
-
-        self.records = stored_records;
     }
 
     pub fn display(&mut self) {
