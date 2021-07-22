@@ -6,7 +6,7 @@
 
 '''Description:''' A Rust-based CLI reader for bcheck files, which is the format used by <a href="https://github.com/bryceac/BCheckbook">BCheckbook</a> for Mac and iOS.
 
-'''Version:''' 0.2
+'''Version:''' 0.1
 
 ==Notes==
 
@@ -26,3 +26,118 @@ This program has been tested on macOS Big Sur, but <strong>should</strong> work 
 </dl>
 </li>
 </ol>
+
+===Usage===
+
+After installing the program, all you need to do is something like this:
+
+<pre>
+rcheckbook ~/transactions.bcheck
+</pre>
+
+This will then generate output that looks like this:
+
+<pre>
+07/08/2021	1260	N	Sam Hill Credit Union; Open Account	500.00	x	500.00
+07/08/2021	x	N	Fake Street Electronics; Head set	x	200.00	300.00
+07/08/2021	x	N	Velociraptor Entertainment; Pay Day	50000.00	x	50300.00
+</pre>
+
+The <strong>N</strong> denotes if the transaction has been reconciled or not, with it being replaced with <strong>Y</strong>, if it has.
+
+The <strong>x</strong>'s denote fields with no value, such as the first one having no withdrawal amount and the second having no deposit amount.
+
+the number after the date is the check no, if one has been assigned.
+
+===bcheck format===
+
+Due to this being limited to only reading bcheck files, though it does not enforce it like BCheckbook for Mac and iOS, if you want to add records via text editor (e.g. TextEdit, Gedit, Pluma, Leafpad, Notepad, etc.), here are the details regarding the keys.
+
+These details also apply to how BCheckbook for iOS and Mac read them.
+
+<dl>
+<dt style="font-style:bold">id</dt>
+<dd>
+<p>The record's identifier. If not specified, a UUID is generated. <strong>Optional</strong></p>
+</dd>
+<dt style="font-style:bold">transaction</dt>
+<dd>
+<p>The transaction that took place. <strong>Required</strong></p>
+<p>This key contains an object with the following keys:</p>
+<dl>
+<dt style="font-style:bold">date</dt>
+<dd>
+<p>The date of the transaction. The date will the current date if it is not listed.</p>
+<p>The format expected for the date is YYYY-MM-DD. <strong>Optional</strong></p>
+</dd>
+<dt style="font-style:bold">check_number</dt>
+<dd>
+<p>The check number for the transaction. This defaults to nothing, if empty. <strong>Optional</strong></p>
+</dd>
+<dt style="font-style:bold">vendor</dt>
+<dd>
+<p>The entity you did business with. <strong>Required</strong></p>
+</dd>
+<dt style="font-style:bold">memo</dt>
+<dd>
+<p>Brief note of the transaction. <strong>Optional</strong></p>
+</dd>
+<dt style="font-style:bold">amount</dt>
+<dd>
+<p>The amount of money that exchanged hands. <strong>Required</strong></p>
+</dd>
+<dt style="font-style:bold">type</dt>
+<dd>
+<p>The kind of transaction, which can only be either a <strong>deposit</strong> or <strong>withdrawal</strong>. <strong>Required</strong></p>
+</dd>
+<dt style="font-style:bold">is_reconciled</dt>
+<dd>
+<p>determines if transaction has been reconciled or not. If left out, this defaults to <strong>false</strong>. <strong>Optional</strong></p>
+</dd>
+</dl>
+</dd>
+</dl>
+
+The file structure looks like this:
+
+<pre>
+[
+  {
+    "id" : "FF04C3DC-F0FE-472E-8737-0F4034C049F0",
+    "transaction" : {
+      "amount" : 500,
+      "vendor" : "Sam Hill Credit Union",
+      "memo" : "Open Account",
+      "check_number" : 1260,
+      "type" : "deposit",
+      "date" : "2021-07-08"
+    }
+  },
+  {
+    "id" : "1422CBC6-7B0B-4584-B7AB-35167CC5647B",
+    "transaction" : {
+      "amount" : 200,
+      "vendor" : "Fake Street Electronics",
+      "memo" : "Head set",
+      "type" : "withdrawal",
+      "date" : "2021-07-08"
+    }
+  },
+  {
+    "id" : "BB22187E-0BD3-41E8-B3D8-8136BD700865",
+    "transaction" : {
+      "amount" : 50000,
+      "vendor" : "Velociraptor Entertainment",
+      "memo" : "Pay Day",
+      "type" : "deposit",
+      "date" : "2021-07-08"
+    }
+  }
+]
+</pre>
+
+===Support===
+
+If you experience troubles, use the email address below. I should be able to help you, due to this being a rather simple application, but do not be surprised if even I am stumped, de to most of my experience with programming has been with Swift.
+
+tonyhawk2100@gmail.com
