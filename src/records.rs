@@ -41,11 +41,11 @@ impl Records {
         }
     }
 
-    pub fn display(&mut self) {
+    pub fn display(&mut self, with_id: bool) {
         self.retrieve_previous_records_for_records();
 
         for record in self.sorted_records() {
-            println!("{}", string_for_record(&record))
+            println!("{}", string_for_record(&record, with_id))
         }
     }
 }
@@ -54,7 +54,23 @@ fn string_for_record(record: &Record, with_id: bool) -> String {
     match record.transaction.transaction_type {
         TransactionType::Deposit => if let Some(check_number) = record.transaction.check_number {
             if with_id {
-
+                format!("{}\t{}\t{}\t{}\t{}; {}\t{:.2}\tx\t{:.2}",
+                record.id,
+                record.transaction.date.format("%m/%d/%Y"),
+                check_number,
+                if record.transaction.is_reconciled { "Y" } else { "N" },
+                if record.transaction.vendor.is_empty() {
+                    String::from("x")
+                } else {
+                    record.transaction.vendor.clone()
+                },
+                if record.transaction.memo.is_empty() {
+                    String::from("x")
+                } else {
+                    record.transaction.memo.clone()
+                },
+                record.transaction.amount,
+                record.balance())
             } else {
                 format!("{}\t{}\t{}\t{}; {}\t{:.2}\tx\t{:.2}",
                 record.transaction.date.format("%m/%d/%Y"),
@@ -75,7 +91,22 @@ fn string_for_record(record: &Record, with_id: bool) -> String {
             }
         } else {
             if with_id {
-
+                format!("{}\t{}\tx\t{}\t{}; {}\t{:.2}\tx\t{:.2}",
+                record.id,
+                record.transaction.date.format("%m/%d/%Y"),
+                if record.transaction.is_reconciled { "Y" } else { "N" },
+                if record.transaction.vendor.is_empty() {
+                    String::from("x")
+                } else {
+                    record.transaction.vendor.clone()
+                },
+                if record.transaction.memo.is_empty() {
+                    String::from("x")
+                } else {
+                    record.transaction.memo.clone()
+                },
+                record.transaction.amount,
+                record.balance())
             } else {
                 format!("{}\tx\t{}\t{}; {}\t{:.2}\tx\t{:.2}",
                 record.transaction.date.format("%m/%d/%Y"),
@@ -95,38 +126,77 @@ fn string_for_record(record: &Record, with_id: bool) -> String {
             }
         },
         TransactionType::Withdrawal => if let Some(check_number) = record.transaction.check_number {
-            format!("{}\t{}\t{}\t{}; {}\tx\t{:.2}\t{:.2}",
-        record.transaction.date.format("%m/%d/%Y"),
-        check_number,
-        if record.transaction.is_reconciled { "Y" } else { "N" },
-        if record.transaction.vendor.is_empty() {
-            String::from("x")
+            if with_id {
+                format!("{}\t{}\t{}\t{}\t{}; {}\tx\t{:.2}\t{:.2}",
+                record.id,
+                record.transaction.date.format("%m/%d/%Y"),
+                check_number,
+                if record.transaction.is_reconciled { "Y" } else { "N" },
+                if record.transaction.vendor.is_empty() {
+                    String::from("x")
+                } else {
+                    record.transaction.vendor.clone()
+                },
+                if record.transaction.memo.is_empty() {
+                    String::from("x")
+                } else {
+                    record.transaction.memo.clone()
+                },
+                record.transaction.amount,
+                record.balance())
+            } else {
+                format!("{}\t{}\t{}\t{}; {}\tx\t{:.2}\t{:.2}",
+                record.transaction.date.format("%m/%d/%Y"),
+                check_number,
+                if record.transaction.is_reconciled { "Y" } else { "N" },
+                if record.transaction.vendor.is_empty() {
+                    String::from("x")
+                } else {
+                    record.transaction.vendor.clone()
+                },
+                if record.transaction.memo.is_empty() {
+                    String::from("x")
+                } else {
+                    record.transaction.memo.clone()
+                },
+                record.transaction.amount,
+                record.balance())
+            }
         } else {
-            record.transaction.vendor.clone()
-        },
-        if record.transaction.memo.is_empty() {
-            String::from("x")
-        } else {
-            record.transaction.memo.clone()
-        },
-        record.transaction.amount,
-        record.balance())
-        } else {
-            format!("{}\tx\t{}\t{}; {}\tx\t{:.2}\t{:.2}",
-        record.transaction.date.format("%m/%d/%Y"),
-        if record.transaction.is_reconciled { "Y" } else { "N" },
-        if record.transaction.vendor.is_empty() {
-            String::from("x")
-        } else {
-            record.transaction.vendor.clone()
-        },
-        if record.transaction.memo.is_empty() {
-            String::from("x")
-        } else {
-            record.transaction.memo.clone()
-        },
-        record.transaction.amount,
-        record.balance())
+            if with_id {
+                format!("{}\t{}\tx\t{}\t{}; {}\tx\t{:.2}\t{:.2}",
+                record.id,
+                record.transaction.date.format("%m/%d/%Y"),
+                if record.transaction.is_reconciled { "Y" } else { "N" },
+                if record.transaction.vendor.is_empty() {
+                    String::from("x")
+                } else {
+                    record.transaction.vendor.clone()
+                },
+                if record.transaction.memo.is_empty() {
+                    String::from("x")
+                } else {
+                    record.transaction.memo.clone()
+                },
+                record.transaction.amount,
+                record.balance())
+            } else {
+                format!("{}\tx\t{}\t{}; {}\tx\t{:.2}\t{:.2}",
+                record.transaction.date.format("%m/%d/%Y"),
+                if record.transaction.is_reconciled { "Y" } else { "N" },
+                if record.transaction.vendor.is_empty() {
+                    String::from("x")
+                } else {
+                    record.transaction.vendor.clone()
+                },
+                if record.transaction.memo.is_empty() {
+                    String::from("x")
+                } else {
+                    record.transaction.memo.clone()
+                },
+                record.transaction.amount,
+                record.balance())
+            }
         }
     }
 }

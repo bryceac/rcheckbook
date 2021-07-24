@@ -28,7 +28,7 @@ impl List {
     fn load_from(&self, p: &str) {
         match Records::from_file(p) {
             Ok(mut records) => {
-                records.display()
+                records.display(self.show_ids)
             },
             Err(error) => {
                 println!("{}", error)
