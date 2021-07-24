@@ -1,5 +1,6 @@
-use bcheck::{ Record, TransactionType, Transaction };
+use bcheck::{ Record, TransactionType, Transaction, Save };
 use clap::Clap;
+use crate::records::Records;
 use std::fs;
 
 #[derive(Clap)]
@@ -44,10 +45,15 @@ impl Add {
     }
 
     fn add_record_to(&self, p: &str) -> Result<(), String> {
-        let mut stored_records = Record::from_file(p)?;
+        let mut stored_records = Records::from_file(p)?;
 
         let record = Record::from("", Transaction::from(None, self.check_number, &self.vendor, &self.memo, self.amount, self.transaction_type.clone(), self.reconciled).unwrap(), None);
 
-        Ok(stored_records.push(record))
+        stored_records.add(record);
+
+        match stored_records.sorted_records().save(p) {
+            Ok(()) => Ok(()),
+            Err(error) => Err(error.to_string())
+        }
     }
 }

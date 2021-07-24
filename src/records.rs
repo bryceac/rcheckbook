@@ -19,6 +19,10 @@ impl Records {
         stored_records
     }
 
+    pub fn add(&mut self, record: Record) {
+        self.records.push(record)
+    }
+
     fn record_before(&self, record: &Record) -> Option<Record> {
         if let Some(index) = self.sorted_records().iter().position(|r| r == record) {
             if index > 0 { Some(self.sorted_records()[index-1].clone()) } else { None }
