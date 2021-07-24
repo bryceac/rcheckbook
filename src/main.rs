@@ -1,6 +1,7 @@
 mod rcheckbook;
 mod records;
 mod subcommand;
+mod add;
 mod list;
 
 use rcheckbook::RCheckbook;
