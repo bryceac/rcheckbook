@@ -1,4 +1,4 @@
-use bcheck::{ Record, Save };
+use bcheck::{ Save };
 use clap::Clap;
 use crate::records::Records;
 use std::fs;
