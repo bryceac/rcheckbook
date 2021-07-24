@@ -30,9 +30,9 @@ checksum = "cdb031dd78e28731d87d56cc8ffef4a8f36ca26c38fe2de700543e627f8a464a"
 
 [[package]]
 name = "bcheck"
-version = "0.2.0"
+version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a3d9067bfd923f7618b5523c83ac923f51ec4fb62702b1a3e9ecfe34ba523a64"
+checksum = "773f7ee37b71a4e507d82d454e0a5a7be4af643d33e1f74f7d289b03c9d69d24"
 dependencies = [
  "chrono",
  "ordered-float",
@@ -251,9 +251,9 @@ dependencies = [
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.27"
+version = "1.0.28"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f0d8caf72986c1a598726adc988bb5984792ef84f5ee5aa50209145ee8077038"
+checksum = "5c7ed8b8c7b886ea3ed7dde405212185f423ab44682667c8c6dd14aa1d9f6612"
 dependencies = [
  "unicode-xid",
 ]

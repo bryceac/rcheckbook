@@ -52,7 +52,7 @@ impl Records {
 
 fn string_for_record(record: &Record) -> String {
     match record.transaction.transaction_type {
-        TransactionType::DEPOSIT => if let Some(check_number) = record.transaction.check_number {
+        TransactionType::Deposit => if let Some(check_number) = record.transaction.check_number {
             format!("{}\t{}\t{}\t{}; {}\t{:.2}\tx\t{:.2}",
         record.transaction.date.format("%m/%d/%Y"),
         check_number,
@@ -86,7 +86,7 @@ fn string_for_record(record: &Record) -> String {
         record.transaction.amount,
         record.balance())
         },
-        TransactionType::WITHDRAWAL => if let Some(check_number) = record.transaction.check_number {
+        TransactionType::Withdrawal => if let Some(check_number) = record.transaction.check_number {
             format!("{}\t{}\t{}\t{}; {}\tx\t{:.2}\t{:.2}",
         record.transaction.date.format("%m/%d/%Y"),
         check_number,
