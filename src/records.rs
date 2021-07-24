@@ -23,6 +23,12 @@ impl Records {
         self.records.push(record)
     }
 
+    pub fn remove(&mut self, record_id: String) {
+        if let Some(index) = self.records.iter().position(|r| r.id == record_id) {
+            self.records.remove(index);
+        }
+    }
+
     fn record_before(&self, record: &Record) -> Option<Record> {
         if let Some(index) = self.sorted_records().iter().position(|r| r == record) {
             if index > 0 { Some(self.sorted_records()[index-1].clone()) } else { None }

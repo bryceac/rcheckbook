@@ -3,6 +3,7 @@ mod records;
 mod subcommand;
 mod add;
 mod list;
+mod remove;
 
 use rcheckbook::RCheckbook;
 use clap::Clap;
@@ -13,6 +14,7 @@ fn main() {
 
     match checkbook.subcommand {
         SubCommand::Add(a) => a.run().unwrap(),
-        SubCommand::List(l) => l.run()
+        SubCommand::List(l) => l.run(),
+        SubCommand::Remove(r) => r.run().unwrap()
     }
 }
