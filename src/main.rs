@@ -12,6 +12,7 @@ fn main() {
     let checkbook: RCheckbook = RCheckbook::parse();
 
     match checkbook.subcommand {
+        SubCommand::Add(a) => a.run().unwrap(),
         SubCommand::List(l) => l.run()
     }
 }
