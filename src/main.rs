@@ -1,5 +1,6 @@
 mod rcheckbook;
 mod records;
+mod subcommand;
 
 use rcheckbook::RCheckbook;
 use records::Records;
