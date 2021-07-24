@@ -34,7 +34,7 @@ impl Remove {
 
         stored_records.remove(self.id.clone());
 
-        match stored_records.sorted_records().save(&self.file_path) {
+        match stored_records.sorted_records().save(p) {
             Ok(()) => Ok(()),
             Err(error) => Err(error.to_string())
         }
