@@ -272,7 +272,9 @@ name = "rcheckbook"
 version = "0.1.0"
 dependencies = [
  "bcheck",
+ "chrono",
  "clap",
+ "ordered-float",
  "regex",
  "shellexpand",
 ]

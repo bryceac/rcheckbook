@@ -1,6 +1,10 @@
-use bcheck::{ Record, Transaction, TransactionType, Save };
+use bcheck::{ TransactionType, Save };
 use crate::records::Records;
 use clap::Clap;
+use chrono::prelude::*;
+use ordered_float::OrderedFloat;
+use regex::Regex;
+use std::fs;
 
 #[derive(Clap)]
 pub struct Update {
@@ -25,10 +29,13 @@ pub struct Update {
     pub amount: Option<f64>,
 
     #[clap(long, short)]
-    pub transaction_type: Option<String>,
+    pub transaction_type: Option<TransactionType>,
 
     #[clap(long, short)]
-    pub reconciled: bool
+    pub reconciled: bool,
+
+    #[clap(long)]
+    pub not_reconciled: bool
 }
 
 impl Update {
@@ -36,11 +43,11 @@ impl Update {
         if self.file_path.starts_with("~") {
             let modified_path = shellexpand::tilde(&self.file_path).into_owned();
     
-            self.add_record_to(&modified_path)
+            self.update_record(&modified_path)
         } else {
             match fs::canonicalize(self.file_path.clone()) {
                 Ok(real_path) => if let Some(file_path) = real_path.to_str() {
-                    self.add_record_to(file_path)
+                    self.update_record(file_path)
                 } else {
                     Err(String::from("File path could not be recognized"))
                 },
@@ -52,35 +59,58 @@ impl Update {
     fn update_record(&self, p: &str) -> Result<(), String> {
         let mut stored_records = Records::from_file(p)?;
 
-        if let Some(mut record) = stored_records.record_matching_id(self.id) {
-            if let Some(date_string) = self.date {
-                // implement later
-            }
+        if let Some(mut record) = stored_records.record_matching_id(self.id.clone()) {
+            if let Some(date_string) = self.date.clone() {
+                if is_proper_date_format(&date_string) {
+                    let naive_date = NaiveDate::parse_from_str(&date_string, "%Y-%m-%d").unwrap();
+                    let naive_datetime = naive_date.and_hms(0, 0, 0);
+
+                    let local_datetime = Local.from_local_datetime(&naive_datetime).unwrap();
+
+                    record.transaction.date = local_datetime;
+                } else {}
+            } else {}
 
             if let Some(check_number) = self.check_number {
-
-            }
+                record.transaction.check_number = Some(check_number);
+            } else {}
             
-            if let Some(vendor) = self.vendor {
+            if let Some(vendor) = self.vendor.clone() {
+                record.transaction.vendor = vendor;
+            } else {}
 
-            }
-
-            if let Some(memo) = self.memo {
-
-            }
+            if let Some(memo) = self.memo.clone() {
+                record.transaction.memo = memo;
+            } else {}
 
             if let Some(amount) = self.amount {
+                record.transaction.amount = OrderedFloat(amount);
+            } else {}
 
-            }
-
-            if let Some(transaction_type) = self.transaction_type {
-
-            }
+            if let Some(transaction_type) = self.transaction_type.clone() {
+                record.transaction.transaction_type = transaction_type;
+            } else {}
 
             if self.reconciled {
+                record.transaction.is_reconciled = true;
+            } else if self.not_reconciled {
+                record.transaction.is_reconciled = false;
+            } else {}
 
+            stored_records.update(self.id.clone(), record);
+
+            match stored_records.sorted_records().save(p) {
+                Ok(()) => Ok(()),
+                Err(error) => Err(error.to_string())
             }
 
+        } else {
+            Err(String::from("Could not find record."))
         }
     }
+}
+
+fn is_proper_date_format(s: &str) -> bool {
+    let r = Regex::new(r"^\d{4}-\d{1,2}-\d{1,2}$").unwrap();
+    r.is_match(s)
 }

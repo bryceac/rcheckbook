@@ -45,7 +45,7 @@ impl Records {
 
     pub fn record_matching_id(&self, id: String) -> Option<Record> {
         if let Some(record) = self.records.iter().find(|r| r.id == id) {
-            Some(*record)
+            Some(record.clone())
         } else {
             None
         }
