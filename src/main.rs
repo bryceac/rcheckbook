@@ -4,6 +4,7 @@ mod subcommand;
 mod add;
 mod list;
 mod remove;
+mod update;
 
 use rcheckbook::RCheckbook;
 use clap::Clap;
