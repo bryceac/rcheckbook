@@ -16,6 +16,7 @@ fn main() {
     match checkbook.subcommand {
         SubCommand::Add(a) => a.run().unwrap(),
         SubCommand::List(l) => l.run(),
-        SubCommand::Remove(r) => r.run().unwrap()
+        SubCommand::Remove(r) => r.run().unwrap(),
+        SubCommand::Update(u) => u.run().unwrap()
     }
 }
