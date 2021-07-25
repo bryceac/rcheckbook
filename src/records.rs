@@ -37,6 +37,14 @@ impl Records {
         }
     }
 
+    pub fn record_matching_id(&self, id: String) -> Option<Record> {
+        if let Some(record) = self.records.iter().find(|r| r.id == id) {
+            Some(*record)
+        } else {
+            None
+        }
+    }
+
     fn retrieve_previous_records_for_records(&mut self) {
         let mut stored_records = self.records.clone();
 
