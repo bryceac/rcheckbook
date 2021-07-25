@@ -29,6 +29,12 @@ impl Records {
         }
     }
 
+    pub fn update(&mut self, record_id: String, record: Record) {
+        if let Some(index) = self.records.iter().position(|r| r.id == record_id) {
+            self.records[index] = record
+        }
+    }
+
     fn record_before(&self, record: &Record) -> Option<Record> {
         if let Some(index) = self.sorted_records().iter().position(|r| r == record) {
             if index > 0 { Some(self.sorted_records()[index-1].clone()) } else { None }
