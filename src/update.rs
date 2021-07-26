@@ -1,9 +1,6 @@
-use bcheck::{ TransactionType, Save };
+use bcheck::{ LocalDateTimeStringExt, OrderedFloat, TransactionType, Save };
 use crate::records::Records;
 use clap::Clap;
-use chrono::prelude::*;
-use ordered_float::OrderedFloat;
-use regex::Regex;
 use std::fs;
 
 #[derive(Clap)]
@@ -61,14 +58,9 @@ impl Update {
 
         if let Some(mut record) = stored_records.record_matching_id(self.id.clone()) {
             if let Some(date_string) = self.date.clone() {
-                if is_proper_date_format(&date_string) {
-                    let naive_date = NaiveDate::parse_from_str(&date_string, "%Y-%m-%d").unwrap();
-                    let naive_datetime = naive_date.and_hms(0, 0, 0);
-
-                    let local_datetime = Local.from_local_datetime(&naive_datetime).unwrap();
-
-                    record.transaction.date = local_datetime;
-                } else {}
+                if let Ok(datetime) = date_string.local_datetime() {
+                    record.transaction.date = datetime
+                }
             } else {}
 
             if let Some(check_number) = self.check_number {
@@ -108,9 +100,4 @@ impl Update {
             Err(String::from("Could not find record."))
         }
     }
-}
-
-fn is_proper_date_format(s: &str) -> bool {
-    let r = Regex::new(r"^\d{4}-\d{1,2}-\d{1,2}$").unwrap();
-    r.is_match(s)
 }
