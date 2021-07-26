@@ -6,7 +6,7 @@
 
 '''Description:''' A Rust-based CLI program that can read and write bcheck files, which is the format used by <a href="https://github.com/bryceac/BCheckbook">BCheckbook</a> for Mac and iOS.
 
-'''Version:''' 0.2
+'''Version:''' 0.2.1
 
 ==Notes==
 
@@ -24,6 +24,11 @@ This program has been tested on macOS Big Sur, but <strong>should</strong> work 
 <dd>
 <p>Add in capability to add, remove, and update transactions easily and move structure to using sub commands.</p>
 <p>Released 7/25/2021.</p>
+</dd>
+<dt style="font-weight:bold">0.2.1</dt>
+<dd>
+<p>Reduce code by updating backend library.</p>
+<p>Released 7/26/2021.</p>
 </dd>
 </dl>
 

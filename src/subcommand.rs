@@ -12,6 +12,6 @@ pub enum SubCommand {
     List(List),
     #[clap(version = "0.1", author = "Bryce Campbell")]
     Remove(Remove),
-    #[clap(version = "0.1", author = "Bryce Campbell")]
+    #[clap(version = "0.1.1", author = "Bryce Campbell")]
     Update(Update)
 }
