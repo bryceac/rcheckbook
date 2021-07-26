@@ -4,13 +4,28 @@
 
 '''License:''' See LICENSE
 
-'''Description:''' A Rust-based CLI reader for bcheck files, which is the format used by <a href="https://github.com/bryceac/BCheckbook">BCheckbook</a> for Mac and iOS.
+'''Description:''' A Rust-based CLI program that can read and write bcheck files, which is the format used by <a href="https://github.com/bryceac/BCheckbook">BCheckbook</a> for Mac and iOS.
 
-'''Version:''' 0.1
+'''Version:''' 0.2
 
 ==Notes==
 
 This program has been tested on macOS Big Sur, but <strong>should</strong> work on any platform.
+
+===Version History===
+
+<dl>
+<dt style="font-weight:bold">0.1</dt>
+<dd>
+<p>Initial release. Could only function as a reader for bcheck files.</p>
+<p>Released 7/21/2021.</p>
+</dd>
+<dt style="font-weight:bold">0.2</dt>
+<dd>
+<p>Add in capability to add, remove, and update transactions easily and move structure to using sub commands.</p>
+<p>Released 7/25/2021.</p>
+</dd>
+</dl>
 
 ===Questions===
 
@@ -21,7 +36,7 @@ This program has been tested on macOS Big Sur, but <strong>should</strong> work 
 <dd>
 <p>While I would like to port over the application itself, which should not take much work, due to this program utilizing a library I made that can read and write bcheck files, it does not seem feasible at this time.</p>
 <p>Also, since bcheck files are just JSON files with a different extension, it is possible to pretty much do everything in a text editor, so no real dedicated editor is needed for any platform.</p>
-<p>This program was mainly design to only be a reader, so that Windows and Linux users can read their save files from the iOS application, and get details of their current balance.</p>
+<p>This program was originally designed to only be a reader, so that Windows and Linux users can read their save files from the iOS application, and get details of their current balance, but now includes simple functionality to allow the same capabilities as the iOS and Mac app, with the exception of not having GUI.</p>
 </dd>
 </dl>
 </li>
@@ -32,7 +47,7 @@ This program has been tested on macOS Big Sur, but <strong>should</strong> work 
 After installing the program, all you need to do is something like this:
 
 <pre>
-rcheckbook ~/transactions.bcheck
+rcheckbook list ~/transactions.bcheck
 </pre>
 
 This will then generate output that looks like this:
@@ -49,11 +64,47 @@ The <strong>x</strong>'s denote fields with no value, such as the first one havi
 
 the number after the date is the check no, if one has been assigned.
 
+If you include the <strong>show-ids</strong> flag, the record ids needed to remove or update transactions will be displayed before the date.
+
+This action would look like this in a terminal emulator (e.g. Power Shell):
+
+<pre>
+rcheckbook list ~/transactions.bcheck --show-ids
+</pre>
+
+====Adding new Entries====
+
+Transactions can be added like this:
+
+<pre>
+rcheckbook add ~/transaction.bcheck --check-number 1260 --vendor "Sam Hill Credit Union" -m "Open Account" -a 500.0 -t deposit
+</pre>
+
+Everything but the file path and the vendor is optional, but this saves time in filling in details.
+
+====Removing Entries====
+
+Entries can be removed like this:
+
+<pre>
+rcheckbook remove ~/transaction.bcheck -i FF04C3DC-F0FE-472E-8737-0F4034C049F0
+</pre>
+
+This will look in the bcheck file and remove the record matching the identifier.
+
+====Updating Entries====
+
+If you make a mistake or want to mark items as reconciled, entries can be updated like this:
+
+<pre>
+rcheckbook updaye ~/transaction.bcheck -i FF04C3DC-F0FE-472E-8737-0F4034C049F0 -r
+</pre>
+
+This will mark the record with the given identifier as reconciled.
+
 ===bcheck format===
 
-Due to this being limited to only reading bcheck files, though it does not enforce it like BCheckbook for Mac and iOS, if you want to add records via text editor (e.g. TextEdit, Gedit, Pluma, Leafpad, Notepad, etc.), here are the details regarding the keys.
-
-These details also apply to how BCheckbook for iOS and Mac read them.
+If you choose to manga things via a text editor, these keys make up the JSON structure of a bcheck file.
 
 <dl>
 <dt style="font-style:bold">id</dt>
