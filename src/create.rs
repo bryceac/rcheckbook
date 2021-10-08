@@ -1,6 +1,6 @@
 use bcheck::Save;
 use clap::Clap;
-use std::fs;
+use std::fs::{ self, File };
 use crate::records::Records;
 
 #[derive(Clap)]
@@ -28,6 +28,8 @@ impl Create {
 
     fn create_empty_register(&self, p: &str) -> Result<(), String> {
         let records = Records::new();
+
+        let _ = File::create(p);
 
         match records.sorted_records().save(p) {
             Ok(()) => Ok(()),
