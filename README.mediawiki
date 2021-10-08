@@ -6,7 +6,7 @@
 
 '''Description:''' A Rust-based CLI program that can read and write bcheck files, which is the format used by <a href="https://github.com/bryceac/BCheckbook">BCheckbook</a> for Mac and iOS.
 
-'''Version:''' 0.2.1
+'''Version:''' 0.2.2
 
 ==Notes==
 
@@ -30,6 +30,11 @@ This program has been tested on macOS Big Sur, but <strong>should</strong> work 
 <p>Reduce code by updating backend library.</p>
 <p>Released 7/26/2021.</p>
 </dd>
+<dt style="font-weight:bold">0.2.2</dt>
+<dd>
+<p>Implement way to create register via program.</p>
+<p>Released 10/8/2021.</p>
+</dd>
 </dl>
 
 ===Questions===
@@ -50,6 +55,12 @@ This program has been tested on macOS Big Sur, but <strong>should</strong> work 
 ===Usage===
 
 After installing the program, all you need to do is something like this:
+
+<pre>rcheckbook create ~/Desktop/transaction.bcheck</pre>
+
+This will create a new register at the specified path, which <strong>should</strong> support Unix shorthands.
+
+====Display Register====
 
 <pre>
 rcheckbook list ~/transactions.bcheck
