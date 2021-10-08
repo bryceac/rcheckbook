@@ -5,6 +5,12 @@ pub struct Records {
 }
 
 impl Records {
+    pub fn new() -> Records {
+        Records {
+            records: Vec::new()
+        }
+    }
+    
     pub fn from_file(path: &str) -> Result<Records, String> {
         match Record::from_file(path) {
             Ok(records) => Ok(Records { records }),
