@@ -8,7 +8,7 @@ pub fn copy_database_if_not_exists(p: &str) {
             let target_path = Path::new(&modified_path);
             let original_path = Path::new("register.db");
 
-            fs::copy(original_path, target_path);
+            let _ = fs::copy(original_path, target_path);
         } else {}
     } else {
         if let Ok(real_path) = fs::canonicalize(p) {
