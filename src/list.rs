@@ -4,12 +4,14 @@ use crate::records::Records;
 
 #[derive(Parser)]
 pub struct List {
+
+    #[clap(default_value = "~/.checkbook/register.db")]
     pub file_path: String,
 }
 
 impl List {
     pub fn run(&self) {
-        if self.file_path.starts_with("~") {
+        /* if self.file_path.starts_with("~") {
             let modified_path = shellexpand::tilde(&self.file_path).into_owned();
     
             self.load_from(&modified_path)
@@ -19,7 +21,10 @@ impl List {
                     self.load_from(file_path)
                 }
             }
-        }
+        } */
+        copy_database_if_not_exists();
+
+
     }
 
     fn load_from(&self, p: &str) {
