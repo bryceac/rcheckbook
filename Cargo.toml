@@ -1,8 +1,8 @@
 [package]
 name = "rcheckbook"
 authors = ["Bryce Campbell <tonyhawk2100@gmail.com>"]
-version = "0.2.2"
-edition = "2018"
+version = "0.3.0"
+edition = "2021"
 license = "MIT"
 description = "CLI program that can read and write bcheck files."
 homepage = "https://github.com/bryceac/rcheckbook"
