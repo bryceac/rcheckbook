@@ -71,7 +71,7 @@ impl Records {
         }
     } */
 
-    pub fn display(&mut self, with_id: bool) {
+    pub fn display(&mut self) {
         for record in self.sorted_records() {
             println!("{}", record)
         }
