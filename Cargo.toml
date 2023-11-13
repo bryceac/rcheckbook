@@ -15,3 +15,4 @@ repository = "https://github.com/bryceac/rcheckbook"
 bcheck = "0.3"
 shellexpand = "3.1.0"
 clap = { version = "4.4.8", features = ["derive"] }
+rusqlte = { version = "0.30.0", features = ["bundled"] }
