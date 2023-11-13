@@ -71,13 +71,11 @@ impl Records {
         }
     } */
 
-    /* pub fn display(&mut self, with_id: bool) {
-        self.retrieve_previous_records_for_records();
-
+    pub fn display(&mut self, with_id: bool) {
         for record in self.sorted_records() {
-            println!("{}", string_for_record(&record, with_id))
+            println!("{}", record)
         }
-    } */
+    }
 }
 
 /* fn string_for_record(record: &Record, with_id: bool) -> String {
