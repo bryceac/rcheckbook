@@ -8,7 +8,7 @@ mod remove;
 mod update;
 
 use rcheckbook::RCheckbook;
-use clap::Clap;
+use clap::Parser;
 use subcommand::SubCommand;
 
 fn main() {

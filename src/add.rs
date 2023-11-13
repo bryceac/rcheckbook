@@ -1,5 +1,5 @@
 use bcheck::{ Record, TransactionType, Transaction, Save };
-use clap::Clap;
+use clap::Parser;
 use crate::records::Records;
 use std::fs;
 

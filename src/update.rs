@@ -1,6 +1,6 @@
 use bcheck::{ LocalDateTimeStringExt, OrderedFloat, TransactionType, Save };
 use crate::records::Records;
-use clap::Clap;
+use clap::Parser;
 use std::fs;
 
 #[derive(Clap)]
