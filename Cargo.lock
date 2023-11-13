@@ -82,9 +82,9 @@ checksum = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
 
 [[package]]
 name = "bcheck"
-version = "0.3.2"
+version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3e6b2fa5190ff525dd661be1c47181a4c188d4733e15f6d87607e8e22bfcd3c3"
+checksum = "e2f29437ef79ddc4c4ce114e1de6aba8417dac41e091ce4ebd75f96f62c10f7a"
 dependencies = [
  "chrono",
  "ordered-float",
