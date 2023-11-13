@@ -3,7 +3,7 @@ use clap::Parser;
 use std::{path::Path, fs::{ self, File } };
 use crate::records::Records;
 
-#[derive(Clap)]
+#[derive(Parser)]
 pub struct Create {
     file_path: String
 }

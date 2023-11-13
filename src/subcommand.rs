@@ -5,7 +5,7 @@ use crate::create::Create;
 use crate::remove::Remove;
 use crate::update::Update;
 
-#[derive(Clap)]
+#[derive(Parser)]
 pub enum SubCommand {
     #[clap(version = "0.1", author = "Bryce Campbell")]
     Add(Add),

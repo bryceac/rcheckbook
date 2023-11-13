@@ -2,7 +2,7 @@ use clap::Parser;
 use std::fs;
 use crate::records::Records;
 
-#[derive(Clap)]
+#[derive(Parser)]
 pub struct List {
     pub file_path: String,
 

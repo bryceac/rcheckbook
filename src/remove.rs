@@ -3,7 +3,7 @@ use clap::Parser;
 use crate::records::Records;
 use std::fs;
 
-#[derive(Clap)]
+#[derive(Parser)]
 pub struct Remove {
     pub file_path: String,
 
