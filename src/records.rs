@@ -41,13 +41,13 @@ impl Records {
         }
     }
 
-    fn record_before(&self, record: &Record) -> Option<Record> {
+    /* fn record_before(&self, record: &Record) -> Option<Record> {
         if let Some(index) = self.sorted_records().iter().position(|r| r == record) {
             if index > 0 { Some(self.sorted_records()[index-1].clone()) } else { None }
         } else {
             None
         }
-    }
+    } */
 
     pub fn record_matching_id(&self, id: String) -> Option<Record> {
         if let Some(record) = self.records.iter().find(|r| r.id == id) {
@@ -57,7 +57,7 @@ impl Records {
         }
     }
 
-    fn retrieve_previous_records_for_records(&mut self) {
+    /* fn retrieve_previous_records_for_records(&mut self) {
         let mut stored_records = self.records.clone();
 
         for record in stored_records.iter_mut() {
@@ -69,18 +69,18 @@ impl Records {
                 }
             }
         }
-    }
+    } */
 
-    pub fn display(&mut self, with_id: bool) {
+    /* pub fn display(&mut self, with_id: bool) {
         self.retrieve_previous_records_for_records();
 
         for record in self.sorted_records() {
             println!("{}", string_for_record(&record, with_id))
         }
-    }
+    } */
 }
 
-fn string_for_record(record: &Record, with_id: bool) -> String {
+/* fn string_for_record(record: &Record, with_id: bool) -> String {
     match record.transaction.transaction_type {
         TransactionType::Deposit => if let Some(check_number) = record.transaction.check_number {
             if with_id {
@@ -229,4 +229,4 @@ fn string_for_record(record: &Record, with_id: bool) -> String {
             }
         }
     }
-}
+} */
