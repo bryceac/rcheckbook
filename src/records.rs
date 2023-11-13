@@ -1,4 +1,4 @@
-use bcheck::{ Record, TransactionType };
+use bcheck::Record;
 
 pub struct Records {
     records: Vec<Record>
