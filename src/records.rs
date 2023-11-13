@@ -12,9 +12,18 @@ impl Records {
     }
     
     pub fn from_file(path: &str) -> Result<Records, String> {
-        match Record::from_file(path) {
-            Ok(records) => Ok(Records { records }),
-            Err(error) => Err(error)
+        match path {
+            p if p.ends_with(".json") => match Record::from_file(path) {
+                Ok(records) => Ok(Records { records }),
+                Err(error) => Err(error)
+            },
+            p if p.ends_with(".tsv") => match Record::from_tsv_file(path) {
+                Ok(records) => Ok(Records { records }),
+                Err(error) => Err(error)
+            },
+            _ => {
+                Ok(Records::new())
+            }
         }
     }
     
