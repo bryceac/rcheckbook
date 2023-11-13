@@ -47,7 +47,7 @@ impl Add {
     fn add_record_to(&self, p: &str) -> Result<(), String> {
         let mut stored_records = Records::from_file(p)?;
 
-        let record = Record::from("", Transaction::from(None, self.check_number, None, &self.vendor, &self.memo, self.amount, self.transaction_type.clone(), self.reconciled).unwrap(), None);
+        let record = Record::from("", Transaction::from(None, self.check_number, None, &self.vendor, &self.memo, self.amount, self.transaction_type.clone(), self.reconciled).unwrap());
 
         stored_records.add(record);
 
