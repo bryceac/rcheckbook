@@ -1,7 +1,7 @@
 use std::{ fs, path::Path };
 
 pub fn copy_database_if_not_exists(p: &str) {
-    if self.file_path.starts_with("~") {
+    if p.starts_with("~") {
         let modified_path = shellexpand::tilde(p).into_owned();
 
         if !Path::new(&modified_path).exists() {
