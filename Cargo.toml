@@ -12,6 +12,6 @@ repository = "https://github.com/bryceac/rcheckbook"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-bcheck = "0.2"
-shellexpand = "2.1"
-clap = "3.0.0-beta.2"
+bcheck = "0.3"
+shellexpand = "3.1.0"
+clap = "4.4.8"
