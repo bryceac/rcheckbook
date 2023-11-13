@@ -5,9 +5,6 @@ use crate::records::Records;
 #[derive(Parser)]
 pub struct List {
     pub file_path: String,
-
-    #[clap(long)]
-    pub show_ids: bool
 }
 
 impl List {
