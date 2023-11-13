@@ -1,6 +1,6 @@
 use clap::Parser;
 use crate::records::Records;
-use crate::database_check::copy_database_if_not_exists;
+use crate::database::copy_database_if_not_exists;
 
 #[derive(Parser)]
 pub struct List {
@@ -25,15 +25,17 @@ impl List {
         copy_database_if_not_exists(&self.file_path);
     }
 
-    fn load_from(&self, p: &str) {
-        match Records::from_file(p) {
+    fn load_from_db(&self, p: &str) {
+        /* match Records::from_file(p) {
             Ok(mut records) => {
                 records.display()
             },
             Err(error) => {
                 println!("{}", error)
             }
-        }
+        } */
+
+
     }
 }
 

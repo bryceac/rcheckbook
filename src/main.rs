@@ -6,7 +6,7 @@ mod create;
 mod list;
 mod remove;
 mod update;
-mod database_check;
+mod database;
 
 use rcheckbook::RCheckbook;
 use clap::Parser;
