@@ -1,5 +1,4 @@
 use clap::Parser;
-use std::{ fs, path::Path };
 use crate::records::Records;
 use crate::database_check::copy_database_if_not_exists;
 

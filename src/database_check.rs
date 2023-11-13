@@ -11,12 +11,12 @@ pub fn copy_database_if_not_exists(p: &str) {
             fs::copy(original_path, target_path);
         } else {}
     } else {
-        if let Ok(real_path) = fs::canonicalize(p.clone()) {
+        if let Ok(real_path) = fs::canonicalize(p) {
             if let Some(file_path) = real_path.to_str() {
                 let target_path = Path::new(&file_path);
                 let original_path = Path::new("register.db");
 
-                fs::copy(original_path, target_path);
+                let _ = fs::copy(original_path, target_path);
             }
         }
     }
