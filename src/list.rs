@@ -1,5 +1,3 @@
-use std::num::FpCategory;
-
 use clap::Parser;
 use crate::records::Records;
 use bcheck::{ Record, Transaction, TransactionType };
@@ -51,7 +49,7 @@ impl List {
                         } else {
                             None
                         };
-                        let category: Option<&str> = if let Ok(c) = row.get(6) {
+                        let category: Option<String> = if let Ok(c) = row.get(6) {
                             Some(c)
                         } else {
                             None
@@ -89,7 +87,7 @@ impl List {
                         Ok(Record::from(&id, 
                         Transaction::from(Some(&date_string),
                         check_number, 
-                        category, 
+                        category.as_deref(), 
                         &vendor, 
                         &memo, 
                         amount, 
