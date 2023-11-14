@@ -171,7 +171,7 @@ pub fn add_category_to_db(p: &str, c: &str) {
 }
 
 pub fn add_record_to_db(p: &str, r: &Record) {
-    let mut category_id = if let Some(category) = &r.transaction.category {
+    let category_id = if let Some(category) = &r.transaction.category {
         if let Some(id) = category_id(p, category) {
             Some(id)
         } else {
@@ -184,12 +184,35 @@ pub fn add_record_to_db(p: &str, r: &Record) {
 
     let date_string = format!("{}", r.transaction.date.format("%Y-%m-%d"));
 
+    let check_number = if let Some(check) = r.transaction.check_number {
+        format!("{}", check)
+    } else {
+        String::default()
+    };
+
+    let amount = match r.transaction.transaction_type {
+        TransactionType::Withdrawal => format!("{:.2}", r.transaction.amount*-1.0),
+        TransactionType::Deposit => format!("{:.2}", r.transaction.amount)
+    };
+
+    let reconciled = if r.transaction.is_reconciled {
+        format!("{}", 1)
+    } else {
+        format!("{}", 0)
+    };
+
+    let category_id_string = if let Some(id) = category_id {
+        format!("{}", id)
+    } else {
+        String::default()
+    };
+
     if let Ok(db) = Connection::open(p) {
         let insert_statement = format!("INSERT INTO trades VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)");
 
         if let Ok(mut statement) = db.prepare(&insert_statement) {
 
-            if let Err(error) = statement.execute([r.id, r.transaction.date, r.transaction.check_number, r.transaction.vendor, r.transaction.memo, a, category_id, recon]) {
+            if let Err(error) = statement.execute([r.id.clone(), date_string, check_number, r.transaction.vendor.clone(), r.transaction.memo.clone(), amount, category_id_string, reconciled]) {
                 println!("{}", error);
             }
         }
