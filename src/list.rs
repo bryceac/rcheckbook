@@ -1,6 +1,6 @@
 use clap::Parser;
 use crate::records::Records;
-use bcheck::{ Record, Transaction };
+use bcheck::{ Record, Transaction, TransactionType };
 use crate::database::copy_database_if_not_exists;
 use rusqlite::Connection;
 
@@ -41,7 +41,7 @@ impl List {
         match Connection::open(p) {
             Ok(db) => {
                 if let Ok(statement) = db.prepare("SELECT * from ledger") {
-                    let record_query = statement.query_map([], |row| Record::from(row.get(0).unwrap(), Transaction::from(row.get(1), row.get(2), row.get(3), row.get(4), row.get(5), row.get(6), row.get(7)).unwrap()));
+                    let record_query = statement.query_map([], |row| Record::from(row.get(0).unwrap(), Transaction::from(row.get(1).unwrap(), row.get(2).unwrap_or(None), row.get(3).unwrap_or(None), row.get(4).unwrap(), row.get(5).unwrap(), row.get(6).unwrap(), if let Some(amount) = row.get(6) { if amount > 0 { TransactionType::Deposit } else { TransactionType::Withdrawal } } else { TransactionType::Withdrawal }).unwrap()));
                 }
                 let _ = Connection::close(db);
             },
