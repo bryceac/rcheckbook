@@ -36,7 +36,7 @@ pub struct Add {
 impl Add {
     pub fn run(&self) {
         copy_database_if_not_exists(&self.file_path);
-        self.add_record(&self.file_path)
+        self.add_record(&self.file_path);
     }
 
     fn add_record(&self, p: &str) {
