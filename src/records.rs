@@ -65,9 +65,13 @@ impl Records {
         }
     }
 
-    pub fn display(&mut self) {
+    pub fn display(&mut self, db: &str) {
         for record in self.sorted_records() {
             println!("{}", record)
         }
+    }
+
+    fn balance_for_record(db: &str, r: Record) -> f64 {
+        retrieve_balance_for_record(db, r)
     }
 }
