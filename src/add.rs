@@ -10,6 +10,9 @@ pub struct Add {
     pub file_path: String,
 
     #[clap(long)]
+    pub date: Option<String>,
+
+    #[clap(long)]
     pub check_number: Option<u32>,
 
     #[clap(long)]
@@ -40,7 +43,7 @@ impl Add {
     fn add_record(&self, p: &str) -> Result<(), String> {
         let mut stored_records = Records::from(load_records_from_db(p));
 
-        let record = Record::from("", Transaction::from(None, self.check_number, self.category.as_deref(), &self.vendor, &self.memo, self.amount, self.transaction_type.clone(), self.reconciled).unwrap());
+        let record = Record::from("", Transaction::from(self.date.as_deref(), self.check_number, self.category.as_deref(), &self.vendor, &self.memo, self.amount, self.transaction_type.clone(), self.reconciled).unwrap());
 
         stored_records.add(record);
 
