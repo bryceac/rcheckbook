@@ -143,7 +143,7 @@ fn category_id(p: &str, c: String) -> Option<f32> {
     let mut category_id: Option<f32> = None;
     if category_exists_in_db(p, c.clone()) {
         if let Ok(db) = Connection::open(p) {
-            let category_sql = format!("SELECT id FROM categories WHERE category = '{}'", c);
+            let category_sql = format!("SELECT id FROM categories WHERE category = '{}' COLLATE NOCASE", c);
             category_id = if let Ok(value) = db.query_row(&category_sql, [], |row| row.get(0)) {
                 Some(value)
             } else {
@@ -156,3 +156,8 @@ fn category_id(p: &str, c: String) -> Option<f32> {
     }
 }
 
+pub fn add_category_to_db(p: &str, c: String) {
+    if !category_exists_in_db(p, c) {
+        
+    }
+}
