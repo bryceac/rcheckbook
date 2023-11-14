@@ -1,4 +1,4 @@
-use bcheck::{ Record, TransactionType, Transaction, Save };
+use bcheck::{ Record, TransactionType, Transaction };
 use clap::Parser;
 use crate::{ database::*, records::Records };
 

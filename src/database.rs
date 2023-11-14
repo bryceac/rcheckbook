@@ -141,7 +141,7 @@ fn category_exists_in_db(p: &str, c: &str) -> bool {
 
 fn category_id(p: &str, c: &str) -> Option<i32> {
     let mut category_id: Option<i32> = None;
-    if category_exists_in_db(p, c.clone()) {
+    if category_exists_in_db(p, c) {
         if let Ok(db) = Connection::open(p) {
             let category_sql = format!("SELECT id FROM categories WHERE category = '{}' COLLATE NOCASE", c);
             category_id = if let Ok(value) = db.query_row(&category_sql, [], |row| row.get(0)) {
