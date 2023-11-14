@@ -98,9 +98,7 @@ impl List {
                     });
                     
                     for row in record_query {
-                        if let Ok(record) = row {
-                            stored_records.push(record)
-                        }
+                        stored_records.push(row.ok());
                     }
 
 
