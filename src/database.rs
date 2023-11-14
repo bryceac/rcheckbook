@@ -109,7 +109,7 @@ pub fn retrieve_balance_for_record(p: &str, r: Record) -> f64 {
     if let Ok(db) = Connection::open(p) {
         let balance_query_string = format!("SELECT balance FROM ledger WHERE id = {}", r.id);
         if let Ok(mut statement) = db.prepare(&balance_query_string) {
-            let balance_query = statement.query_map(||, |row| row.get_unwrap(0));
+            let balance_query = statement.query_map(||, |row| { row.get_unwrap(0) }).unwrap();
 
             balance = balance_query.next();
         }
