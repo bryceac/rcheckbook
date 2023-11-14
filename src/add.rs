@@ -1,7 +1,6 @@
 use bcheck::{ Record, TransactionType, Transaction, Save };
 use clap::Parser;
 use crate::{ database::*, records::Records };
-use std::fs;
 
 #[derive(Parser)]
 pub struct Add {
