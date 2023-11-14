@@ -1,4 +1,5 @@
 use std::{ fs, path::Path };
+use rusqlite::Connection;
 
 pub fn copy_database_if_not_exists(p: &str) {
     if p.starts_with("~") {
@@ -26,4 +27,89 @@ pub fn copy_database_if_not_exists(p: &str) {
             }
         }
     }
+}
+
+pub fn load_records_from_db(p: &str) -> Vec<Record> {
+    /* match Records::from_file(p) {
+        Ok(mut records) => {
+            records.display()
+        },
+        Err(error) => {
+            println!("{}", error)
+        }
+    } */
+
+    let mut stored_records: Vec<Record> = vec![];
+
+    match Connection::open(p) {
+        Ok(db) => {
+            if let Ok(mut statement) = db.prepare("SELECT * from ledger") {
+                let record_query = statement.query_map([], |row| {
+                    let id: String = row.get_unwrap(0);
+                    let date_string: String = row.get_unwrap(1);
+                    let check_number: Option<u32> = if let Ok(num) = row.get(2) {
+                        Some(num)
+                    } else {
+                        None
+                    };
+                    let category: Option<String> = if let Ok(c) = row.get(6) {
+                        Some(c)
+                    } else {
+                        None
+                    };
+                    let vendor: String = if let Ok(v) = row.get(4) {
+                        v
+                    } else {
+                        String::default()
+                    };
+
+                    let memo: String = if let Ok(m) = row.get(4) {
+                        m
+                    } else {
+                        String::default()
+                    };
+
+                    let amount = if let Ok(a) = row.get(7) {
+                        a
+                    } else {
+                        0.0
+                    };
+
+                    let transaction_type = if amount > 0.0 {
+                        TransactionType::Deposit
+                    } else {
+                        TransactionType::Withdrawal
+                    };
+
+                    let is_reconciled = if let Ok(r) = row.get(3) {
+                        r
+                    } else {
+                        String::from("N")
+                    };
+
+                    Ok(Record::from(&id, 
+                    Transaction::from(Some(&date_string),
+                    check_number, 
+                    category.as_deref(), 
+                    &vendor, 
+                    &memo, 
+                    amount, 
+                    transaction_type, 
+                    if is_reconciled == "Y" { true } else { false }).unwrap()))
+                }).unwrap();
+                
+                for row in record_query {
+                    if let Ok(record) = row {
+                        stored_records.push(record);
+                    }
+                }
+
+
+            }
+            let _ = Connection::close(db);
+        },
+        _ => {}
+    }
+
+    stored_records
 }
