@@ -40,7 +40,7 @@ impl List {
 
         match Connection::open(p) {
             Ok(db) => {
-                if let Ok(statement) = db.prepare("SELECT * from ledger") {
+                if let Ok(mut statement) = db.prepare("SELECT * from ledger") {
                     let record_query = statement.query_map([], |row| {
                         let id: String = row.get_unwrap(0);
                         let date_string: String = row.get_unwrap(1);
