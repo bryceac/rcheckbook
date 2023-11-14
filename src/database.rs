@@ -182,6 +182,8 @@ pub fn add_record_to_db(p: &str, r: &Record) {
         None
     };
 
+    let date_string = format!("{}", r.transaction.date.format("%Y-%m-%d"));
+
     if let Ok(db) = Connection::open(p) {
         let insert_statement = format!("INSERT INTO trades VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)");
 
