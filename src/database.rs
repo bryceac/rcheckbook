@@ -134,12 +134,12 @@ pub fn retrieve_balance_for_record(p: &str, r: Record) -> f64 {
     balance
 }
 
-fn category_exists_in_db(p: &str, c: String) -> bool {
+fn category_exists_in_db(p: &str, c: &str) -> bool {
     let categories: Vec<String> = load_categories_from_db(p).iter().map(|e| e.to_lowercase()).collect();
     categories.contains(&c.to_lowercase())
 }
 
-fn category_id(p: &str, c: String) -> Option<f32> {
+fn category_id(p: &str, c: &str) -> Option<f32> {
     let mut category_id: Option<f32> = None;
     if category_exists_in_db(p, c.clone()) {
         if let Ok(db) = Connection::open(p) {
@@ -156,8 +156,16 @@ fn category_id(p: &str, c: String) -> Option<f32> {
     }
 }
 
-pub fn add_category_to_db(p: &str, c: String) {
+pub fn add_category_to_db(p: &str, c: &str) {
     if !category_exists_in_db(p, c) {
-        
+        if let Ok(db) = Connection::open(p) {
+            let insert_query = format!("INSERT INTO categories(category) VALUES (?1)");
+
+            if let Ok(mut statement) = db.prepare(&insert_query) {
+                if let Err(error) = statement.execute([c]) {
+                    println!("{}", error);
+                }
+            }
+        }
     }
 }
