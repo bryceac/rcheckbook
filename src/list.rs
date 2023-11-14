@@ -41,7 +41,7 @@ impl List {
         match Connection::open(p) {
             Ok(db) => {
                 if let Ok(statement) = db.prepare("SELECT * from ledger") {
-                    let record_query = statement.query_map([], |row| Ok(Record::from(row.get(0).unwrap(), Transaction::from(row.get(1), row.get(2), row.get(3), row.get(4), row.get(5), row.get(6), row.get(7)))));
+                    let record_query = statement.query_map([], |row| Record::from(row.get(0).unwrap(), Transaction::from(row.get(1), row.get(2), row.get(3), row.get(4), row.get(5), row.get(6), row.get(7)).unwrap()));
                 }
                 let _ = Connection::close(db);
             },
