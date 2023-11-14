@@ -28,7 +28,7 @@ impl List {
         self.load_from_db(&self.file_path);
     }
 
-    fn load_from_db(&self, p: &str) -> Records {
+    fn load_records_from_db(&self, p: &str) -> Vec<Record> {
         /* match Records::from_file(p) {
             Ok(mut records) => {
                 records.display()
@@ -95,10 +95,12 @@ impl List {
                         amount, 
                         transaction_type, 
                         if is_reconciled == "Y" { true } else { false }).unwrap()))
-                    });
+                    }).unwrap();
                     
                     for row in record_query {
-                        stored_records.push(row.ok());
+                        if let Ok(record) = row {
+                            stored_records.push(record);
+                        }
                     }
 
 
@@ -108,7 +110,7 @@ impl List {
             _ => {}
         }
 
-        Records::from(stored_records)
+        stored_records
     }
 }
 
