@@ -8,15 +8,21 @@ pub fn copy_database_if_not_exists(p: &str) {
             let target_path = Path::new(&modified_path);
             let original_path = Path::new("register.db");
 
+            fs::create_dir_all(&target_path.parent().unwrap());
+
             let _ = fs::copy(original_path, target_path);
         } else {}
     } else {
         if let Ok(real_path) = fs::canonicalize(p) {
             if let Some(file_path) = real_path.to_str() {
-                let target_path = Path::new(&file_path);
-                let original_path = Path::new("register.db");
 
-                let _ = fs::copy(original_path, target_path);
+                if !real_path.exists() {
+                    let original_path = Path::new("register.db");
+
+                    fs::create_dir_all(real_path.parent());
+
+                    let _ = fs::copy(original_path, real_path);
+                } else {}
             }
         }
     }
