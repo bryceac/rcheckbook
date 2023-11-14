@@ -1,5 +1,6 @@
 use std::{ fs, path::Path };
 use rusqlite::Connection;
+use bcheck::{ Record, Transaction, TransactionType };
 
 pub fn copy_database_if_not_exists(p: &str) {
     if p.starts_with("~") {
