@@ -29,15 +29,6 @@ pub fn copy_database_if_not_exists(p: &str) {
 }
 
 pub fn load_records_from_db(p: &str) -> Vec<Record> {
-    /* match Records::from_file(p) {
-        Ok(mut records) => {
-            records.display()
-        },
-        Err(error) => {
-            println!("{}", error)
-        }
-    } */
-
     let mut stored_records: Vec<Record> = vec![];
 
     match Connection::open(p) {
