@@ -1,4 +1,5 @@
 use bcheck::Record;
+use crate::database::*;
 
 pub struct Records {
     records: Vec<Record>
