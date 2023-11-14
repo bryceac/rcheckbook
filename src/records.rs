@@ -67,11 +67,11 @@ impl Records {
 
     pub fn display(&mut self, db: &str) {
         for record in self.sorted_records() {
-            println!("{}", record)
+            println!("{}\t{}", record, self.balance_for_record(db, &record));
         }
     }
 
-    fn balance_for_record(db: &str, r: Record) -> f64 {
-        retrieve_balance_for_record(db, r)
+    fn balance_for_record(&self, db: &str, r: &Record) -> f64 {
+        retrieve_balance_for_record(db, r.clone())
     }
 }
