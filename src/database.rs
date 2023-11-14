@@ -98,7 +98,6 @@ pub fn load_records_from_db(p: &str) -> Vec<Record> {
 
 
             }
-            let _ = Connection::close(db);
         },
         _ => {}
     }
@@ -120,7 +119,6 @@ pub fn retrieve_balance_for_record(p: &str, r: Record) -> f64 {
                 balance = amount.unwrap();
             }
         }
-        let _ = Connection::close(db);
     } else {}
 
     balance
