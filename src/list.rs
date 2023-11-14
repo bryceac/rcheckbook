@@ -46,30 +46,56 @@ impl List {
                     let record_query = statement.query_map([], |row| {
                         let id: String = row.get_unwrap(0);
                         let date_string: String = row.get_unwrap(1);
-                        let category = if let Ok(c) = row.get(6) {
+                        let check_number: Option<u32> = if let Ok(num) = row.get(2) {
+                            Some(num)
+                        } else {
+                            None
+                        };
+                        let category: Option<&str> = if let Ok(c) = row.get(6) {
                             Some(c)
                         } else {
                             None
                         };
-                        
-                        Ok(Record::from(&id, 
-                        Transaction::from(Some(&date_string),
-                        row.get_unwrap(2), 
-                        row.get_unwrap(6), 
-                        row.get_unwrap(4), 
-                        row.get_unwrap(5), 
-                        row.get_unwrap(7), 
-                        if let Ok(amount) = row.get(7) {
-                            if amount > 0 { 
-                                TransactionType::Deposit 
-                            } else {
-                                TransactionType::Withdrawal
-                            }
+                        let vendor: String = if let Ok(v) = row.get(4) {
+                            v
+                        } else {
+                            String::default()
+                        };
+
+                        let memo: String = if let Ok(m) = row.get(4) {
+                            m
+                        } else {
+                            String::default()
+                        };
+
+                        let amount = if let Ok(a) = row.get(7) {
+                            a
+                        } else {
+                            0.0
+                        };
+
+                        let transaction_type = if amount > 0 {
+                            TransactionType::Deposit
                         } else {
                             TransactionType::Withdrawal
-                        }, 
-                        row.get_unwrap(3)).unwrap()))
-                    }).unwrap_or("Could not get results");
+                        };
+
+                        let is_reconciled = if let Ok(r) = row.get(3) {
+                            r == "Y"
+                        } else {
+                            false
+                        };
+
+                        Ok(Record::from(&id, 
+                        Transaction::from(Some(&date_string),
+                        check_number, 
+                        category, 
+                        &vendor, 
+                        &memo, 
+                        amount, 
+                        transaction_type, 
+                        is_reconciled).unwrap()))
+                    });
                 }
                 let _ = Connection::close(db);
             },
