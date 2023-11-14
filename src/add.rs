@@ -13,6 +13,9 @@ pub struct Add {
     pub check_number: Option<u32>,
 
     #[clap(long)]
+    pub category: Option<String>,
+
+    #[clap(long)]
     pub vendor: String,
 
     #[clap(long, short, default_value = "")]
