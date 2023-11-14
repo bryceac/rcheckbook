@@ -68,7 +68,7 @@ impl Records {
     pub fn display(&mut self, db: &str) {
         for record in self.sorted_records() {
             let balance = self.balance_for_record(db, &record);
-            println!("{}\t{}", record, balance);
+            println!("{}\t{:.2}", record, balance);
         }
     }
 
