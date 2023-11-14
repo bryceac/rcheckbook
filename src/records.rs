@@ -56,14 +56,6 @@ impl Records {
         }
     }
 
-    /* fn record_before(&self, record: &Record) -> Option<Record> {
-        if let Some(index) = self.sorted_records().iter().position(|r| r == record) {
-            if index > 0 { Some(self.sorted_records()[index-1].clone()) } else { None }
-        } else {
-            None
-        }
-    } */
-
     pub fn record_matching_id(&self, id: String) -> Option<Record> {
         if let Some(record) = self.records.iter().find(|r| r.id == id) {
             Some(record.clone())
