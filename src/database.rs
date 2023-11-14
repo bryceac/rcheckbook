@@ -118,6 +118,7 @@ pub fn retrieve_balance_for_record(p: &str, r: Record) -> f64 {
                 balance = amount.unwrap();
             }
         }
+        let _ = Connection::close(db);
     } else {}
 
     balance
