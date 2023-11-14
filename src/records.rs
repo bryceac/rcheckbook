@@ -41,8 +41,8 @@ impl Records {
         stored_records
     }
 
-    pub fn add(&mut self, record: Record) {
-        self.records.push(record)
+    pub fn add(&mut self, record: &Record) {
+        self.records.push(record.clone())
     }
 
     pub fn remove(&mut self, record_id: String) {

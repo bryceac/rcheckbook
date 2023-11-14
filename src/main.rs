@@ -16,7 +16,7 @@ fn main() {
     let checkbook: RCheckbook = RCheckbook::parse();
 
     match checkbook.subcommand {
-        SubCommand::Add(a) => a.run().unwrap(),
+        SubCommand::Add(a) => a.run(),
         SubCommand::Create(c) => c.run().unwrap(),
         SubCommand::List(l) => l.run(),
         SubCommand::Remove(r) => r.run().unwrap(),
