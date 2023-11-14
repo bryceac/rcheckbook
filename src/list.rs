@@ -24,7 +24,8 @@ impl List {
             }
         } */
         copy_database_if_not_exists(&self.file_path);
-        load_records_from_db(&self.file_path);
+        let mut record_store = Records::from(load_records_from_db(&self.file_path));
+        record_store.display();
     }
 }
 
