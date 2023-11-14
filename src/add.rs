@@ -40,7 +40,7 @@ impl Add {
     fn add_record(&self, p: &str) -> Result<(), String> {
         let mut stored_records = Records::from(load_records_from_db(p));
 
-        let record = Record::from("", Transaction::from(None, self.check_number, None, &self.vendor, &self.memo, self.amount, self.transaction_type.clone(), self.reconciled).unwrap());
+        let record = Record::from("", Transaction::from(None, self.check_number, self.category.as_deref(), &self.vendor, &self.memo, self.amount, self.transaction_type.clone(), self.reconciled).unwrap());
 
         stored_records.add(record);
 
