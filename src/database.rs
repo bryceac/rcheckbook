@@ -135,7 +135,8 @@ pub fn retrieve_balance_for_record(p: &str, r: Record) -> f64 {
 }
 
 fn category_exists_in_db(p: &str, c: String) -> bool {
-    load_categories_from_db(p).contains(&c)
+    let categories: Vec<String> = load_categories_from_db(p).iter().map(|e| e.to_lowercase()).collect();
+    categories.contains(&c.to_lowercase())
 }
 
 fn category_id(p: &str, c: String) -> Option<f32> {
