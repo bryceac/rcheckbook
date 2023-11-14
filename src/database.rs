@@ -59,7 +59,7 @@ pub fn load_records_from_db(p: &str) -> Vec<Record> {
                         String::default()
                     };
 
-                    let amount = if let Ok(a) = row.get(7) {
+                    let mut amount: f64 = if let Ok(a) = row.get(7) {
                         a
                     } else {
                         0.0
@@ -70,6 +70,8 @@ pub fn load_records_from_db(p: &str) -> Vec<Record> {
                     } else {
                         TransactionType::Withdrawal
                     };
+
+                    amount = amount.abs();
 
                     let is_reconciled = if let Ok(r) = row.get(3) {
                         r
