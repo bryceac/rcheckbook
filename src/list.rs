@@ -41,7 +41,25 @@ impl List {
         match Connection::open(p) {
             Ok(db) => {
                 if let Ok(statement) = db.prepare("SELECT * from ledger") {
-                    let record_query = statement.query_map([], |row| Record::from(row.get(0).unwrap(), Transaction::from(row.get(1).unwrap(), row.get(2).unwrap_or(None), row.get(3).unwrap_or(None), row.get(4).unwrap(), row.get(5).unwrap(), row.get(6).unwrap(), if let Some(amount) = row.get(6) { if amount > 0 { TransactionType::Deposit } else { TransactionType::Withdrawal } } else { TransactionType::Withdrawal }).unwrap()));
+                    let record_query = statement.query_map([], |row| {
+                        Ok(Record::from(row.get_unwrap(0), 
+                        Transaction::from(row.get_unwrap(1),
+                        row.get_unwrap(2), 
+                        row.get_unwrap(6), 
+                        row.get_unwrap(4), 
+                        row.get_unwrap(5), 
+                        row.get_unwrap(7), 
+                        if let Ok(amount) = row.get(7) {
+                            if amount > 0 { 
+                                TransactionType::Deposit 
+                            } else {
+                                TransactionType::Withdrawal
+                            }
+                        } else {
+                            TransactionType::Withdrawal
+                        }, 
+                        row.get_unwrap(3)).unwrap()))
+                    }).unwrap_or("Could not get results");
                 }
                 let _ = Connection::close(db);
             },
