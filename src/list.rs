@@ -79,9 +79,9 @@ impl List {
                         };
 
                         let is_reconciled = if let Ok(r) = row.get(3) {
-                            r == "Y"
+                            r
                         } else {
-                            false
+                            "N"
                         };
 
                         Ok(Record::from(&id, 
@@ -92,7 +92,7 @@ impl List {
                         &memo, 
                         amount, 
                         transaction_type, 
-                        is_reconciled).unwrap()))
+                        if is_reconciled == "Y" { true } else { false }).unwrap()))
                     });
                 }
                 let _ = Connection::close(db);
