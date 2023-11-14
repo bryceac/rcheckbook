@@ -1,7 +1,6 @@
 use clap::Parser;
 use crate::records::Records;
-use bcheck::{ Record, Transaction, TransactionType };
-use crate::database::copy_database_if_not_exists;
+use crate::database::*;
 
 
 #[derive(Parser)]
