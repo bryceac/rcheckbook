@@ -78,10 +78,10 @@ impl List {
                             TransactionType::Withdrawal
                         };
 
-                        let is_reconciled = if let Ok(r) = row.get(3) {
-                            r
+                        let is_reconciled = if let Ok(r: &str) = row.get(3) {
+                            String::from(r)
                         } else {
-                            "N"
+                            String::from("N")
                         };
 
                         Ok(Record::from(&id, 
