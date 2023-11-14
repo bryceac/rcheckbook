@@ -28,7 +28,7 @@ impl List {
         self.load_from_db(&self.file_path);
     }
 
-    fn load_from_db(&self, p: &str) {
+    fn load_from_db(&self, p: &str) -> Records {
         /* match Records::from_file(p) {
             Ok(mut records) => {
                 records.display()
@@ -37,6 +37,8 @@ impl List {
                 println!("{}", error)
             }
         } */
+
+        let mut stored_records: Vec<Record> = vec![];
 
         match Connection::open(p) {
             Ok(db) => {
@@ -94,11 +96,21 @@ impl List {
                         transaction_type, 
                         if is_reconciled == "Y" { true } else { false }).unwrap()))
                     });
+                    
+                    for row in record_query {
+                        if let Ok(record) = row {
+                            stored_records.push(record)
+                        }
+                    }
+
+
                 }
                 let _ = Connection::close(db);
             },
-            _ => println!("Could not connect")
+            _ => {}
         }
+
+        Records::from(stored_records)
     }
 }
 

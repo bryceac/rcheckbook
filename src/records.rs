@@ -10,6 +10,12 @@ impl Records {
             records: Vec::new()
         }
     }
+
+    pub fn from(r: Vec<Record>) -> Records {
+        Records { 
+            records: r 
+        }
+    }
     
     pub fn from_file(path: &str) -> Result<Records, String> {
         match path {
