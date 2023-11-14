@@ -25,7 +25,7 @@ impl List {
             }
         } */
         copy_database_if_not_exists(&self.file_path);
-        self.load_from_db(&self.file_path);
+        self.load_records_from_db(&self.file_path);
     }
 
     fn load_records_from_db(&self, p: &str) -> Vec<Record> {
