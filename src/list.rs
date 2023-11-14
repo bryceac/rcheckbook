@@ -1,3 +1,5 @@
+use std::num::FpCategory;
+
 use clap::Parser;
 use crate::records::Records;
 use bcheck::{ Record, Transaction, TransactionType };
@@ -42,8 +44,16 @@ impl List {
             Ok(db) => {
                 if let Ok(statement) = db.prepare("SELECT * from ledger") {
                     let record_query = statement.query_map([], |row| {
-                        Ok(Record::from(row.get_unwrap(0), 
-                        Transaction::from(row.get_unwrap(1),
+                        let id: String = row.get_unwrap(0);
+                        let date_string: String = row.get_unwrap(1);
+                        let category = if let Ok(c) = row.get(6) {
+                            Some(c)
+                        } else {
+                            None
+                        };
+                        
+                        Ok(Record::from(&id, 
+                        Transaction::from(Some(&date_string),
                         row.get_unwrap(2), 
                         row.get_unwrap(6), 
                         row.get_unwrap(4), 
