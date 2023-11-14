@@ -108,17 +108,8 @@ pub fn load_records_from_db(p: &str) -> Vec<Record> {
 pub fn retrieve_balance_for_record(p: &str, r: Record) -> f64 {
     let mut balance = 0.0;
     if let Ok(db) = Connection::open(p) {
-        let balance_query_string = format!("SELECT balance FROM ledger WHERE id = {}", r.id);
-        if let Ok(mut statement) = db.prepare(&balance_query_string) {
-            let balance_query = statement.query_map([], |row| {
-                let value: f64 = row.get_unwrap(0);
-                Ok(value)
-            }).unwrap();
-
-            for amount in balance_query {
-                balance = amount.unwrap();
-            }
-        }
+        let balance_query_string = format!("SELECT balance FROM ledger WHERE id = '{}'", r.id);
+        balance = db.query_row(&balance_query_string, [], |row| row.get(0)).unwrap();
     } else {}
 
     balance
