@@ -1,10 +1,12 @@
 use bcheck::{ Record, TransactionType, Transaction, Save };
 use clap::Parser;
-use crate::records::Records;
+use crate::{ database::*, records::Records };
 use std::fs;
 
 #[derive(Parser)]
 pub struct Add {
+
+    #[clap(default_value = "~/.checkbook/register.db")]
     pub file_path: String,
 
     #[clap(long)]
@@ -28,24 +30,12 @@ pub struct Add {
 
 impl Add {
     pub fn run(&self) -> Result<(), String> {
-        if self.file_path.starts_with("~") {
-            let modified_path = shellexpand::tilde(&self.file_path).into_owned();
-    
-            self.add_record_to(&modified_path)
-        } else {
-            match fs::canonicalize(self.file_path.clone()) {
-                Ok(real_path) => if let Some(file_path) = real_path.to_str() {
-                    self.add_record_to(file_path)
-                } else {
-                    Err(String::from("File path could not be recognized"))
-                },
-                Err(error) => Err(error.to_string())
-            }
-        }
+        copy_database_if_not_exists(&self.file_path);
+        self.add_record(&self.file_path)
     }
 
-    fn add_record_to(&self, p: &str) -> Result<(), String> {
-        let mut stored_records = Records::from_file(p)?;
+    fn add_record(&self, p: &str) -> Result<(), String> {
+        let mut stored_records = Records::from(load_records_from_db(p));
 
         let record = Record::from("", Transaction::from(None, self.check_number, None, &self.vendor, &self.memo, self.amount, self.transaction_type.clone(), self.reconciled).unwrap());
 
