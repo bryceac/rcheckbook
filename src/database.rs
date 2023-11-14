@@ -114,10 +114,8 @@ pub fn retrieve_balance_for_record(p: &str, r: Record) -> f64 {
                 Ok(value)
             }).unwrap();
 
-            if let Some(amount_result) = balance_query.last() {
-                if let Ok(amount) = amount_result {
-                    balance = amount;
-                }
+            for amount in balance_query {
+                balance = amount.unwrap();
             }
         }
     } else {}
