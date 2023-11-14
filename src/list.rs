@@ -74,7 +74,7 @@ impl List {
                             0.0
                         };
 
-                        let transaction_type = if amount > 0 {
+                        let transaction_type = if amount > 0.0 {
                             TransactionType::Deposit
                         } else {
                             TransactionType::Withdrawal
