@@ -139,8 +139,8 @@ fn category_exists_in_db(p: &str, c: &str) -> bool {
     categories.contains(&c.to_lowercase())
 }
 
-fn category_id(p: &str, c: &str) -> Option<f32> {
-    let mut category_id: Option<f32> = None;
+fn category_id(p: &str, c: &str) -> Option<i32> {
+    let mut category_id: Option<i32> = None;
     if category_exists_in_db(p, c.clone()) {
         if let Ok(db) = Connection::open(p) {
             let category_sql = format!("SELECT id FROM categories WHERE category = '{}' COLLATE NOCASE", c);
@@ -165,6 +165,30 @@ pub fn add_category_to_db(p: &str, c: &str) {
                 if let Err(error) = statement.execute([c]) {
                     println!("{}", error);
                 }
+            }
+        }
+    }
+}
+
+pub fn add_record_to_db(p: &str, r: &Record) {
+    let mut category_id = if let Some(category) = &r.transaction.category {
+        if let Some(id) = category_id(p, category) {
+            Some(id)
+        } else {
+            add_category_to_db(p, category);
+            category_id(p, &category)
+        }
+    } else {
+        None
+    };
+
+    if let Ok(db) = Connection::open(p) {
+        let insert_statement = format!("INSERT INTO trades VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)");
+
+        if let Ok(mut statement) = db.prepare(&insert_statement) {
+
+            if let Err(error) = statement.execute([r.id, r.transaction.date, r.transaction.check_number, r.transaction.vendor, r.transaction.memo, a, category_id, recon]) {
+                println!("{}", error);
             }
         }
     }
