@@ -19,7 +19,7 @@ pub fn copy_database_if_not_exists(p: &str) {
                 if !real_path.exists() {
                     let original_path = Path::new("register.db");
 
-                    fs::create_dir_all(real_path.parent());
+                    fs::create_dir_all(real_path.as_path().parent().unwrap());
 
                     let _ = fs::copy(original_path, real_path);
                 } else {}
