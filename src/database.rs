@@ -1,5 +1,5 @@
 use std::{ fs, path::Path };
-use rusqlite::Connection;
+use rusqlite::{ Connection, params };
 use bcheck::{ Record, Transaction, TransactionType };
 use crate::shared::*;
 
@@ -166,11 +166,16 @@ pub fn add_record_to_db(p: &str, r: &Record) {
     };
 
     if let Ok(db) = Connection::open(&real_path(p)) {
-        let insert_statement = format!("INSERT INTO trades VALUES ({}, {}, {:?}, {}, {}, {}, {:?}, {})", r.id, r.transaction.date, r.transaction.check_number, r.transaction.vendor, r.transaction.memo, if let TransactionType::Deposit = r.transaction.transaction_type { 
-            r.transaction.amount 
-        } else { 
-            r.transaction.amount*-1.0 
-        }, category_id, r.transaction.is_reconciled);
+        let insert_statement = format!("INSERT INTO trades VALUES (?, ?, ?, ?, ?, ?, ?, ?)", params![
+            r.id,
+            r.transaction.date.format("%Y-%m-%d"),
+            r.transaction.check_number,
+            r.transaction.vendor,
+            r.transaction.memo,
+            r.trasaction.amount,
+            category_id,
+            r.transaction.is_reconciled
+            ]);
 
         if let Ok(mut statement) = db.prepare(&insert_statement) {
             if let Err(error) = statement.execute([]) {
