@@ -166,19 +166,10 @@ pub fn add_record_to_db(p: &str, r: &Record) {
     };
 
     if let Ok(db) = Connection::open(&real_path(p)) {
-        let insert_statement = format!("INSERT INTO trades VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)", params![
-            r.id,
-            format!("{}", r.transaction.date.format("%Y-%m-%d")),
-            r.transaction.check_number,
-            r.transaction.vendor,
-            r.transaction.memo,
-            r.transaction.amount,
-            category_id,
-            r.transaction.is_reconciled
-            ]);
+        let insert_statement = format!("INSERT INTO trades VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)");
 
         if let Ok(mut statement) = db.prepare(&insert_statement) {
-            if let Err(error) = statement.execute([]) {
+            if let Err(error) = statement.execute(params![r.id,format!("{}", r.transaction.date.format("%Y-%m-%d")), r.transaction.check_number, r.transaction.vendor, r.transaction.memo, if let TransactionType::Deposit = r.transaction.transaction_type { r.transaction.amount.into_inner() } else { r.transaction.amount.into_inner()*-1.0 }, category_id, r.transaction.is_reconciled]) {
                 println!("{}", error);
             }
         }
