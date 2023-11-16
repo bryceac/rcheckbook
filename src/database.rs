@@ -104,7 +104,6 @@ pub fn load_categories_from_db(p: &str) -> Vec<String> {
             }
         }
     } else {}
-
     stored_categories
 }
 
