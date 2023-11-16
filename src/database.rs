@@ -13,7 +13,7 @@ pub fn copy_database_if_not_exists(p: &str) {
 pub fn load_records_from_db(p: &str) -> Vec<Record> {
     let mut stored_records: Vec<Record> = vec![];
 
-    match Connection::open(p) {
+    match Connection::open(&real_path(p)) {
         Ok(db) => {
             if let Ok(mut statement) = db.prepare("SELECT * from ledger") {
                 let record_query = statement.query_map([], |row| {
@@ -88,7 +88,7 @@ pub fn load_records_from_db(p: &str) -> Vec<Record> {
 pub fn load_categories_from_db(p: &str) -> Vec<String> {
     let mut stored_categories: Vec<String> = vec![];
 
-    if let Ok(db) = Connection::open(p) {
+    if let Ok(db) = Connection::open(&real_path(p)) {
         if let Ok(mut statement) = db.prepare("SELECT category FROM categories") {
             let category_query = statement.query_map([], |row| {
                 let name: String = row.get_unwrap(0);
@@ -106,7 +106,7 @@ pub fn load_categories_from_db(p: &str) -> Vec<String> {
 
 pub fn retrieve_balance_for_record(p: &str, r: Record) -> f64 {
     let mut balance = 0.0;
-    if let Ok(db) = Connection::open(p) {
+    if let Ok(db) = Connection::open(&real_path(p)){
         let balance_query_string = format!("SELECT balance FROM ledger WHERE id = '{}'", r.id);
         balance = db.query_row(&balance_query_string, [], |row| row.get(0)).unwrap();
     } else {}
@@ -122,7 +122,7 @@ fn category_exists_in_db(p: &str, c: &str) -> bool {
 fn category_id(p: &str, c: &str) -> Option<i32> {
     let mut category_id: Option<i32> = None;
     if category_exists_in_db(p, c) {
-        if let Ok(db) = Connection::open(p) {
+        if let Ok(db) = Connection::open(&real_path(p)) {
             let category_sql = format!("SELECT id FROM categories WHERE category = '{}' COLLATE NOCASE", c);
             category_id = if let Ok(value) = db.query_row(&category_sql, [], |row| row.get(0)) {
                 Some(value)
@@ -138,7 +138,7 @@ fn category_id(p: &str, c: &str) -> Option<i32> {
 
 pub fn add_category_to_db(p: &str, c: &str) {
     if !category_exists_in_db(p, c) {
-        if let Ok(db) = Connection::open(p) {
+        if let Ok(db) = Connection::open(&real_path(p)) {
             let insert_query = format!("INSERT INTO categories(category) VALUES (?1)");
 
             if let Ok(mut statement) = db.prepare(&insert_query) {
@@ -162,7 +162,7 @@ pub fn add_record_to_db(p: &str, r: &Record) {
         None
     };
 
-    if let Ok(db) = Connection::open(p) {
+    if let Ok(db) = Connection::open(&real_path(p)) {
         let insert_statement = format!("INSERT INTO trades VALUES ({}, {}, {:?}, {}, {}, {}, {:?}, {})", r.id, r.transaction.date, r.transaction.check_number, r.transaction.vendor, r.transaction.memo, if let TransactionType::Deposit = r.transaction.transaction_type { 
             r.transaction.amount 
         } else { 
