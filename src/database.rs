@@ -180,6 +180,8 @@ pub fn add_record_to_db(p: &str, r: &Record) {
         None
     };
 
+    println!("{}", p);
+
     if let Ok(db) = Connection::open(p) {
         let insert_statement = format!("INSERT INTO trades VALUES ({}, {}, {:?}, {}, {}, {}, {:?}, {})", r.id, r.transaction.date, r.transaction.check_number, r.transaction.vendor, r.transaction.memo, if let TransactionType::Deposit = r.transaction.transaction_type { 
             r.transaction.amount 
