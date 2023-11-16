@@ -7,6 +7,7 @@ mod list;
 mod remove;
 mod update;
 mod database;
+mod shared;
 
 use rcheckbook::RCheckbook;
 use clap::Parser;
