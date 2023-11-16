@@ -1,9 +1,10 @@
 use std::{ fs, path::Path };
 use rusqlite::Connection;
 use bcheck::{ Record, Transaction, TransactionType };
+use crate::shared::*;
 
 pub fn copy_database_if_not_exists(p: &str) {
-    if p.starts_with("~") {
+    /* if p.starts_with("~") {
         let modified_path = shellexpand::tilde(p).into_owned();
 
         if !Path::new(&modified_path).exists() {
@@ -25,7 +26,11 @@ pub fn copy_database_if_not_exists(p: &str) {
                 let _ = fs::copy(original_path, real_path);
             } else {}
         }
-    }
+    } */
+    let target_path= real_path(p);
+    let original_path = Path::new("register.db");
+
+    let _ = fs::copy(original_path, Path::new(&target_path));
 }
 
 pub fn load_records_from_db(p: &str) -> Vec<Record> {
