@@ -117,7 +117,7 @@ pub fn load_categories_from_db(p: &str) -> Vec<String> {
                 stored_categories.push(category.unwrap());
             }
         }
-    }
+    } else {}
 
     stored_categories
 }
@@ -164,7 +164,7 @@ pub fn add_category_to_db(p: &str, c: &str) {
                     println!("{}", error);
                 }
             }
-        }
+        } else {}
     }
 }
 
@@ -192,5 +192,5 @@ pub fn add_record_to_db(p: &str, r: &Record) {
                 println!("{}", error);
             }
         }
-    }
+    } else {}
 }
