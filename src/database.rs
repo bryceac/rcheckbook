@@ -187,7 +187,7 @@ pub fn add_record_to_db(p: &str, r: &Record) {
             r.transaction.amount 
         } else { 
             r.transaction.amount*-1.0 
-        }, r.transaction.category, r.transaction.is_reconciled);
+        }, category_id, r.transaction.is_reconciled);
 
         if let Ok(mut statement) = db.prepare(&insert_statement) {
 
