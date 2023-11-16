@@ -4,10 +4,14 @@ use bcheck::{ Record, Transaction, TransactionType };
 use crate::shared::*;
 
 pub fn copy_database_if_not_exists(p: &str) {
-    let target_path= real_path(p);
+    let target = real_path(p);
+    let destination_path = Path::new(&target);
     let original_path = Path::new("register.db");
 
-    let _ = fs::copy(original_path, Path::new(&target_path));
+    if !destination_path.exists() {
+        let _ = fs::create_dir_all(destination_path.parent().unwrap());
+        let _ = fs::copy(original_path, destination_path);
+    }
 }
 
 pub fn load_records_from_db(p: &str) -> Vec<Record> {
