@@ -1,4 +1,4 @@
-use std::{ fs, path::Path };
+use std::fs;
 
 pub fn real_path(p: &str) -> String {
     if p.starts_with("~") {
