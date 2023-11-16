@@ -190,7 +190,6 @@ pub fn add_record_to_db(p: &str, r: &Record) {
         }, category_id, r.transaction.is_reconciled);
 
         if let Ok(mut statement) = db.prepare(&insert_statement) {
-            println!("prepared query.");
             if let Err(error) = statement.execute([]) {
                 println!("{}", error);
             }
