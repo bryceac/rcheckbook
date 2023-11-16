@@ -134,6 +134,7 @@ pub fn retrieve_balance_for_record(p: &str, r: Record) -> f64 {
 
 fn category_exists_in_db(p: &str, c: &str) -> bool {
     let categories: Vec<String> = load_categories_from_db(p).iter().map(|e| e.to_lowercase()).collect();
+    println!("{:#?}", categories);
     categories.contains(&c.to_lowercase())
 }
 
@@ -179,8 +180,6 @@ pub fn add_record_to_db(p: &str, r: &Record) {
     } else {
         None
     };
-
-    println!("{}", r);
 
     if let Ok(db) = Connection::open(p) {
         let insert_statement = format!("INSERT INTO trades VALUES ({}, {}, {:?}, {}, {}, {}, {:?}, {})", r.id, r.transaction.date, r.transaction.check_number, r.transaction.vendor, r.transaction.memo, if let TransactionType::Deposit = r.transaction.transaction_type { 
