@@ -189,6 +189,8 @@ pub fn add_record_to_db(p: &str, r: &Record) {
             r.transaction.amount*-1.0 
         }, category_id, r.transaction.is_reconciled);
 
+        println!("connection established");
+
         if let Ok(mut statement) = db.prepare(&insert_statement) {
             if let Err(error) = statement.execute([]) {
                 println!("{}", error);
