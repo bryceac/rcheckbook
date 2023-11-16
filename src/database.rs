@@ -95,8 +95,6 @@ pub fn load_records_from_db(p: &str) -> Vec<Record> {
                         stored_records.push(record);
                     }
                 }
-
-
             }
         },
         _ => {}
