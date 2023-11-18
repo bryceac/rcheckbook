@@ -40,7 +40,7 @@ pub struct Update {
 
 impl Update {
     pub fn run(&self) {
-        
+        self.update_record(&self.file_path);
     }
 
     fn update_record(&self, p: &str) {
