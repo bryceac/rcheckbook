@@ -18,6 +18,9 @@ pub struct Update {
     pub check_number: Option<u32>,
 
     #[clap(long)]
+    pub category: Option<String>,
+
+    #[clap(long)]
     pub vendor: Option<String>,
 
     #[clap(long, short)]
