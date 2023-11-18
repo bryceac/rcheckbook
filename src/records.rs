@@ -41,27 +41,9 @@ impl Records {
         stored_records
     }
 
-    pub fn add(&mut self, record: &Record) {
-        self.records.push(record.clone())
-    }
-
     pub fn remove(&mut self, record_id: String) {
         if let Some(index) = self.records.iter().position(|r| r.id == record_id) {
             self.records.remove(index);
-        }
-    }
-
-    pub fn update(&mut self, record_id: String, record: Record) {
-        if let Some(index) = self.records.iter().position(|r| r.id == record_id) {
-            self.records[index] = record
-        }
-    }
-
-    pub fn record_matching_id(&self, id: String) -> Option<Record> {
-        if let Some(record) = self.records.iter().find(|r| r.id == id) {
-            Some(record.clone())
-        } else {
-            None
         }
     }
 

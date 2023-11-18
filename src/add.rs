@@ -40,11 +40,8 @@ impl Add {
     }
 
     fn add_record(&self, p: &str) {
-        let mut stored_records = Records::from(load_records_from_db(p));
-
         let record = Record::from("", Transaction::from(self.date.as_deref(), self.check_number, self.category.as_deref(), &self.vendor, &self.memo, self.amount, self.transaction_type.clone(), self.reconciled).unwrap());
 
-        stored_records.add(&record);
         add_record_to_db(p, &record);
     }
 }
