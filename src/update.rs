@@ -1,5 +1,5 @@
-use bcheck::{ LocalDateTimeStringExt, OrderedFloat, TransactionType, Save };
-use crate::{database::*, records::Records, shared::* };
+use bcheck::LocalDateTimeStringExt;
+use crate::{database::*, shared::* };
 use clap::Parser;
 use std::fs;
 
@@ -42,6 +42,7 @@ impl Update {
     }
 
     fn update_record(&self, p: &str) {
+
         if let Some(stored_record) = retrieve_record_with_id_from_db(p, &self.id) {
             let date_string = 
         }
