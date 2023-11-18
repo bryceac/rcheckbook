@@ -1,6 +1,6 @@
 use bcheck::{ Record, TransactionType, Transaction };
 use clap::Parser;
-use crate::{ database::*, records::Records };
+use crate::database::*;
 
 #[derive(Parser)]
 pub struct Add {
