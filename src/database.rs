@@ -186,3 +186,7 @@ pub fn retrieve_record_with_id(p: &str, i: &str) -> Option<Record> {
         _ => None
     }
 }
+
+pub fn update_record_in_db(p: &str, r: &Record) {
+    
+}
