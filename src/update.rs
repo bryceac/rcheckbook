@@ -1,7 +1,6 @@
 use bcheck::{ LocalDateTimeStringExt, TransactionType, OrderedFloat };
 use crate::{database::*, shared::* };
 use clap::Parser;
-use std::fs;
 
 #[derive(Parser)]
 pub struct Update {
