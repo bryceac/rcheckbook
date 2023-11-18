@@ -175,3 +175,22 @@ pub fn add_record_to_db(p: &str, r: &Record) {
         }
     } else {}
 }
+
+pub fn retrieve_record_with_id(p: &str, i: &str) -> Option<Record> {
+    let records = load_records_from_db(p);
+
+    let index_of_record = records.iter().position(|record| record.id.to_lowercase() == i.to_lowercase());
+
+    match index_of_record {
+        Some(index) => Some(records[index].clone()),
+        _ => None
+    }
+}
+
+pub fn record_exists_in_db(p: &str, r: &Record) -> bool {
+    if let Some(_) = retrieve_record_with_id(p, &r.id) {
+        true
+    } else {
+        false
+    }
+}
