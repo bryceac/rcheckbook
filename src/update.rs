@@ -1,10 +1,11 @@
 use bcheck::{ LocalDateTimeStringExt, OrderedFloat, TransactionType, Save };
-use crate::records::Records;
+use crate::{database::*, records::Records, shared::* };
 use clap::Parser;
 use std::fs;
 
 #[derive(Parser)]
 pub struct Update {
+    #[clap(default_value = "~/.checkbook/register.db")]
     pub file_path: String,
     
     #[clap(long, short)]
@@ -36,27 +37,16 @@ pub struct Update {
 }
 
 impl Update {
-    pub fn run(&self) -> Result<(), String> {
-        if self.file_path.starts_with("~") {
-            let modified_path = shellexpand::tilde(&self.file_path).into_owned();
-    
-            self.update_record(&modified_path)
-        } else {
-            match fs::canonicalize(self.file_path.clone()) {
-                Ok(real_path) => if let Some(file_path) = real_path.to_str() {
-                    self.update_record(file_path)
-                } else {
-                    Err(String::from("File path could not be recognized"))
-                },
-                Err(error) => Err(error.to_string())
-            }
-        }
+    pub fn run(&self) {
+        
     }
 
-    fn update_record(&self, p: &str) -> Result<(), String> {
-        let mut stored_records = Records::from_file(p)?;
+    fn update_record(&self, p: &str) {
+        if let Some(stored_record) = retrieve_record_with_id_from_db(p, &self.id) {
+            let date_string = 
+        }
 
-        if let Some(mut record) = stored_records.record_matching_id(self.id.clone()) {
+        /* if let Some(mut record) = stored_records.record_matching_id(self.id.clone()) {
             if let Some(date_string) = self.date.clone() {
                 if let Ok(datetime) = date_string.local_datetime() {
                     record.transaction.date = datetime
@@ -98,6 +88,6 @@ impl Update {
 
         } else {
             Err(String::from("Could not find record."))
-        }
+        } */
     }
 }
