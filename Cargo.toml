@@ -16,3 +16,4 @@ bcheck = "0.3"
 shellexpand = "3.1.0"
 clap = { version = "4.4.8", features = ["derive"] }
 rusqlite = { version = "0.30.0", features = ["bundled"] }
+url_path = "0.1.3"
