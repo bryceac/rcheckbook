@@ -11,11 +11,11 @@ pub struct Remove {
 }
 
 impl Remove {
-    pub fn run(&self) -> Result<(), String> {
-        
+    pub fn run(&self) {
+        self.remove_record(&self.file_path);
     }
 
-    fn remove_record(&self, p: &str) -> Result<(), String> {
-        
+    fn remove_record(&self, p: &str) {
+        delete_record_from_db(p, &self.id);
     }
 }
