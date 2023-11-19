@@ -18,22 +18,6 @@ impl Records {
         }
     }
     
-    pub fn from_file(path: &str) -> Result<Records, String> {
-        match path {
-            p if p.ends_with(".json") => match Record::from_file(path) {
-                Ok(records) => Ok(Records { records }),
-                Err(error) => Err(error)
-            },
-            p if p.ends_with(".tsv") => match Record::from_tsv_file(path) {
-                Ok(records) => Ok(Records { records }),
-                Err(error) => Err(error)
-            },
-            _ => {
-                Ok(Records::new())
-            }
-        }
-    }
-    
     pub fn sorted_records(&self) -> Vec<Record> {
         let mut stored_records = self.records.clone();
         stored_records.sort_by_key(|r| r.transaction.date);
