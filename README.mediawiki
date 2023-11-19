@@ -113,27 +113,19 @@ the database will be copied or read from that location instead.
 rcheckbook list
 </pre>
 
-This will then generate output that looks like this:
+This will display transaction that looks like this:
 
 <pre>
-07/08/2021	1260	N	Sam Hill Credit Union; Open Account	500.00	x	500.00
-07/08/2021	x	N	Fake Street Electronics; Head set	x	200.00	300.00
-07/08/2021	x	N	Velociraptor Entertainment; Pay Day	50000.00	x	50300.00
+FF04C3DC-F0FE-472E-8737-0F4034C049F0	2021-07-08	1260	Y	Opening Balance	Sam Hill Credit Union	Open Account	500.00  500.00	
+1422CBC6-7B0B-4584-B7AB-35167CC5647B	2021-07-08		N	Gifts	Fake Street Electronics	Head set		200 300.00
+BB22187E-0BD3-41E8-B3D8-8136BD700865	2021-07-08		N		Velociraptor Entertainment	Pay Day	50000 50300.00
 </pre>
 
-The <strong>N</strong> denotes if the transaction has been reconciled or not, with it being replaced with <strong>Y</strong>, if it has.
+This is the same as the TSV output, but includes another field for the balance, which is the final field.
 
-The <strong>x</strong>'s denote fields with no value, such as the first one having no withdrawal amount and the second having no deposit amount.
-
-the number after the date is the check no, if one has been assigned.
-
-If you include the <strong>show-ids</strong> flag, the record ids needed to remove or update transactions will be displayed before the date.
-
-This action would look like this in a terminal emulator (e.g. Power Shell):
-
-<pre>
-rcheckbook list ~/transactions.bcheck --show-ids
-</pre>
+To see what column corresponds to what, 
+I recommend looking at the details regard <a href="https://github.com/bryceac/BCheckbook#user-content-Importing_TSV_Files">TSV imports</a> 
+for the iOS and macOS app
 
 ====Adding new Entries====
 
