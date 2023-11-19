@@ -2,6 +2,7 @@ mod rcheckbook;
 mod records;
 mod subcommand;
 mod add;
+mod import;
 mod list;
 mod remove;
 mod update;
