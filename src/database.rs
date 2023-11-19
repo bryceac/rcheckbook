@@ -225,3 +225,17 @@ pub fn delete_record_from_db(p: &str, i: &str) {
         }
     }
 }
+
+pub fn update_or_add_record(p: &str, r: &Record) {
+    if let Some(_) = retrieve_record_with_id_from_db(p, &r.id) {
+        update_record_in_db(p, r);
+    } else {
+        add_record_to_db(p, r);
+    }
+}
+
+pub fn add_records_to_db(p: &str, r: &Vec<Record>) {
+    for record in r {
+        update_or_add_record(p, record);
+    }
+}
