@@ -39,9 +39,7 @@ impl Import {
             _ => vec![]
         };
 
-        for record in records {
-            update_or_add_record(&self.file_path, &record);
-        }
+        add_records_to_db(&self.file_path, &records)
     }
 }
 
