@@ -211,3 +211,17 @@ pub fn update_record_in_db(p: &str, r: &Record) {
         }
     } else {}
 }
+
+pub fn delete_record_from_db(p: &str, i: &str) {
+    if let Some(stored_record) = retrieve_record_with_id_from_db(p, i) {
+        if let Ok(db) = Connection::open(&real_path(p)) {
+            let delete_statement = format!("DELETE FROM WHERE id = (?1)");
+
+            if let Ok(mut statement) = db.prepare(&delete_statement) {
+                if let Err(error) = statement.execute(params![i]) {
+                    println!("{}", error);
+                }
+            }
+        }
+    }
+}
