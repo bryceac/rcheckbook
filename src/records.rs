@@ -6,12 +6,6 @@ pub struct Records {
 }
 
 impl Records {
-    pub fn new() -> Records {
-        Records {
-            records: Vec::new()
-        }
-    }
-
     pub fn from(r: Vec<Record>) -> Records {
         Records { 
             records: r 
