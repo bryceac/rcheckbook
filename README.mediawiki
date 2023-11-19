@@ -102,7 +102,9 @@ This will copy the database to the following folder:
 
 This folder location corresponds to your user folder.
 
-and then import the data from the given file.
+and then import the data from the given file. 
+he import is done based on file extension 
+and only runs if you supply bcheck or TSV files.
 
 if you specify a different path before calling <strong>-i</strong> 
 the database will be copied or read from that location instead.
@@ -132,27 +134,30 @@ for the iOS and macOS app
 Transactions can be added like this:
 
 <pre>
-rcheckbook add ~/transaction.bcheck --check-number 1260 --vendor "Sam Hill Credit Union" -m "Open Account" -a 500.0 -t deposit
+rcheckbook add --check-number 1260 --vendor "Sam Hill Credit Union" -m "Open Account" -a 500.0 -t deposit
 </pre>
 
-Everything but the file path and the vendor is optional, but this saves time in filling in details.
+Everything but the vendor is optional, but this saves time in filling in details.
+
+If no database exists, one will be copied over, 
+like the import command from above.
 
 ====Removing Entries====
 
 Entries can be removed like this:
 
 <pre>
-rcheckbook remove ~/transaction.bcheck -i FF04C3DC-F0FE-472E-8737-0F4034C049F0
+rcheckbook remove -i FF04C3DC-F0FE-472E-8737-0F4034C049F0
 </pre>
 
-This will look in the bcheck file and remove the record matching the identifier.
+This will look in the database and remove the record matching the identifier.
 
 ====Updating Entries====
 
-If you make a mistake or want to mark items as reconciled, entries can be updated like this:
+If you made a mistake or want to mark items as reconciled, entries can be updated like this:
 
 <pre>
-rcheckbook updaye ~/transaction.bcheck -i FF04C3DC-F0FE-472E-8737-0F4034C049F0 -r
+rcheckbook updaye -i FF04C3DC-F0FE-472E-8737-0F4034C049F0 -r
 </pre>
 
 This will mark the record with the given identifier as reconciled.
@@ -194,7 +199,7 @@ If you choose to manga things via a text editor, these keys make up the JSON str
 </dd>
 <dt style="font-style:bold">type</dt>
 <dd>
-<p>The kind of transaction, which can only be either a <strong>deposit</strong> or <strong>withdrawal</strong>. <strong>Required</strong></p>
+<p>The kind of transaction, which can only be either a <strong>deposit</strong> or <strong>withdrawal</strong>. Defaults to <strong>withdrawal</strong> if left out.<strong>Required</strong></p>
 </dd>
 <dt style="font-style:bold">is_reconciled</dt>
 <dd>
@@ -244,6 +249,6 @@ The file structure looks like this:
 
 ===Support===
 
-If you experience troubles, use the email address below. I should be able to help you, due to this being a rather simple application, but do not be surprised if even I am stumped, de to most of my experience with programming has been with Swift.
+If you experience troubles, use the email address below. I should be able to help you, due to this being a rather simple application, but do not be surprised if even I am stumped, due to most of my experience with programming has been with Swift.
 
 tonyhawk2100@gmail.com
