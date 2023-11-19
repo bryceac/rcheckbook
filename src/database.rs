@@ -215,10 +215,10 @@ pub fn update_record_in_db(p: &str, r: &Record) {
 pub fn delete_record_from_db(p: &str, i: &str) {
     if let Some(_) = retrieve_record_with_id_from_db(p, i) {
         if let Ok(db) = Connection::open(&real_path(p)) {
-            let delete_statement = format!("DELETE FROM WHERE id = (?1)");
+            let delete_statement = format!("DELETE FROM WHERE id = '{}'", i);
 
             if let Ok(mut statement) = db.prepare(&delete_statement) {
-                if let Err(error) = statement.execute(params![i]) {
+                if let Err(error) = statement.execute([]) {
                     println!("{}", error);
                 }
             }
