@@ -1,4 +1,4 @@
-use std::{ fs, path::Path };
+use std::{ fs, path::Path, env };
 use rusqlite::{ Connection, params };
 use bcheck::{ Record, Transaction, TransactionType };
 use crate::shared::*;
@@ -6,7 +6,16 @@ use crate::shared::*;
 pub fn copy_database_if_not_exists(p: &str) {
     let target = real_path(p);
     let destination_path = Path::new(&target);
-    let original_path = Path::new("register.db");
+
+    let original_path = if let Ok(path) = env::current_exe() {
+        if let Some(db_directory) = path.parent() {
+            db_directory.join("register.db")
+        } else {
+            Path::new("register.db").to_path_buf()  
+        }
+    } else {
+        Path::new("register.db").to_path_buf()
+    };
 
     if !destination_path.exists() {
         let _ = fs::create_dir_all(destination_path.parent().unwrap());
