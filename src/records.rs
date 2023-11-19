@@ -41,12 +41,6 @@ impl Records {
         stored_records
     }
 
-    pub fn remove(&mut self, record_id: String) {
-        if let Some(index) = self.records.iter().position(|r| r.id == record_id) {
-            self.records.remove(index);
-        }
-    }
-
     pub fn display(&mut self, db: &str) {
         for record in self.sorted_records() {
             let balance = self.balance_for_record(db, &record);
