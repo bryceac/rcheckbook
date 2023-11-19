@@ -101,7 +101,7 @@ This will create a new register at the specified path, which <strong>should</str
 ====Display Register====
 
 <pre>
-rcheckbook list ~/transactions.bcheck
+rcheckbook list
 </pre>
 
 This will then generate output that looks like this:
