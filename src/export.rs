@@ -1,45 +1,37 @@
 use clap::Parser;
 use crate::{ database::*, shared::* };
-use bcheck::Record;
+use bcheck::Save;
 
 
 #[derive(Parser)]
-pub struct Import {
+pub struct Export {
 
     #[clap(default_value = "~/.checkbook/register.db")]
     pub file_path: String,
 
     #[clap(long, short)]
-    pub input_file: String
+    pub output_file: String
 }
 
-impl Import {
+impl Export {
     pub fn run(&self) {
         copy_database_if_not_exists(&self.file_path);
-        self.import();
+        self.export();
     }
 
-    fn import(&self) {
-        let source_path = real_path(&self.input_file);
-        let records = match source_path {
-            ref p if p.ends_with(".bcheck") => {
-                if let Ok(retrieved_records) = Record::from_file(&source_path) {
-                    retrieved_records
-                } else {
-                    vec![]
-                }
-            },
-            ref p if p.ends_with(".tsv") => {
-                if let Ok(retrieved_records) = Record::from_tsv_file(&source_path) {
-                    retrieved_records
-                } else {
-                    vec![]
-                }
-            },
-            _ => vec![]
-        };
+    fn export(&self) {
+        let destination_path = real_path(&self.output_file);
+        let records = load_records_from_db(&self.file_path);
 
-        add_records_to_db(&self.file_path, &records)
+        if destination_path.ends_with(".bcheck") {
+            if let Err(error) = records.save(&destination_path) {
+                println!("{}", error);
+            }
+        } else {
+            if let Err(error) = records.save_tsv(&destination_path) {
+                println!("{}", error);
+            }
+        }
     }
 }
 
