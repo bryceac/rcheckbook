@@ -9,7 +9,8 @@ pub struct Import {
     #[clap(default_value = "~/.checkbook/register.db")]
     pub file_path: String,
 
-    pub origin_file: String
+    #[clap(long, short)]
+    pub input_file: String
 }
 
 impl Import {
@@ -19,7 +20,7 @@ impl Import {
     }
 
     fn import(&self) {
-        let source_path = real_path(&self.origin_file);
+        let source_path = real_path(&self.input_file);
         let records = match source_path {
             ref p if p.ends_with(".bcheck") => {
                 if let Ok(retrieved_records) = Record::from_file(&source_path) {
