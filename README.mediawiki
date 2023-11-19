@@ -4,9 +4,10 @@
 
 '''License:''' See LICENSE
 
-'''Description:''' A Rust-based CLI program that can read and write bcheck files, which is the format used by <a href="https://github.com/bryceac/BCheckbook">BCheckbook</a> for Mac and iOS.
+'''Description:''' A Rust-based CLI ledger that can help you keep track 
+of finances.
 
-'''Version:''' 0.2.2
+'''Version:''' 0.3
 
 ==Notes==
 
