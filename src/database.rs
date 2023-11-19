@@ -1,4 +1,8 @@
-use std::{ fs, path::{ Path, PathBuf } , env };
+use std::{ fs, path::{ Path, PathBuf } };
+
+#[cfg(windows)]
+use std::env;
+
 use rusqlite::{ Connection, params };
 use bcheck::{ Record, Transaction, TransactionType };
 use crate::shared::*;
@@ -7,21 +11,19 @@ pub fn copy_database_if_not_exists(p: &str) {
     let target = real_path(p);
     let destination_path = Path::new(&target);
 
-    let mut original_path: PathBuf =  PathBuf::new();
-    
-    if cfg!(windows) {
-        if let Ok(path) = env::current_exe() {
-            if let Some(db_directory) = path.parent() {
-                original_path = db_directory.join("register.db")
-            } else {
-                original_path = Path::new("register.db").to_path_buf()  
-            }
+    #[cfg(windows)]
+    let original_path: PathBuf = if let Ok(path) = env::current_exe() {
+        if let Some(db_directory) = path.parent() {
+            db_directory.join("register.db")
         } else {
-            original_path = Path::new("register.db").to_path_buf()
-        };
+            Path::new("register.db").to_path_buf()  
+        }
     } else {
-        original_path = Path::new(&real_path("/opt/rcheckbook/register.db")).to_path_buf();
+        Path::new("register.db").to_path_buf()
     };
+
+    #[cfg(unix)]
+    let original_path: PathBuf = Path::new(&real_path("/opt/rcheckbook/register.db")).to_path_buf();
     
 
     if !destination_path.exists() {
