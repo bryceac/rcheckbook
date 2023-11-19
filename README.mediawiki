@@ -36,10 +36,14 @@ This program has been tested on macOS Big Sur, but <strong>should</strong> work 
 <p>Implement way to create register via program.</p>
 <p>Released 10/8/2021.</p>
 </dd>
+<dt style="font-weight:bold">0.3</dt>
+<dd>
+<p>convert application into a checkbook ledger application with a database backend.</p>
+<p>Released 11/18/2023.</p>
+</dd>
 </dl>
 
 ===Questions===
-
 <ol>
 <li>
 <dl>
@@ -51,13 +55,46 @@ This program has been tested on macOS Big Sur, but <strong>should</strong> work 
 </dd>
 </dl>
 </li>
+<li>
+<dl>
+<dt style="font-weight:bold">Why convert this program into a full ledger application now, after havving it be a reader for so long?</dt>
+<dd>
+<p>While I did initially create this project to read <strong>bcheck</strong> 
+files, which my macOS and iOS <a href="https://github.com/bryceac/BCheckbook">apps</a> 
+used as a default format, 
+I did eventually add editing capabilities to this program and I added support 
+for one more format in the crate used to read data, 
+so I decided to make this app have a database backend, 
+in order to make editing and getting running totals simplifier.</p>
+<p>As a result, I could cut down on a lot of code and give this program 
+some feature parity with my iOS app and macOS.</p>
+</dd>
+</dl>
+</li>
+<li>
+<dl>
+<dt style="font-weight:bold">If this application is closer to feature parity with the iOS app and macOS, 
+does this mean this application supports QIF?</dt>
+<dd>
+<p>While I would like to add QIF support to this application, 
+so that it will support all three formats that 
+the macOS and iOS app supports, 
+I am having troubles finding a crate that will allow me to parse QIF files
+in the same way the macOS and iOS app do, 
+because transaction amounts are rendered in the user's local currency.</p>
+<p>As a result, I cannot add QIF support at this time.</p>
+<p>For the best results with this application, it is best you 
+import data via <strong>TSV</strong> or <strong>bcheck</strong>.</p>
+</dd>
+</dl>
+</li>
 </ol>
 
 ===Usage===
 
 After installing the program, all you need to do is something like this:
 
-<pre>rcheckbook create ~/Desktop/transaction.bcheck</pre>
+<pre>rcheckbook import ~/Desktop/transaction.bcheck</pre>
 
 This will create a new register at the specified path, which <strong>should</strong> support Unix shorthands.
 
