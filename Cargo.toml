@@ -8,6 +8,7 @@ description = "CLI checkbook ledger that can help keep track of finances."
 homepage = "https://github.com/bryceac/rcheckbook"
 readme = "README.mediawiki"
 repository = "https://github.com/bryceac/rcheckbook"
+keywords = ["rcheckbook", "ledger", "cli", "commandline", "checkbook"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
