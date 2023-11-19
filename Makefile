@@ -7,7 +7,6 @@ build:
 	cargo build --release
 install: build
 ifneq (, $(findstring darwin, $(SYS)))
-	test ! -d $(bindir) && mkdir -p $(bindir)
 	test ! -d $(resourcedir) && mkdir -p $(resourcedir)
 
 	install "target/release/rcheckbook" "$(bindir)/rcheckbook"
@@ -17,7 +16,7 @@ else
 	install "register.db" "$(resourcedir)/register.db"
 endif
 uninstall:
-	rm -rf "$(bindir)/actual"
+	rm -rf "$(bindir)/rcheckbook"
 	rm -rf "$(resourcedir)"
 clean:
 	rm -rf target
