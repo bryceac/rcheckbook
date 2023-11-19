@@ -94,9 +94,18 @@ import data via <strong>TSV</strong> or <strong>bcheck</strong>.</p>
 
 After installing the program, all you need to do is something like this:
 
-<pre>rcheckbook import ~/Desktop/transaction.bcheck</pre>
+<pre>rcheckbook import -i ~/Desktop/transaction.bcheck</pre>
 
-This will create a new register at the specified path, which <strong>should</strong> support Unix shorthands.
+This will copy the database to the following folder:
+
+<pre>~/.checkbook</pre>
+
+This folder location corresponds to your user folder.
+
+and then import the data from the given file.
+
+if you specify a different path before calling <strong>-i</strong> 
+the database will be copied or read from that location instead.
 
 ====Display Register====
 
