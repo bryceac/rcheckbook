@@ -15,7 +15,6 @@ pub struct Export {
 
 impl Export {
     pub fn run(&self) {
-        copy_database_if_not_exists(&self.file_path);
         self.export();
     }
 
