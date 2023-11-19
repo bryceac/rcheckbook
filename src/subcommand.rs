@@ -3,6 +3,7 @@ use crate::list::List;
 use crate::add::Add;
 use crate::remove::Remove;
 use crate::update::Update;
+use crate::import::Import;
 
 #[derive(Parser)]
 pub enum SubCommand {
