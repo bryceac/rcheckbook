@@ -20,7 +20,7 @@ fn main() {
         SubCommand::Add(a) => a.run(),
         SubCommand::Create(c) => c.run().unwrap(),
         SubCommand::List(l) => l.run(),
-        SubCommand::Remove(r) => r.run().unwrap(),
+        SubCommand::Remove(r) => r.run(),
         SubCommand::Update(u) => u.run()
     }
 }
