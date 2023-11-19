@@ -2,7 +2,6 @@ mod rcheckbook;
 mod records;
 mod subcommand;
 mod add;
-mod create;
 mod list;
 mod remove;
 mod update;
@@ -18,7 +17,6 @@ fn main() {
 
     match checkbook.subcommand {
         SubCommand::Add(a) => a.run(),
-        SubCommand::Create(c) => c.run().unwrap(),
         SubCommand::List(l) => l.run(),
         SubCommand::Remove(r) => r.run(),
         SubCommand::Update(u) => u.run()
