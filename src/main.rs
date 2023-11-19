@@ -20,6 +20,7 @@ fn main() {
     match checkbook.subcommand {
         SubCommand::Add(a) => a.run(),
         SubCommand::Import(i) => i.run(),
+        SubCommand::Export(e) => e.run(),
         SubCommand::List(l) => l.run(),
         SubCommand::Remove(r) => r.run(),
         SubCommand::Update(u) => u.run()
