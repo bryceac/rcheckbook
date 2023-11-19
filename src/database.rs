@@ -39,7 +39,7 @@ pub fn load_records_from_db(p: &str) -> Vec<Record> {
                         String::default()
                     };
 
-                    let memo: String = if let Ok(m) = row.get(4) {
+                    let memo: String = if let Ok(m) = row.get(5) {
                         m
                     } else {
                         String::default()
