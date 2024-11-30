@@ -1,3 +1,4 @@
+use bcheck::{ OrderedFloat, Record, TransactionType, Transaction };
 use clap::Parser;
 use crate::records::Records;
 use crate::database::*;
@@ -30,13 +31,37 @@ impl Summary {
 
     fn display(records: &Vec<Record>, categories: &Vec<String>, period: &Period) {
         let mut report = String::new();
+        let filtered_categories: Vec<String> = categories.clone().into_iter().filter(|category| category.to_lowercase() != "Opening Balance".to_string().to_lowercase()).collect();
 
         match self.period {
             Period::Week => report.push_str("WTD Report\r\n-----\r\n"),
             Period::Month => report.push_str("MTD Report \r\n-----\r\n"),
-            Period::HalfYear => report.push_str("Week to Date\r\n-----\r\n"),
-            Period::Year => report.push_str("Week to Date\r\n-----\r\n"),
-            Period::All => report.push_str("Week to Date\r\n-----\r\n")
+            Period::Quarter => report.push_str("QTD Report \r\n-----\r\n"),
+            Period::HalfYear => report.push_str("6 Month Report\r\n-----\r\n"),
+            Period::Year => report.push_str("YTD Report\r\n-----\r\n"),
+            Period::All => report.push_str("Summary\r\n-----\r\n")
+        }
+
+        let opening_index = records.iter().position(|record| record.transaction.category.unwrap_or("Uncategorized").to_lowercase() == "Opening Balance".to_string().to_lowercase());
+
+        let opening = String::from("Opening Balance:\t{}\r\n", if let Some(category) = if let Some(starting_balance_index) = opening_index {
+            records[starting_balance_index].transaction.amount
+        } else {
+            records[0].transaction.amount
+        });
+
+        for category in categories {
+            let records_in_category: Vec<Record> = records.into_iter().filter(|record| record.transaction.category.unwrap_or("Uncategorized").to_lowercase() == category.to_lowercase()).collect();
+
+            let category_total = records_in_category.into_iter().fold(0.0, |mut sum, record| if let TransactionType::withdrawal {
+                sum -= record.transaction.amount.into_inner()
+            } else {
+                sum += record.transaction.amount.into_inner()
+            });
+
+            let entry = String::from("{}:\t{}\r\n", category, category_total);
+
+            report.push_str(&entry);
         }
     }
 }

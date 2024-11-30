@@ -5,6 +5,7 @@ use crate::remove::Remove;
 use crate::update::Update;
 use crate::import::Import;
 use crate::export::Export;
+use crate::summary::Summary;
 
 #[derive(Parser)]
 pub enum SubCommand {
@@ -19,5 +20,7 @@ pub enum SubCommand {
     #[clap(version = "0.3", author = "Bryce Campbell")]
     Remove(Remove),
     #[clap(version = "0.3", author = "Bryce Campbell")]
-    Update(Update)
+    Update(Update),
+    #[clap(version = "0.1", author = "Bryce Campbell")]
+    Summary(Summary)
 }

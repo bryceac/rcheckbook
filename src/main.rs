@@ -9,6 +9,7 @@ mod remove;
 mod update;
 mod database;
 mod shared;
+mod summary;
 
 use rcheckbook::RCheckbook;
 use clap::Parser;
@@ -23,6 +24,7 @@ fn main() {
         SubCommand::Export(e) => e.run(),
         SubCommand::List(l) => l.run(),
         SubCommand::Remove(r) => r.run(),
-        SubCommand::Update(u) => u.run()
+        SubCommand::Update(u) => u.run(),
+        SubCommand::Summary(s) => s.run(),
     }
 }
