@@ -58,7 +58,7 @@ impl Summary {
         }
     }
 
-    fn display(records: &Vec<Record>, categories: &Vec<String>, period: &Period) {
+    fn create_string(records: &Vec<Record>, categories: &Vec<String>, period: &Period) -> String {
         let mut report = String::new();
         let filtered_categories: Vec<String> = categories.clone().into_iter().filter(|category| category.to_lowercase() != "Opening Balance".to_string().to_lowercase()).collect();
 
@@ -96,5 +96,11 @@ impl Summary {
 
             report.push_str(&entry);
         }
+
+        return report;
+    }
+
+    fn display(records: &Vec<Record>, categories: &Vec<String>, period: &Period) {
+        print!("{}", Self::create_string(records, categories, period));
     }
 }
