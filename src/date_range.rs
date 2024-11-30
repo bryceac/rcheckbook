@@ -1,8 +1,8 @@
 use chrono::prelude::*; // 0.4.38
-use chrono::{ Days, Duration };
+use chrono::Duration;
 use std::mem;
 
-struct DateRange(DateTime<Local>, DateTime<Local>);
+pub struct DateRange(DateTime<Local>, DateTime<Local>);
 
 impl Iterator for DateRange {
     type Item = DateTime<Local>;
