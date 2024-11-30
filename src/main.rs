@@ -11,6 +11,7 @@ mod database;
 mod shared;
 mod summary;
 mod period;
+mod date_range;
 
 use rcheckbook::RCheckbook;
 use clap::Parser;

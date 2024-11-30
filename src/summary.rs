@@ -20,7 +20,9 @@ impl Summary {
         let mut categories = load_categories_from_db(&self.file_path);
 
         match self.period {
-            Period::Week => {},
+            Period::Week => {
+                let
+            },
             Period::Month => {},
             Period::Quarter => {},
             Period::HalfYear => {},
