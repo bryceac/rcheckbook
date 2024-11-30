@@ -17,7 +17,13 @@ impl List {
     pub fn run(&self) {
         copy_database_if_not_exists(&self.file_path);
         let mut record_store = Records::from(load_records_from_db(&self.file_path));
-        record_store.display(&self.file_path);
+
+        if let Some(_) = self.category {
+            record_store.filtered_display(self.category.clone(), &self.file_path)
+        } else {
+            record_store.display(&self.file_path);
+        }
+        
     }
 }
 
