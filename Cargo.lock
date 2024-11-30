@@ -419,6 +419,7 @@ name = "rcheckbook"
 version = "0.3.0"
 dependencies = [
  "bcheck",
+ "chrono",
  "clap",
  "rusqlite",
  "shellexpand",
