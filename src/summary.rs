@@ -1,6 +1,6 @@
 use bcheck::{ Record, TransactionType };
 use chrono::Duration;
-use chrono::prelude::*;
+use chrono::{ Months, prelude::* };
 use clap::Parser;
 use crate::date_range::DateRange;
 use crate::records::Records;
@@ -19,20 +19,42 @@ pub struct Summary {
 impl Summary {
     pub fn run(&self) {
         copy_database_if_not_exists(&self.file_path);
-        let mut record_store = Records::from(load_records_from_db(&self.file_path));
-        let mut categories = load_categories_from_db(&self.file_path);
+        let record_store = Records::from(load_records_from_db(&self.file_path));
+        let categories = load_categories_from_db(&self.file_path);
         let today = Local::now();
 
         match self.period {
             Period::Week => {
                 let one_week_ago = today - Duration::weeks(1);
-                let week_records = record_store.sorted_records().fill(|record| DateRange(one_week_ago, today).contains(record.transaction.date))
+                let week_records: Vec<Record> = record_store.sorted_records().into_iter().filter(|record| DateRange::from(one_week_ago, today).contains(record.transaction.date)).collect();
+
+                Self::display(&week_records, &categories, &self.period);
             },
-            Period::Month => {},
-            Period::Quarter => {},
-            Period::HalfYear => {},
-            Period::Year => {},
-            Period::All => {}
+            Period::Month => {
+                let one_month_ago = today - Months::new(1);
+                let month_records: Vec<Record> = record_store.sorted_records().into_iter().filter(|record| DateRange::from(one_month_ago, today).contains(record.transaction.date)).collect();
+
+                Self::display(&month_records, &categories, &self.period);
+            },
+            Period::Quarter => {
+                let three_months_ago = today - Months::new(3);
+                let quarter_records: Vec<Record> = record_store.sorted_records().into_iter().filter(|record| DateRange::from(three_months_ago, today).contains(record.transaction.date)).collect();
+
+                Self::display(&quarter_records, &categories, &self.period);
+            },
+            Period::HalfYear => {
+                let six_months_ago = today - Months::new(6);
+                let half_year_records: Vec<Record> = record_store.sorted_records().into_iter().filter(|record| DateRange::from(six_months_ago, today).contains(record.transaction.date)).collect();
+
+                Self::display(&half_year_records, &categories, &self.period);
+            },
+            Period::Year => {
+                let one_year_ago = today - Months::new(12);
+                let year_records: Vec<Record> = record_store.sorted_records().into_iter().filter(|record| DateRange::from(one_year_ago, today).contains(record.transaction.date)).collect();
+
+                Self::display(&year_records, &categories, &self.period);
+            },
+            Period::All => Self::display(&record_store.sorted_records(), &categories, &self.period)
         }
     }
 
@@ -56,6 +78,8 @@ impl Summary {
         } else {
             records[0].transaction.amount.into_inner()
         });
+
+        report.push_str(&opening);
 
         for category in filtered_categories{
             let records_in_category: Vec<Record> = records.into_iter().filter(|record| record.transaction.category.clone().unwrap_or("Uncategorized".to_string()).to_lowercase() == category.to_lowercase()).map(|r| r.clone()).collect();
