@@ -1,6 +1,7 @@
 use clap::Parser;
 use crate::records::Records;
 use crate::database::*;
+use crate::period::*;
 
 #[derive(Parse)]
 pub struct Summary {
@@ -9,4 +10,15 @@ pub struct Summary {
 
     #[clap(arg_enum, default_value=Period::All)]
     pub period: Period
+}
+
+impl Summary {
+    pub fn run(&self) {
+        copy_database_if_not_exists(&self.file_path);
+        let mut record_store = Records::from(load_records_from_db(&self.file_path));
+
+        match self.period {
+
+        }
+    }
 }

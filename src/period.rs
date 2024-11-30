@@ -1,4 +1,4 @@
-enum Period {
+pub enum Period {
     All,
     Week,
     Month,
