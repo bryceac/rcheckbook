@@ -1,6 +1,8 @@
 use bcheck::{ Record, TransactionType };
+use chrono::Duration;
+use chrono::prelude::*;
 use clap::Parser;
-use crate date_range::DateRange;
+use crate::date_range::DateRange;
 use crate::records::Records;
 use crate::database::*;
 use crate::period::*;
@@ -11,7 +13,7 @@ pub struct Summary {
     pub file_path: String,
 
     #[clap(value_enum, default_value_t=Period::All)]
-    pub period: Period
+    pub period: Period,
 }
 
 impl Summary {
@@ -19,10 +21,12 @@ impl Summary {
         copy_database_if_not_exists(&self.file_path);
         let mut record_store = Records::from(load_records_from_db(&self.file_path));
         let mut categories = load_categories_from_db(&self.file_path);
+        let today = Local::now();
 
         match self.period {
             Period::Week => {
-                let
+                let one_week_ago = today - Duration::weeks(1);
+                let week_records = record_store.sorted_records().fill(|record| DateRange(one_week_ago, today).contains(record.transaction.date))
             },
             Period::Month => {},
             Period::Quarter => {},
