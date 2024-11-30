@@ -21,6 +21,7 @@ impl Summary {
         match self.period {
             Period::Week => {},
             Period::Month => {},
+            Period::Quarter => {},
             Period::HalfYear => {},
             Period::Year => {},
             Period::All => {}
@@ -28,6 +29,14 @@ impl Summary {
     }
 
     fn display(records: &Vec<Record>, categories: &Vec<String>, period: &Period) {
-        println!("")
+        let mut report = String::new();
+
+        match self.period {
+            Period::Week => report.push_str("WTD Report\r\n-----\r\n"),
+            Period::Month => report.push_str("MTD Report \r\n-----\r\n"),
+            Period::HalfYear => report.push_str("Week to Date\r\n-----\r\n"),
+            Period::Year => report.push_str("Week to Date\r\n-----\r\n"),
+            Period::All => report.push_str("Week to Date\r\n-----\r\n")
+        }
     }
 }
