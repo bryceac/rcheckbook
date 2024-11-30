@@ -8,6 +8,9 @@ pub struct List {
 
     #[clap(default_value = "~/.checkbook/register.db")]
     pub file_path: String,
+
+    #[clap(long, short, default_value = "")]
+    pub category: String
 }
 
 impl List {
