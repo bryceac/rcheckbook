@@ -10,6 +10,7 @@ mod update;
 mod database;
 mod shared;
 mod summary;
+mod period;
 
 use rcheckbook::RCheckbook;
 use clap::Parser;
