@@ -1,15 +1,15 @@
-use bcheck::{ OrderedFloat, Record, TransactionType, Transaction };
+use bcheck::{ Record, TransactionType };
 use clap::Parser;
 use crate::records::Records;
 use crate::database::*;
 use crate::period::*;
 
-#[derive(Parse)]
+#[derive(Parser)]
 pub struct Summary {
     #[clap(default_value = "~/.checkbook/register.db")]
     pub file_path: String,
 
-    #[clap(arg_enum, default_value=Period::All)]
+    #[clap(value_enum, default_value_t=Period::All)]
     pub period: Period
 }
 
@@ -33,7 +33,7 @@ impl Summary {
         let mut report = String::new();
         let filtered_categories: Vec<String> = categories.clone().into_iter().filter(|category| category.to_lowercase() != "Opening Balance".to_string().to_lowercase()).collect();
 
-        match self.period {
+        match period {
             Period::Week => report.push_str("WTD Report\r\n-----\r\n"),
             Period::Month => report.push_str("MTD Report \r\n-----\r\n"),
             Period::Quarter => report.push_str("QTD Report \r\n-----\r\n"),
@@ -42,24 +42,26 @@ impl Summary {
             Period::All => report.push_str("Summary\r\n-----\r\n")
         }
 
-        let opening_index = records.iter().position(|record| record.transaction.category.unwrap_or("Uncategorized").to_lowercase() == "Opening Balance".to_string().to_lowercase());
+        let opening_index = records.iter().position(|record| record.transaction.category.clone().unwrap_or("Uncategorized".to_string()).to_lowercase() == "Opening Balance".to_string().to_lowercase());
 
-        let opening = String::from("Opening Balance:\t{}\r\n", if let Some(category) = if let Some(starting_balance_index) = opening_index {
-            records[starting_balance_index].transaction.amount
+        let opening = format!("Opening Balance:\t{:.2}\r\n", if let Some(starting_index) = opening_index {
+            records[starting_index].transaction.amount.into_inner()
         } else {
-            records[0].transaction.amount
+            records[0].transaction.amount.into_inner()
         });
 
-        for category in categories {
-            let records_in_category: Vec<Record> = records.into_iter().filter(|record| record.transaction.category.unwrap_or("Uncategorized").to_lowercase() == category.to_lowercase()).collect();
+        for category in filtered_categories{
+            let records_in_category: Vec<Record> = records.into_iter().filter(|record| record.transaction.category.clone().unwrap_or("Uncategorized".to_string()).to_lowercase() == category.to_lowercase()).map(|r| r.clone()).collect();
 
-            let category_total = records_in_category.into_iter().fold(0.0, |mut sum, record| if let TransactionType::withdrawal {
-                sum -= record.transaction.amount.into_inner()
-            } else {
-                sum += record.transaction.amount.into_inner()
+            let category_total = records_in_category.into_iter().fold(0.0, |sum, record| {
+                if let TransactionType::Withdrawal = record.transaction.transaction_type {
+                    sum - record.transaction.amount.into_inner()
+                } else {
+                    sum + record.transaction.amount.into_inner()
+                }
             });
 
-            let entry = String::from("{}:\t{}\r\n", category, category_total);
+            let entry = format!("{}:\t{}\r\n", category, category_total);
 
             report.push_str(&entry);
         }

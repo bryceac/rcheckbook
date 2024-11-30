@@ -1,3 +1,6 @@
+use clap::ValueEnum;
+
+#[derive(ValueEnum, Clone, Debug)]
 pub enum Period {
     All,
     Week,
