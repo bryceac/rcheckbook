@@ -28,37 +28,37 @@ impl Summary {
                 let one_week_ago = today - Duration::weeks(1);
                 let week_records: Vec<Record> = record_store.sorted_records().into_iter().filter(|record| DateRange::from(one_week_ago, today).contains(record.transaction.date)).collect();
 
-                Self::display(&week_records, &categories, &self.period);
+                Self::display(&week_records, &categories, &self.period, &self.file_path);
             },
             Period::Month => {
                 let one_month_ago = today - Months::new(1);
                 let month_records: Vec<Record> = record_store.sorted_records().into_iter().filter(|record| DateRange::from(one_month_ago, today).contains(record.transaction.date)).collect();
 
-                Self::display(&month_records, &categories, &self.period);
+                Self::display(&month_records, &categories, &self.period, &self.file_path);
             },
             Period::Quarter => {
                 let three_months_ago = today - Months::new(3);
                 let quarter_records: Vec<Record> = record_store.sorted_records().into_iter().filter(|record| DateRange::from(three_months_ago, today).contains(record.transaction.date)).collect();
 
-                Self::display(&quarter_records, &categories, &self.period);
+                Self::display(&quarter_records, &categories, &self.period, &self.file_path);
             },
             Period::HalfYear => {
                 let six_months_ago = today - Months::new(6);
                 let half_year_records: Vec<Record> = record_store.sorted_records().into_iter().filter(|record| DateRange::from(six_months_ago, today).contains(record.transaction.date)).collect();
 
-                Self::display(&half_year_records, &categories, &self.period);
+                Self::display(&half_year_records, &categories, &self.period, &self.file_path);
             },
             Period::Year => {
                 let one_year_ago = today - Months::new(12);
                 let year_records: Vec<Record> = record_store.sorted_records().into_iter().filter(|record| DateRange::from(one_year_ago, today).contains(record.transaction.date)).collect();
 
-                Self::display(&year_records, &categories, &self.period);
+                Self::display(&year_records, &categories, &self.period, &self.file_path);
             },
-            Period::All => Self::display(&record_store.sorted_records(), &categories, &self.period)
+            Period::All => Self::display(&record_store.sorted_records(), &categories, &self.period, &self.file_path)
         }
     }
 
-    fn create_string(records: &Vec<Record>, categories: &Vec<String>, period: &Period) -> String {
+    fn create_string(records: &Vec<Record>, categories: &Vec<String>, period: &Period, path: &str) -> String {
         let mut report = String::new();
         let mut filtered_categories: Vec<String> = categories.clone().into_iter().filter(|category| category.to_lowercase() != "Opening Balance".to_string().to_lowercase()).collect();
         filtered_categories.sort();
@@ -100,10 +100,21 @@ impl Summary {
             report.push_str(&entry);
         }
 
+        let last_record = records.last();
+
+        let balance = if let Some(last) = last_record {
+            retrieve_balance_for_record(path, last.clone())
+        } else {
+            0.0
+        };
+
+        let balance_entry = format!("\r\nBalance\t{:.2}", balance);
+        report.push_str(&balance_entry);
+
         return report;
     }
 
-    fn display(records: &Vec<Record>, categories: &Vec<String>, period: &Period) {
-        print!("{}", Self::create_string(records, categories, period));
+    fn display(records: &Vec<Record>, categories: &Vec<String>, period: &Period, path: &str) {
+        print!("{}", Self::create_string(records, categories, period, path));
     }
 }
