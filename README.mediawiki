@@ -7,7 +7,7 @@
 '''Description:''' A Rust-based CLI ledger that can help you keep track 
 of finances.
 
-'''Version:''' 0.3
+'''Version:''' 0.4
 
 ==Notes==
 
@@ -40,6 +40,10 @@ This program has been tested on macOS Big Sur, but <strong>should</strong> work 
 <dd>
 <p>convert application into a checkbook ledger application with a database backend.</p>
 <p>Released 11/18/2023.</p>
+</dd>
+<dt style="font-weight:bold">0.4</dt>
+<dd>
+<p>add in new ability to get summary of things within time period and allow register to be filtered by category.</p>
 </dd>
 </dl>
 
@@ -127,7 +131,15 @@ This is the same as the TSV output, but includes another field for the balance, 
 
 To see what column corresponds to what, 
 I recommend looking at the details regard <a href="https://github.com/bryceac/BCheckbook#user-content-Importing_TSV_Files">TSV imports</a> 
-for the iOS and macOS app
+for the iOS and macOS app.
+
+By appending <strong>-c</strong>, like this:
+
+<pre>
+rcheckbook list -c Utilities
+</pre>
+
+You can filter stuff down by category.
 
 ====Adding new Entries====
 
@@ -157,10 +169,42 @@ This will look in the database and remove the record matching the identifier.
 If you made a mistake or want to mark items as reconciled, entries can be updated like this:
 
 <pre>
-rcheckbook updaye -i FF04C3DC-F0FE-472E-8737-0F4034C049F0 -r
+rcheckbook update -i FF04C3DC-F0FE-472E-8737-0F4034C049F0 -r
 </pre>
 
 This will mark the record with the given identifier as reconciled.
+
+====Summaries====
+
+If you want to have a quick look at your register, and have an idea of what you've down, you can do this:
+
+<pre>
+rcheckbook summary
+</pre>
+
+This will lay out everything over the lifetime of the tracking.
+
+However, if you want certain time frames, such as:
+
+<ul>
+<li>Week</li>
+<li>Month</li>
+<li>Quarter (3 months)</li>
+<li>6 Months</li>
+<li>Year</li>
+</ul>
+
+You just append the appropriate period.
+
+For example, if you what everything in a 6 month period until now, you would do:
+
+<pre>
+rcheckbook summary half-year
+</pre>
+
+This will give you a break down by the categories you have and tell you how much money went or came from that.
+
+Please be aware that the values reported are sums, so you'll need dedicated categories if you want better data.
 
 ===bcheck format===
 
