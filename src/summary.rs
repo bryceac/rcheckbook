@@ -60,7 +60,8 @@ impl Summary {
 
     fn create_string(records: &Vec<Record>, categories: &Vec<String>, period: &Period) -> String {
         let mut report = String::new();
-        let filtered_categories: Vec<String> = categories.clone().into_iter().filter(|category| category.to_lowercase() != "Opening Balance".to_string().to_lowercase()).collect();
+        let mut filtered_categories: Vec<String> = categories.clone().into_iter().filter(|category| category.to_lowercase() != "Opening Balance".to_string().to_lowercase()).collect();
+        filtered_categories.sort();
 
         match period {
             Period::Week => report.push_str("WTD Report\r\n-----\r\n"),
