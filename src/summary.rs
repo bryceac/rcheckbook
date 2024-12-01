@@ -64,17 +64,17 @@ impl Summary {
         filtered_categories.sort();
 
         match period {
-            Period::Week => report.push_str("WTD Report\r\n-----\r\n"),
-            Period::Month => report.push_str("MTD Report \r\n-----\r\n"),
-            Period::Quarter => report.push_str("QTD Report \r\n-----\r\n"),
-            Period::HalfYear => report.push_str("6 Month Report\r\n-----\r\n"),
-            Period::Year => report.push_str("YTD Report\r\n-----\r\n"),
-            Period::All => report.push_str("Summary\r\n-----\r\n")
+            Period::Week => report.push_str("WTD Report\r\n\r\n"),
+            Period::Month => report.push_str("MTD Report \r\n\r\n"),
+            Period::Quarter => report.push_str("QTD Report \r\n\r\n"),
+            Period::HalfYear => report.push_str("6 Month Report\r\n\r\n"),
+            Period::Year => report.push_str("YTD Report\r\n\r\n"),
+            Period::All => report.push_str("Summary\r\n\r\n")
         }
 
         let opening_index = records.iter().position(|record| record.transaction.category.clone().unwrap_or("Uncategorized".to_string()).to_lowercase() == "Opening Balance".to_string().to_lowercase());
 
-        let opening = format!("Opening Balance:\t{:.2}\r\n", if let Some(starting_index) = opening_index {
+        let opening = format!("Opening Balance:\t{:.2}\r\n\r\n", if let Some(starting_index) = opening_index {
             records[starting_index].transaction.amount.into_inner()
         } else if !records.is_empty() {
             records[0].transaction.amount.into_inner()
