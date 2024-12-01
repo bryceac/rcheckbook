@@ -75,8 +75,10 @@ impl Summary {
 
         let opening = format!("Opening Balance:\t{:.2}\r\n", if let Some(starting_index) = opening_index {
             records[starting_index].transaction.amount.into_inner()
-        } else {
+        } else if !records.is_empty() {
             records[0].transaction.amount.into_inner()
+        } else {
+            0.0
         });
 
         report.push_str(&opening);
