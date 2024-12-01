@@ -15,7 +15,7 @@ pub enum SubCommand {
     Import(Import),
     #[clap(version = "0.1", author = "Bryce Campbell")]
     Export(Export),
-    #[clap(version = "0.3", author = "Bryce Campbell")]
+    #[clap(version = "0.4", author = "Bryce Campbell")]
     List(List),
     #[clap(version = "0.3", author = "Bryce Campbell")]
     Remove(Remove),
