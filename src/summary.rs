@@ -95,7 +95,7 @@ impl Summary {
                 }
             });
 
-            let entry = format!("{}:\t{:.2}\r\n", category, category_total);
+            let entry = format!("{}\t{:.2}\r\n", category, category_total);
 
             report.push_str(&entry);
         }
