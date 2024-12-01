@@ -1,7 +1,7 @@
 [package]
 name = "rcheckbook"
 authors = ["Bryce Campbell <tonyhawk2100@gmail.com>"]
-version = "0.3.0"
+version = "0.4.0"
 edition = "2018"
 license = "MIT"
 description = "CLI checkbook ledger that can help keep track of finances."
