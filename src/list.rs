@@ -29,10 +29,8 @@ impl List {
     }
 }
 
-
-
-fn display(store: &Records, category: &Option<String>, vendor: &Option<String>, memo: &Option<String>, db: &str) {
-        let mut filtered_records: Vec<Record> = store.sorted_records();
+fn retrieve_records(r: &Vec<Record>, category: &Option<String>, vendor: &Option<String>, memo: &Option<String>) -> Vec<Record> {
+    let mut filtered_records: Vec<Record> = r.clone();
     if let Some(category) = category {
         filtered_records = filtered_records.into_iter().filter(|record| record.transaction.category.clone().unwrap_or("Uncategorized".to_string()).to_lowercase() == category.to_string().to_lowercase()).collect();
     }
@@ -45,7 +43,11 @@ fn display(store: &Records, category: &Option<String>, vendor: &Option<String>, 
         filtered_records = filtered_records.into_iter().filter(|record| record.transaction.memo.to_lowercase() == memo.to_lowercase() || record.transaction.memo.to_lowercase().contains(&memo.to_string().to_lowercase())).collect();
     }
 
-    for record in filtered_records {
+    return filtered_records;
+}
+
+fn display(store: &Records, category: &Option<String>, vendor: &Option<String>, memo: &Option<String>, db: &str) {
+    for record in retrieve_records(&store.sorted_records(), category, vendor, memo) {
         let balance = store.balance_for_record(db, &record);
         println!("{}\t{:.2}", record, balance);
     }
