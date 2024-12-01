@@ -54,9 +54,9 @@ fn retrieve_records(r: &Vec<Record>, category: &Option<String>, vendor: &Option<
     }
 
     if reconciled.to_owned() {
-        filtered_records = filtered_records.into_iter().filter(|record| record.transaction.is_reconciled == reconciled.to_owned()).collect();
+        filtered_records = filtered_records.into_iter().filter(|record| record.transaction.is_reconciled).collect();
     } else if unreconciled.to_owned() {
-        filtered_records = filtered_records.into_iter().filter(|record| record.transaction.is_reconciled == unreconciled.to_owned()).collect();
+        filtered_records = filtered_records.into_iter().filter(|record| !record.transaction.is_reconciled).collect();
     }
 
     return filtered_records;
