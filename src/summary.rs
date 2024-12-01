@@ -108,8 +108,43 @@ impl Summary {
             0.0
         };
 
-        let balance_entry = format!("\r\nBalance\t{:.2}", balance);
+        let balance_entry = format!("\r\nBalance\t{:.2}\r\n\r\n", balance);
         report.push_str(&balance_entry);
+
+        let total_income = records.into_iter().filter(|r| r.transaction.transaction_type == TransactionType::Deposit).fold(0.0, |sum, i| sum + i.transaction.amount.into_inner());
+
+        let income_entry = format!("Total Income\t{:.2}\r\n", total_income);
+        report.push_str(&income_entry);
+
+
+        let total_expenses = records.into_iter().filter(|r| r.transaction.transaction_type == TransactionType::Withdrawal).fold(0.0, |sum, i| sum + i.transaction.amount.into_inner());
+
+        let expenditure_entry = format!("Total Expenditures\t{:.2}\r\n\r\n", total_expenses);
+        report.push_str(&expenditure_entry);
+
+        let total_reconciled = records.into_iter().filter(|r| r.transaction.is_reconciled).fold(0.0, |sum, i| {
+            if let TransactionType::Deposit = i.transaction.transaction_type {
+                sum + i.transaction.amount.into_inner()
+            } else {
+                sum - i.transaction.amount.into_inner()
+            }
+        });
+
+        let reconciled_entry = format!("Reconciled\t{:.2}\r\n", total_reconciled);
+        report.push_str(&reconciled_entry);
+
+        let total_unreconciled = records.into_iter().filter(|r| !r.transaction.is_reconciled).fold(0.0, |sum, i| {
+            if let TransactionType::Deposit = i.transaction.transaction_type {
+                sum + i.transaction.amount.into_inner()
+            } else {
+                sum - i.transaction.amount.into_inner()
+            }
+        });
+
+        let unreconciled_entry = format!("Unreconciled\t{:.2}", total_unreconciled);
+        report.push_str(&unreconciled_entry);
+
+
 
         return report;
     }
