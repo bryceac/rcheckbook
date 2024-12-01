@@ -23,23 +23,22 @@ pub struct List {
 impl List {
     pub fn run(&self) {
         copy_database_if_not_exists(&self.file_path);
-        let mut record_store = Records::from(load_records_from_db(&self.file_path));
+        let record_store = Records::from(load_records_from_db(&self.file_path));
 
-        display(record_store, category, &self.file_path)
+        display(&record_store, &self.category, &self.file_path)
         
     }
 }
 
-pub fn display(store: &Records, category: Option<String>, db: &str) {
+pub fn display(store: &Records, category: &Option<String>, db: &str) {
+        let mut filtered_records: Vec<Record> = store.sorted_records();
     if let Some(category) = category {
-        let filtered_records: Vec<Record> = store.sorted_records().into_iter().filter(|record| record.transaction.category.clone().unwrap_or("Uncategorized".to_string()).to_lowercase() == category.to_lowercase()).collect();
+        filtered_records: Vec<Record> = filtered_records.into_iter().filter(|record| record.transaction.category.clone().unwrap_or("Uncategorized".to_string()).to_lowercase() == category.to_string().to_lowercase()).collect();
+    }
 
-        for record in filtered_records {
-            let balance = store.balance_for_record(db, &record);
-            println!("{}\t{:.2}", record, balance);
-        }
-    } else {
-        println!("{}", "Nothing matched the specified criteria")
+    for record in filtered_records {
+        let balance = store.balance_for_record(db, &record);
+        println!("{}\t{:.2}", record, balance);
     }
 }
 
