@@ -29,14 +29,20 @@ impl List {
     }
 }
 
-pub fn display(store: &Records, category: &Option<String>, vendor: &Option<String>, memo: &Option<String>, db: &str) {
+
+
+fn display(store: &Records, category: &Option<String>, vendor: &Option<String>, memo: &Option<String>, db: &str) {
         let mut filtered_records: Vec<Record> = store.sorted_records();
     if let Some(category) = category {
         filtered_records = filtered_records.into_iter().filter(|record| record.transaction.category.clone().unwrap_or("Uncategorized".to_string()).to_lowercase() == category.to_string().to_lowercase()).collect();
     }
 
     if let Some(vendor) = vendor {
-        filtered_records = filtered_records.into_iter().filter(|record| record.transaction.vendor.to_lowercase() == vendor.to_lowercase() || record.transaction.vendor.to_lowercase().contains(vendor.to_string().to_lowercase())).collect();
+        filtered_records = filtered_records.into_iter().filter(|record| record.transaction.vendor.to_lowercase() == vendor.to_lowercase() || record.transaction.vendor.to_lowercase().contains(&vendor.to_string().to_lowercase())).collect();
+    }
+
+    if let Some(memo) = memo {
+        filtered_records = filtered_records.into_iter().filter(|record| record.transaction.memo.to_lowercase() == memo.to_lowercase() || record.transaction.memo.to_lowercase().contains(&memo.to_string().to_lowercase())).collect();
     }
 
     for record in filtered_records {
