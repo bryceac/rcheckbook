@@ -61,6 +61,7 @@ impl Summary {
     fn create_string(records: &Vec<Record>, categories: &Vec<String>, period: &Period, path: &str) -> String {
         let mut report = String::new();
         let mut filtered_categories: Vec<String> = categories.clone().into_iter().filter(|category| category.to_lowercase() != "Opening Balance".to_string().to_lowercase()).collect();
+        filtered_categories.push("Uncategorized".to_string());
         filtered_categories.sort();
 
         match period {
