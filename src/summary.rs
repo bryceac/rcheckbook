@@ -74,7 +74,7 @@ impl Summary {
 
         let opening_index = records.iter().position(|record| record.transaction.category.clone().unwrap_or("Uncategorized".to_string()).to_lowercase() == "Opening Balance".to_string().to_lowercase());
 
-        let opening = format!("Opening Balance:\t{:.2}\r\n\r\n", if let Some(starting_index) = opening_index {
+        let opening = format!("Opening Balance\t{:.2}\r\n\r\n", if let Some(starting_index) = opening_index {
             records[starting_index].transaction.amount.into_inner()
         } else if !records.is_empty() {
             records[0].transaction.amount.into_inner()
