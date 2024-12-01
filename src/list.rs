@@ -1,4 +1,5 @@
 use clap::Parser;
+use bcheck::Record;
 use crate::records::Records;
 use crate::database::*;
 
@@ -27,19 +28,19 @@ impl List {
     }
 }
 
-pub fn display(&mut self, db: &str) {
-    for record in self.sorted_records() {
-        let balance = self.balance_for_record(db, &record);
+pub fn display(store: &Records, db: &str) {
+    for record in store.sorted_records() {
+        let balance = store.balance_for_record(db, &record);
         println!("{}\t{:.2}", record, balance);
     }
 }
 
-pub fn filtered_display(&mut self, category: Option<String>, db: &str) {
+pub fn filtered_display(store: &Records, category: Option<String>, db: &str) {
     if let Some(category) = category {
-        let filtered_records: Vec<Record> = self.sorted_records().into_iter().filter(|record| record.transaction.category.clone().unwrap_or("Uncategorized".to_string()).to_lowercase() == category.to_lowercase()).collect();
+        let filtered_records: Vec<Record> = store.sorted_records().into_iter().filter(|record| record.transaction.category.clone().unwrap_or("Uncategorized".to_string()).to_lowercase() == category.to_lowercase()).collect();
 
         for record in filtered_records {
-            let balance = self.balance_for_record(db, &record);
+            let balance = store.balance_for_record(db, &record);
             println!("{}\t{:.2}", record, balance);
         }
     } else {

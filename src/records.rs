@@ -19,7 +19,7 @@ impl Records {
         stored_records
     }
 
-    fn balance_for_record(&self, db: &str, r: &Record) -> f64 {
+    pub fn balance_for_record(&self, db: &str, r: &Record) -> f64 {
         retrieve_balance_for_record(db, r.clone())
     }
 }
