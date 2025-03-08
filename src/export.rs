@@ -1,7 +1,7 @@
 use clap::Parser;
 use crate::{ database::*, shared::* };
 use bcheck::{ Record, Save };
-use qif::{Transaction as QIFTransaction, TransactionBuildingError };
+use qif::{ DateFormat, QIF, Transaction as QIFTransaction, TransactionBuildingError, Section };
 
 
 #[derive(Parser)]
@@ -23,7 +23,7 @@ impl Export {
         let destination_path = real_path(&self.output_file);
         let records = load_records_from_db(&self.file_path);
 
-        if destination_path.ends_with(".bcheck") {
+        /* if destination_path.ends_with(".bcheck") {
             if let Err(error) = records.save(&destination_path) {
                 println!("{}", error);
             }
@@ -31,12 +31,24 @@ impl Export {
             if let Err(error) = records.save_tsv(&destination_path) {
                 println!("{}", error);
             }
+        } */
+
+        match destination_path {
+            p if p.ends_with(".bcheck") => if let Err(error) = records.save(&p) {
+                println!("{}", error);
+            },
+            p if p.ends_with(".qif") => if let Err(error) = store_to_qif(records).save(&p, &DateFormat::MonthDayFullYear) {
+                println!("{}", error);
+            },
+            _ => if let Err(error) = records.save_tsv(&destination_path) {
+                println!("{}", error);
+            }
         }
     }
 }
 
 fn record_to_qif(record: &Record) -> Result<QIFTransaction, TransactionBuildingError> {
-    let format = qif::DateFormat::MonthDayFullYear;
+    let format = DateFormat::MonthDayFullYear;
     
     QIFTransaction::builder()
     .set_date(&record.transaction.date.format(format.chrono_str()).to_string(), &format)
@@ -51,5 +63,30 @@ fn record_to_qif(record: &Record) -> Result<QIFTransaction, TransactionBuildingE
         ""
     })
     .build()
+}
+
+fn records_to_qif_transactions(records: Vec<Record>) -> Vec<QIFTransaction> {
+    records.into_iter().map(|r| record_to_qif(&r))
+    .filter(|t| t.is_ok())
+    .map(|r| r.unwrap())
+    .collect()
+}
+
+fn store_to_qif(records: Vec<Record>) -> QIF {
+    let mut qif = QIF::builder();
+
+    let mut bank_builder = Section::builder();
+    
+    bank_builder.set_type("Bank");
+
+    for transaction in records_to_qif_transactions(records.clone()) {
+        bank_builder.add_transaction(transaction);
+    }
+
+    if let Some(bank) = bank_builder.build() {
+        qif.set_field(bank);
+    }
+
+    qif.build()
 }
 
