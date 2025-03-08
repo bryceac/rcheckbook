@@ -1,6 +1,7 @@
 use clap::Parser;
 use crate::{ database::*, shared::* };
-use bcheck::Record;
+use bcheck::{ Record, Transaction };
+use qif::Transaction as QIFTransaction;
 
 
 #[derive(Parser)]
@@ -42,4 +43,8 @@ impl Import {
         add_records_to_db(&self.file_path, &records)
     }
 }
+
+/* fn qif_transaction_to_transaction(transaction: QIFTransaction) {
+
+} */
 
