@@ -1,6 +1,7 @@
 use clap::Parser;
 use crate::{ database::*, shared::* };
-use bcheck::Save;
+use bcheck::{ Save, Transaction };
+use qif::Transaction as QIFTransaction;
 
 
 #[derive(Parser)]
@@ -31,6 +32,12 @@ impl Export {
                 println!("{}", error);
             }
         }
+    
+    
+    fn records_to_qif(records: &Vec<Record>) {
+
     }
 }
+
+fn transaction_to_qif(transaction: &Transaction)
 
