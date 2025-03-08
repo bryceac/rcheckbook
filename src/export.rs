@@ -1,7 +1,7 @@
 use clap::Parser;
 use crate::{ database::*, shared::* };
 use bcheck::{ Record, Save };
-use qif::{Transaction as QIFTransaction, errors::TransactionBuildingError };
+use qif::{Transaction as QIFTransaction, TransactionBuildingError };
 
 
 #[derive(Parser)]
