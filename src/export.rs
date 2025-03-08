@@ -1,7 +1,7 @@
 use clap::Parser;
 use crate::{ database::*, shared::* };
-use bcheck::{ Save, Transaction };
-use qif::{Transaction as QIFTransaction, TransactionBuilder as QIFTransactionBuilder };
+use bcheck::{ Record, Save };
+use qif::{Transaction as QIFTransaction, errors::TransactionBuildingError };
 
 
 #[derive(Parser)]
@@ -35,7 +35,21 @@ impl Export {
     }
 }
 
-fn transaction_to_qif(transaction: &Transaction) -> QIFTransaction {
-    let qif_transac
+fn record_to_qif(record: &Record) -> Result<QIFTransaction, TransactionBuildingError> {
+    let format = qif::DateFormat::MonthDayFullYear;
+    let qif_transaction = QIFTransaction::builder()
+    .set_date(&record.transaction.date.format(format.chrono_str()).to_string(), &format)
+    .set_check_number(record.transaction.check_number.unwrap_or(0))
+    .set_vendor(&record.transaction.vendor)
+    .set_amount(record.transaction.amount.into_inner())
+    .set_category(&record.transaction.category.unwrap_or("".to_owned()))
+    .set_memo(&record.transaction.memo)
+    .set_status(if record.transaction.is_reconciled { 
+        "*" 
+    } else {
+        ""
+    });
+
+    qif_transaction.build();
 }
 
