@@ -50,6 +50,6 @@ fn record_to_qif(record: &Record) -> Result<QIFTransaction, TransactionBuildingE
         ""
     });
 
-    qif_transaction.build();
+    qif_transaction.build()
 }
 
