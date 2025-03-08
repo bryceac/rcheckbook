@@ -1,7 +1,7 @@
 use clap::Parser;
 use crate::{ database::*, shared::* };
 use bcheck::{ Record, Transaction };
-use qif::Transaction as QIFTransaction;
+use qif::{ DateFormat, Transaction as QIFTransaction };
 
 
 #[derive(Parser)]
@@ -44,9 +44,9 @@ impl Import {
     }
 }
 
-fn qif_transaction_to_transaction(transaction: &QIFTransaction) -> Transaction {
+fn qif_transaction_to_transaction(transaction: &QIFTransaction) -> Result<Transaction, String> {
     Transaction::from(
-        date, 
+        Some(&transaction.date.format(&DateFormat::MonthDayFullYear.chrono_str()).to_string()), 
         check_number, 
         category, vendor, 
         memo, 
