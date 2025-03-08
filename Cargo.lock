@@ -410,7 +410,7 @@ dependencies = [
 [[package]]
 name = "qif"
 version = "0.1.0"
-source = "git+https://github.com/bryceac/qif_rs?branch=main#81e0f11ac555f5390a444f8774a589bc891fe954"
+source = "git+https://github.com/bryceac/qif_rs?branch=main#fd1de15cae24df7dab170dc448be286a61443c63"
 dependencies = [
  "chrono",
  "regex",
