@@ -44,7 +44,14 @@ impl Import {
     }
 }
 
-/* fn qif_transaction_to_transaction(transaction: QIFTransaction) {
-
-} */
+fn qif_transaction_to_transaction(transaction: &QIFTransaction) -> Transaction {
+    Transaction::from(
+        date, 
+        check_number, 
+        category, vendor, 
+        memo, 
+        amount, 
+        transaction_type, 
+        is_reconciled)
+}
 
