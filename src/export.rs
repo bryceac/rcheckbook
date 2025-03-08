@@ -1,7 +1,7 @@
 use clap::Parser;
 use crate::{ database::*, shared::* };
 use bcheck::{ Save, Transaction };
-use qif::Transaction as QIFTransaction;
+use qif::{Transaction as QIFTransaction, TransactionBuilder as QIFTransactionBuilder };
 
 
 #[derive(Parser)]
@@ -32,12 +32,10 @@ impl Export {
                 println!("{}", error);
             }
         }
-    
-    
-    fn records_to_qif(records: &Vec<Record>) {
-
     }
 }
 
-fn transaction_to_qif(transaction: &Transaction)
+fn transaction_to_qif(transaction: &Transaction) -> QIFTransaction {
+    let qif_transac
+}
 
