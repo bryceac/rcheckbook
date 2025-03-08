@@ -37,19 +37,19 @@ impl Export {
 
 fn record_to_qif(record: &Record) -> Result<QIFTransaction, TransactionBuildingError> {
     let format = qif::DateFormat::MonthDayFullYear;
-    let qif_transaction = QIFTransaction::builder()
+    
+    QIFTransaction::builder()
     .set_date(&record.transaction.date.format(format.chrono_str()).to_string(), &format)
     .set_check_number(record.transaction.check_number.unwrap_or(0))
     .set_vendor(&record.transaction.vendor)
     .set_amount(record.transaction.amount.into_inner())
-    .set_category(&record.transaction.category.unwrap_or("".to_owned()))
+    .set_category(&record.transaction.category.clone().unwrap_or("".to_owned()))
     .set_memo(&record.transaction.memo)
     .set_status(if record.transaction.is_reconciled { 
         "*" 
     } else {
         ""
-    });
-
-    qif_transaction.build()
+    })
+    .build()
 }
 
