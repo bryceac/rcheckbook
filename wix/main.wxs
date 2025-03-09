@@ -95,6 +95,15 @@
                                 Source='target\$(var.Profile)\rcheckbook.exe'
                                 KeyPath='yes'/>
                         </Component>
+
+                        <Component Id='database' Guid='*' Win64='$(var.Win64)'>
+                            <File
+                                Id='exe0'
+                                Name='register.db'
+                                DiskId='1'
+                                Source='register.db'
+                                KeyPath='yes'/>
+                        </Component>
                     </Directory>
                 </Directory>
             </Directory>
