@@ -22,7 +22,10 @@ chrono = "0.4"
 qif = "0.1"
 
 [package.metadata.deb]
-license-file = ["LICENSE", "0"]
+license-file = ["LICENSE", "4"]
+extended-description = """\
+A simple CLI based checkbook ledger to help \
+keep track of finances."""
 section = "unknown"
 priority = "optional"
 assets = [
