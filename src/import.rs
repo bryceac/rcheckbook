@@ -51,7 +51,7 @@ impl Import {
 
 fn qif_transaction_to_transaction(transaction: &QIFTransaction) -> Result<Transaction, String> {
     Transaction::from(
-        Some(&transaction.date.format(&DateFormat::MonthDayFullYear.chrono_str()).to_string()), 
+        Some(&transaction.date.format(&DateFormat::FullYearMonthDay.chrono_str()).to_string()), 
         transaction.check_number, 
         if let Some(ref category) = transaction.category.clone() {
             Some(category.as_str())
