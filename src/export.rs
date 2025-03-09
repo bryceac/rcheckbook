@@ -1,6 +1,6 @@
 use clap::Parser;
 use crate::{ database::*, shared::* };
-use bcheck::{ Record, Save };
+use bcheck::{ Record, Save, TransactionType };
 use qif::{ DateFormat, QIF, Transaction as QIFTransaction, TransactionBuildingError, Section };
 
 
@@ -54,7 +54,11 @@ fn record_to_qif(record: &Record) -> Result<QIFTransaction, TransactionBuildingE
     .set_date(&record.transaction.date.format(format.chrono_str()).to_string(), &format)
     .set_check_number(record.transaction.check_number.unwrap_or(0))
     .set_vendor(&record.transaction.vendor)
-    .set_amount(record.transaction.amount.into_inner())
+    .set_amount(if let TransactionType::Deposit = record.transaction.transaction_type {
+        record.transaction.amount.into_inner()
+    } else {
+        record.transaction.amount.into_inner()*-1.0
+    })
     .set_category(&record.transaction.category.clone().unwrap_or("".to_owned()))
     .set_memo(&record.transaction.memo)
     .set_status(if record.transaction.is_reconciled { 
