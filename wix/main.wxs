@@ -98,7 +98,7 @@
 
                         <Component Id='database' Guid='*' Win64='$(var.Win64)'>
                             <File
-                                Id='exe0'
+                                Id='register.db'
                                 Name='register.db'
                                 DiskId='1'
                                 Source='register.db'
