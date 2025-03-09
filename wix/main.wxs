@@ -126,6 +126,8 @@
             
             <ComponentRef Id='binary0'/>
 
+            <ComponentRef Id='database'/>
+
             <Feature
                 Id='Environment'
                 Title='PATH Environment Variable'
