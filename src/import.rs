@@ -51,14 +51,14 @@ fn qif_transaction_to_transaction(transaction: &QIFTransaction) -> Result<Transa
         transaction.category, 
         &transaction.vendor, 
         &transaction.memo, 
-        abs(transaction.amount), 
+        transaction.amount.abs(), 
         if transaction.amount <= 0 {
             TransactionType::Withdrawal
         } else {
             TransactionType::Deposit
         }, 
-        if let TransactionStatus::Reconciled = transaction.status {
-            true
+        if let Some(status) = transaction.status {
+            status == TransactionStatus::Reconciled
         } else {
             false
         })
