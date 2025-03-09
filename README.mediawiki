@@ -7,7 +7,7 @@
 '''Description:''' A Rust-based CLI ledger that can help you keep track 
 of finances.
 
-'''Version:''' 0.4.1
+'''Version:''' 0.4.2
 
 ==Notes==
 
@@ -49,6 +49,10 @@ This program has been tested on macOS Big Sur, but <strong>should</strong> work 
 <dd>
 <p>allow register to be searched by vendor, memo, and reconciled status, in addition to filtering by category.</p>
 </dd>
+<dt style="font-weight:bold">0.4.2</dt>
+<dd>
+<p>add support for importing and exporting QIF.</p>
+</dd>
 </dl>
 
 ===Questions===
@@ -84,15 +88,15 @@ some feature parity with my iOS app and macOS.</p>
 <dt style="font-weight:bold">If this application is closer to feature parity with the iOS app and macOS, 
 does this mean this application supports QIF?</dt>
 <dd>
-<p>While I would like to add QIF support to this application, 
-so that it will support all three formats that 
-the macOS and iOS app supports, 
-I am having troubles finding a crate that will allow me to parse QIF files
-in the same way the macOS and iOS app do, 
-because transaction amounts are rendered in the user's local currency.</p>
-<p>As a result, I cannot add QIF support at this time.</p>
-<p>For the best results with this application, it is best you 
-import data via <strong>TSV</strong> or <strong>bcheck</strong>.</p>
+<p>Initially, this was not possible, 
+but starting in version 0.4.2, this application has now gained
+support for QIF files.</p>
+<p>However, 
+due to issues with development of the macOS GUI app, 
+the QIF files generated from this program might never be supported
+in the edition.</p>
+<p>The iOS app will likely see support for it, 
+since I just need to update the QIF library to its latest version.</p>
 </dd>
 </dl>
 </li>
@@ -111,8 +115,8 @@ This will copy the database to the following folder:
 This folder location corresponds to your user folder.
 
 and then import the data from the given file. 
-he import is done based on file extension 
-and only runs if you supply bcheck or TSV files.
+The import is done based on file extension 
+and only runs if you supply bcheck, QIF, or TSV files.
 
 if you specify a different path before calling <strong>-i</strong> 
 the database will be copied or read from that location instead.
