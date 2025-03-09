@@ -1,7 +1,7 @@
 use clap::Parser;
 use crate::{ database::*, shared::* };
-use bcheck::{ Record, Transaction };
-use qif::{ DateFormat, Transaction as QIFTransaction };
+use bcheck::{ Record, Transaction, TransactionType };
+use qif::{ DateFormat, Transaction as QIFTransaction, TransactionStatus };
 
 
 #[derive(Parser)]
@@ -47,11 +47,20 @@ impl Import {
 fn qif_transaction_to_transaction(transaction: &QIFTransaction) -> Result<Transaction, String> {
     Transaction::from(
         Some(&transaction.date.format(&DateFormat::MonthDayFullYear.chrono_str()).to_string()), 
-        check_number, 
-        category, vendor, 
-        memo, 
-        amount, 
-        transaction_type, 
-        is_reconciled)
+        transaction.check_number, 
+        transaction.category, 
+        &transaction.vendor, 
+        &transaction.memo, 
+        abs(transaction.amount), 
+        if transaction.amount <= 0 {
+            TransactionType::Withdrawal
+        } else {
+            TransactionType::Deposit
+        }, 
+        if let TransactionStatus::Reconciled = transaction.status {
+            true
+        } else {
+            false
+        })
 }
 
