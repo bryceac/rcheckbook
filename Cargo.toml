@@ -21,7 +21,7 @@ url_path = "0.1.3"
 chrono = "0.4"
 qif = "0.1"
 
-[package.meta.deb]
+[package.metadata.deb]
 license-file = ["LICENSE", "0"]
 section = "unknown"
 priority = "optional"
