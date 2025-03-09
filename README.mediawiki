@@ -51,7 +51,8 @@ This program has been tested on macOS Big Sur, but <strong>should</strong> work 
 </dd>
 <dt style="font-weight:bold">0.4.2</dt>
 <dd>
-<p>add support for importing and exporting QIF.</p>
+<p>add support for importing and exporting QIF and 
+have update method check if transactions have actually changed.</p>
 </dd>
 </dl>
 
