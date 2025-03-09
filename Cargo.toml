@@ -26,6 +26,6 @@ license-file = ["LICENSE", "0"]
 section = "unknown"
 priority = "optional"
 assets = [
-    ["target/release/rcheckbook", "usr/local/bin", "755"],
-    ["register.db", "opt/rcheckbook/register.db", "644"]
+    ["target/release/rcheckbook", "usr/local/bin/", "755"],
+    ["register.db", "opt/rcheckbook/", "644"],
 ]
