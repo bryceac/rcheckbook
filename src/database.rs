@@ -219,15 +219,17 @@ pub fn update_record_in_db(p: &str, r: &Record) {
 
     if let Some(record) = retrieve_record_with_id_from_db(p, &r.id) {
         if let Ok(db) = Connection::open(&real_path(p)) {
-            let update_statement = format!("UPDATE trades SET date = (?1), check_number = (?2), vendor = (?3), memo = (?4), amount = (?5), category = (?6), reconciled = (?7) WHERE id = (?8)");
+            if r.transaction != record.transaction {
+                let update_statement = format!("UPDATE trades SET date = (?1), check_number = (?2), vendor = (?3), memo = (?4), amount = (?5), category = (?6), reconciled = (?7) WHERE id = (?8)");
 
-            if let Ok(mut statement) = db.prepare(&update_statement) {
-                if let Err(error) = statement.execute(params![format!("{}", r.transaction.date.format("%Y-%m-%d")), r.transaction.check_number, r.transaction.vendor, r.transaction.memo, if let TransactionType::Deposit = r.transaction.transaction_type { r.transaction.amount.into_inner() } else { r.transaction.amount.into_inner()*-1.0 }, category_id, r.transaction.is_reconciled, record.id]) {
-                    println!("{}", error);
+                if let Ok(mut statement) = db.prepare(&update_statement) {
+                    if let Err(error) = statement.execute(params![format!("{}", r.transaction.date.format("%Y-%m-%d")), r.transaction.check_number, r.transaction.vendor, r.transaction.memo, if let TransactionType::Deposit = r.transaction.transaction_type { r.transaction.amount.into_inner() } else { r.transaction.amount.into_inner()*-1.0 }, category_id, r.transaction.is_reconciled, record.id]) {
+                        println!("{}", error);
+                    }
                 }
             }
         }
-    } else {}
+    }
 }
 
 pub fn delete_record_from_db(p: &str, i: &str) {
