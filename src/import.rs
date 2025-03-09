@@ -30,6 +30,11 @@ impl Import {
                     vec![]
                 }
             },
+            ref p if p.ends_with("qif") => if let Ok(qif) = QIF::load_from_file(p, &DateFormat::MonthDayFullYear) {
+                records_from_section(qif, QIFType::Bank)
+            } else {
+                vec![]
+            }
             ref p if p.ends_with(".tsv") => {
                 if let Ok(retrieved_records) = Record::from_tsv_file(&source_path) {
                     retrieved_records
