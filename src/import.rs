@@ -1,7 +1,7 @@
 use clap::Parser;
 use crate::{ database::*, shared::* };
 use bcheck::{ Record, Transaction, TransactionType };
-use qif::{ DateFormat, Transaction as QIFTransaction, TransactionStatus };
+use qif::{ DateFormat, QIF, Transaction as QIFTransaction, TransactionStatus, Type as QIFType };
 
 
 #[derive(Parser)]
@@ -48,19 +48,73 @@ fn qif_transaction_to_transaction(transaction: &QIFTransaction) -> Result<Transa
     Transaction::from(
         Some(&transaction.date.format(&DateFormat::MonthDayFullYear.chrono_str()).to_string()), 
         transaction.check_number, 
-        transaction.category, 
+        if let Some(ref category) = transaction.category.clone() {
+            Some(category.as_str())
+        } else {
+            None
+        }, 
         &transaction.vendor, 
         &transaction.memo, 
         transaction.amount.abs(), 
-        if transaction.amount <= 0 {
+        if transaction.amount <= 0.0 {
             TransactionType::Withdrawal
         } else {
             TransactionType::Deposit
         }, 
-        if let Some(status) = transaction.status {
+        if let Some(status) = transaction.status.clone() {
             status == TransactionStatus::Reconciled
         } else {
             false
         })
+}
+
+fn records_from_section(qif: QIF, section: QIFType) -> Vec<Record> {
+    match section {
+        QIFType::Bank => if let Some(bank) = qif.bank {
+            bank.transactions.into_iter()
+            .map(|t| qif_transaction_to_transaction(&t))
+            .filter(|t| t.is_ok())
+            .map(|t| Record::from("", t.unwrap()))
+            .collect()
+        } else {
+            vec![]
+        },
+        QIFType::Cash => if let Some(cash) = qif.cash {
+            cash.transactions.into_iter()
+            .map(|t| qif_transaction_to_transaction(&t))
+            .filter(|t| t.is_ok())
+            .map(|t| Record::from("", t.unwrap()))
+            .collect()
+        } else {
+            vec![]
+        }
+        QIFType::CreditCard => if let Some(credit_card) = qif.credit_card {
+            credit_card.transactions.into_iter()
+            .map(|t| qif_transaction_to_transaction(&t))
+            .filter(|t| t.is_ok())
+            .map(|t| Record::from("", t.unwrap()))
+            .collect()
+        } else {
+            vec![]
+        },
+        QIFType::Liability => if let Some(liability) = qif.liability {
+            liability.transactions.into_iter()
+            .map(|t| qif_transaction_to_transaction(&t))
+            .filter(|t| t.is_ok())
+            .map(|t| Record::from("", t.unwrap()))
+            .collect()
+        } else {
+            vec![]
+        },
+        QIFType::Asset => if let Some(asset) = qif.asset {
+            asset.transactions.into_iter()
+            .map(|t| qif_transaction_to_transaction(&t))
+            .filter(|t| t.is_ok())
+            .map(|t| Record::from("", t.unwrap()))
+            .collect()
+        } else {
+            vec![]
+        },
+    }
 }
 
