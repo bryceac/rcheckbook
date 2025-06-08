@@ -95,6 +95,22 @@ fn store_to_qif(records: Vec<Record>) -> QIF {
     qif.build()
 }
 
-fn add_record_to_sheet(record: &Record, row_index: usize, db: &str, sheet: ) {
+fn add_record_to_sheet(record: &Record, row_index: usize, db: &str, sheet: &mut Sheet) {
+    let id_cell = Cell::str(&record.id);
+    sheet.add_cell(id_cell, row_index, 0);
 
+    let date = format!("{}", record.transaction.date.format("%Y-%m-%d"));
+
+    let date_cell = Cell::date(date);
+    sheet.add_cell(date_cell, row_index, 1);
+
+    let check_number_cell = if let Some(check_number) = record.transaction.check_number {
+        Cell::str(check_number)
+    } else {
+        Cell::str("")
+    };
+
+    sheet.add_cell(check_number_cell, row_index, 2);
+
+    
 }
