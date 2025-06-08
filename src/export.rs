@@ -1,3 +1,5 @@
+use std::path::Path;
+
 use clap::Parser;
 use crate::{ database::*, shared::* };
 use bcheck::{ Record, Save, TransactionType };
@@ -24,22 +26,20 @@ impl Export {
         let destination_path = real_path(&self.output_file);
         let records = load_records_from_db(&self.file_path);
 
-        /* if destination_path.ends_with(".bcheck") {
-            if let Err(error) = records.save(&destination_path) {
-                println!("{}", error);
-            }
-        } else {
-            if let Err(error) = records.save_tsv(&destination_path) {
-                println!("{}", error);
-            }
-        } */
-
         match destination_path {
             p if p.ends_with(".bcheck") => if let Err(error) = records.save(&p) {
                 println!("{}", error);
             },
             p if p.ends_with(".qif") => if let Err(error) = store_to_qif(records).save(&p, &DateFormat::MonthDayFullYear) {
                 println!("{}", error);
+            },
+            ref p if p.ends_with(".ods") => if let Err(error) = ods::write(&create_book(records, &self.file_path), Path::new(&destination_path)) {
+                match error {
+                    ods::OdsError::Io(error) => println!("{}", error),
+                    ods::OdsError::Uft8(error) => println!("{}", error),
+                    ods::OdsError::Xml(error) => println!("{}", error),
+                    ods::OdsError::Zip(error) => println!("{}", error)
+                }
             },
             _ => if let Err(error) = records.save_tsv(&destination_path) {
                 println!("{}", error);
@@ -95,6 +95,32 @@ fn store_to_qif(records: Vec<Record>) -> QIF {
     qif.build()
 }
 
+fn create_book(records: Vec<Record>, db: &str) -> Book {
+    let mut book = Book::new();
+    let mut sheet = Sheet::new("Register");
+
+    sheet.add_cell(Cell::str(""), 0, 0);
+    sheet.add_cell(Cell::str("Date"), 0, 1);
+    sheet.add_cell(Cell::str("Check #"), 0, 2);
+    sheet.add_cell(Cell::str("Reconciled"), 0, 3);
+    sheet.add_cell(Cell::str("Category"), 0, 4);
+    sheet.add_cell(Cell::str("Vendor"), 0, 5);
+    sheet.add_cell(Cell::str("Memo"), 0, 6);
+    sheet.add_cell(Cell::str("Credit"), 0, 7);
+    sheet.add_cell(Cell::str("Withdrawal"), 0, 8);
+    sheet.add_cell(Cell::str("Balance"), 0, 9);
+
+    for (index, record) in records.iter().enumerate() {
+        let row_index = index+1;
+
+        add_record_to_sheet(record, row_index, db, &mut sheet);
+    }
+
+    book.add_sheet(sheet);
+
+    book
+}
+
 fn add_record_to_sheet(record: &Record, row_index: usize, db: &str, sheet: &mut Sheet) {
     let id_cell = Cell::str(&record.id);
     sheet.add_cell(id_cell, row_index, 0);
@@ -118,7 +144,7 @@ fn add_record_to_sheet(record: &Record, row_index: usize, db: &str, sheet: &mut 
         Cell::str("N")
     };
 
-    sheet.add_cell(reconciled_cell, row_index, 3)
+    sheet.add_cell(reconciled_cell, row_index, 3);
 
     let category_cell = Cell::str(record.transaction.category.clone().unwrap_or("".to_string()));
 
