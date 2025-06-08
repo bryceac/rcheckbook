@@ -2,7 +2,7 @@ use clap::Parser;
 use crate::{ database::*, shared::* };
 use bcheck::{ Record, Save, TransactionType };
 use qif::{ DateFormat, QIF, Transaction as QIFTransaction, TransactionBuildingError, Section };
-use spsheet::{ Book, Cell, ods };
+use spsheet::{ Book, Cell, ods, Sheet };
 
 
 #[derive(Parser)]
@@ -95,6 +95,6 @@ fn store_to_qif(records: Vec<Record>) -> QIF {
     qif.build()
 }
 
-fn record_to_cell(record: &Record, row_index: usize, db: &str) {
+fn add_record_to_sheet(record: &Record, row_index: usize, db: &str, sheet: ) {
 
 }
