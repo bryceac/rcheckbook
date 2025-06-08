@@ -210,8 +210,6 @@ fn record_from_row(row_index: usize, sheet: &Sheet) -> Option<Record> {
         None
     };
 
-    let mut transaction_type: Option<TransactionType> = None;
-
     let credit = if let Some(cell) = sheet.get_cell(row_index, 7) {
         if let Value::Float(amount) = cell.get_value() {
             Some(amount.to_owned())
@@ -232,14 +230,17 @@ fn record_from_row(row_index: usize, sheet: &Sheet) -> Option<Record> {
         None
     };
 
+    let transaction_type: TransactionType = if let Some(_) = credit {
+        TransactionType::Deposit
+    } else {
+        TransactionType::Withdrawal
+    };
+
     let amount =  if let Some(credit) = credit {
-        transaction_type = Some(TransactionType::Deposit);
         credit
     } else if let Some(withdrawal) = withdrawal {
-        transaction_type = Some(TransactionType::Withdrawal);
         withdrawal
     } else {
-        transaction_type = Some(TransactionType::Withdrawal);
         0.0
     };
 
@@ -257,7 +258,7 @@ fn record_from_row(row_index: usize, sheet: &Sheet) -> Option<Record> {
             vendor.unwrap(), 
             memo.unwrap_or(""), 
             amount, 
-            transaction_type.unwrap_or(TransactionType::Withdrawal), 
+            transaction_type, 
             is_reconciled);
 
         Some(Record::from(id.as_deref().unwrap_or(""), transaction.unwrap()))
