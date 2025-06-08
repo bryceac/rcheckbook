@@ -127,7 +127,7 @@ fn add_record_to_sheet(record: &Record, row_index: usize, db: &str, sheet: &mut 
 
     let date = format!("{}", record.transaction.date.format("%Y-%m-%d"));
 
-    let date_cell = Cell::date(date);
+    let date_cell = Cell::str(date);
     sheet.add_cell(date_cell, row_index, 1);
 
     let check_number_cell = if let Some(check_number) = record.transaction.check_number {
