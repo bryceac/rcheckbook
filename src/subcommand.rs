@@ -11,9 +11,9 @@ use crate::summary::Summary;
 pub enum SubCommand {
     #[clap(version = "0.3", author = "Bryce Campbell")]
     Add(Add),
-    #[clap(version = "0.1", author = "Bryce Campbell")]
+    #[clap(version = "0.4", author = "Bryce Campbell")]
     Import(Import),
-    #[clap(version = "0.1", author = "Bryce Campbell")]
+    #[clap(version = "0.4", author = "Bryce Campbell")]
     Export(Export),
     #[clap(version = "0.4", author = "Bryce Campbell")]
     List(List),
