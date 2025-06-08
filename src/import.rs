@@ -2,7 +2,7 @@ use std::path::Path;
 
 use clap::Parser;
 use crate::{ database::*, shared::* };
-use bcheck::{ Record, Transaction, TransactionType };
+use bcheck::{ Record, Transaction, TransactionType, is_proper_date_format };
 use qif::{ DateFormat, QIF, Transaction as QIFTransaction, TransactionStatus, Type as QIFType };
 use spsheet::{ Value, ods, Sheet };
 
@@ -139,8 +139,8 @@ fn record_from_row(row_index: usize, sheet: &Sheet) -> Option<Record> {
     };
 
     let date = if let Some(cell) = sheet.get_cell(row_index, 1) {
-        if let Value::Date(date) = cell.get_value() {
-            Some(date)
+        if let Value::Str(date) = cell.get_value() {
+            Some(date.as_str())
         } else {
             None
         }
@@ -212,21 +212,34 @@ fn record_from_row(row_index: usize, sheet: &Sheet) -> Option<Record> {
 
     let mut transaction_type: Option<TransactionType> = None;
 
-    let amount = if let Some(cell) = sheet.get_cell(row_index, 7) {
+    let credit = if let Some(cell) = sheet.get_cell(row_index, 7) {
         if let Value::Float(amount) = cell.get_value() {
-            transaction_type = Some(TransactionType::Deposit);
-            amount.to_owned()
+            Some(amount.to_owned())
         } else {
-            0.0
-        }
-    } else if let Some(cell) = sheet.get_cell(row_index, 8) {
-        if let Value::Float(amount) = cell.get_value() {
-            transaction_type = Some(TransactionType::Withdrawal);
-            amount.to_owned()
-        } else {
-            0.0
+            None
         }
     } else {
+        None
+    };
+
+    let withdrawal = if let Some(cell) = sheet.get_cell(row_index, 8) {
+        if let Value::Float(amount) = cell.get_value() {
+            Some(amount.to_owned())
+        } else {
+            None
+        }
+    } else {
+        None
+    };
+
+    let amount =  if let Some(credit) = credit {
+        transaction_type = Some(TransactionType::Deposit);
+        credit
+    } else if let Some(withdrawal) = withdrawal {
+        transaction_type = Some(TransactionType::Withdrawal);
+        withdrawal
+    } else {
+        transaction_type = Some(TransactionType::Withdrawal);
         0.0
     };
 
@@ -234,10 +247,11 @@ fn record_from_row(row_index: usize, sheet: &Sheet) -> Option<Record> {
         None
     } else if let None = vendor {
         None
+    } else if !is_proper_date_format(date.unwrap()) {
+        None
     } else {
-        let date_string = format!("{}", date.unwrap().format("%Y-%m-%d"));
         let transaction = Transaction::from(
-            Some(&date_string), 
+            date, 
             check_number, 
             category, 
             vendor.unwrap(), 
