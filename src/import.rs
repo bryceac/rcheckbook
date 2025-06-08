@@ -45,9 +45,7 @@ impl Import {
                     vec![]
                 }
             },
-            ref p if p.ends_with(".ods") => {
-                records_from_ods(p)
-            }
+            ref p if p.ends_with(".ods") => records_from_ods(p),
             _ => vec![]
         };
 
@@ -141,8 +139,8 @@ fn record_from_row(row_index: usize, sheet: &Sheet) -> Option<Record> {
     };
 
     let date = if let Some(cell) = sheet.get_cell(row_index, 1) {
-        if let Value::Date(date) = cell.get_value() {
-            Some(date)
+        if let Value::Str(date) = cell.get_value() {
+            Some(date.as_str())
         } else {
             None
         }
@@ -237,13 +235,8 @@ fn record_from_row(row_index: usize, sheet: &Sheet) -> Option<Record> {
     } else if let None = vendor {
         None
     } else {
-        let date_string = if let Some(date) = date {
-            Some(date.format("%Y-%m-%d").to_string())
-        } else {
-            None
-        };
         let transaction = Transaction::from(
-            date_string.as_deref(), 
+            date, 
             check_number, 
             category, 
             vendor.unwrap(), 
@@ -266,7 +259,7 @@ fn records_from_ods(p: &str) -> Vec<Record> {
 
         for row_index in 0..number_of_rows {
             if let Some(record) = record_from_row(row_index, sheet) {
-                records.push(record)
+                records.push(record);
             }
         }
     }
