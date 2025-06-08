@@ -105,12 +105,50 @@ fn add_record_to_sheet(record: &Record, row_index: usize, db: &str, sheet: &mut 
     sheet.add_cell(date_cell, row_index, 1);
 
     let check_number_cell = if let Some(check_number) = record.transaction.check_number {
-        Cell::str(check_number)
+        Cell::str(check_number.to_string())
     } else {
         Cell::str("")
     };
 
     sheet.add_cell(check_number_cell, row_index, 2);
 
-    
+    let reconciled_cell = if record.transaction.is_reconciled {
+        Cell::str("Y")
+    } else {
+        Cell::str("N")
+    };
+
+    sheet.add_cell(reconciled_cell, row_index, 3)
+
+    let category_cell = Cell::str(record.transaction.category.clone().unwrap_or("".to_string()));
+
+    sheet.add_cell(category_cell, row_index, 4);
+
+    let vendor_cell = Cell::str(record.transaction.vendor.clone());
+
+    sheet.add_cell(vendor_cell, row_index, 5);
+
+    let memo_cell = Cell::str(record.transaction.memo.clone());
+
+    sheet.add_cell(memo_cell, row_index, 6);
+
+    let credit_cell = if let TransactionType::Deposit = record.transaction.transaction_type {
+        Cell::float(record.transaction.amount.into_inner())
+    } else {
+        Cell::str("")
+    };
+
+    sheet.add_cell(credit_cell, row_index, 7);
+
+    let withdrawal_cell = if let TransactionType::Withdrawal = record.transaction.transaction_type {
+        Cell::float(record.transaction.amount.into_inner())
+    } else {
+        Cell::str("")
+    };
+
+    sheet.add_cell(withdrawal_cell, row_index, 8);
+
+    let balance_cell = Cell::float(retrieve_balance_for_record(db, record.clone()));
+
+    sheet.add_cell(balance_cell, row_index, 9)
 }
