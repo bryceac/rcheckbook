@@ -150,7 +150,7 @@ fn add_record_to_sheet(record: &Record, row_index: usize, db: &str, sheet: &mut 
 
     sheet.add_cell(category_cell, row_index, 4);
 
-    let vendor_cell = Cell::str(record.transaction.vendor.clone());
+    let vendor_cell = Cell::str(record.transaction.vendor.clone().replace("&", "&amp;"));
 
     sheet.add_cell(vendor_cell, row_index, 5);
 
