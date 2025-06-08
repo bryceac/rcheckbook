@@ -799,7 +799,6 @@ dependencies = [
  "nom",
  "quick-xml",
  "tempdir",
- "time",
  "walkdir",
  "zip",
 ]
