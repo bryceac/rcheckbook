@@ -139,8 +139,8 @@ fn record_from_row(row_index: usize, sheet: &Sheet) -> Option<Record> {
     };
 
     let date = if let Some(cell) = sheet.get_cell(row_index, 1) {
-        if let Value::Str(date) = cell.get_value() {
-            Some(date.as_str())
+        if let Value::Date(date) = cell.get_value() {
+            Some(date)
         } else {
             None
         }
@@ -235,8 +235,9 @@ fn record_from_row(row_index: usize, sheet: &Sheet) -> Option<Record> {
     } else if let None = vendor {
         None
     } else {
+        let date_string = format!("{}", date.unwrap().format("%Y-%m-%d"));
         let transaction = Transaction::from(
-            date, 
+            Some(&date_string), 
             check_number, 
             category, 
             vendor.unwrap(), 
