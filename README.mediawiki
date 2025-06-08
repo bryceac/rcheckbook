@@ -7,7 +7,7 @@
 '''Description:''' A Rust-based CLI ledger that can help you keep track 
 of finances.
 
-'''Version:''' 0.4.2
+'''Version:''' 0.4.3
 
 ==Notes==
 
@@ -54,6 +54,10 @@ This program has been tested on macOS Big Sur, but <strong>should</strong> work 
 <p>add support for importing and exporting QIF and 
 have update method check if transactions have actually changed.</p>
 </dd>
+<dt style="font-weight:bold">0.4.3</dt>
+<dd>
+<p>add support for importing and exporting ODS (OpenDocument Spreadsheet) files.</p>
+</dd>
 </dl>
 
 ===Questions===
@@ -98,6 +102,39 @@ the QIF files generated from this program might never be supported
 in the edition.</p>
 <p>The iOS app will likely see support for it, 
 since I just need to update the QIF library to its latest version.</p>
+</dd>
+</dl>
+</li>
+<li>
+<dl>
+<dt style="font-weight:bold">Since this application could import and export TSV files, why add ODS support?</dt>
+<dd>
+<p>Unlike CSV files, 
+which have wide enough adoption that many application 
+can already append the right extension and people know it, 
+TSV files are not that common, 
+so I thought I would try to add some direct support for spreadsheets.</p>
+<p>Also, TSV imports/exports do not exactly support headers, 
+so the only real way to make sense of things is 
+to output the list view to a file or read the documentation.</p>
+<p>By adding ODS support, I was able to Implement support for headers, 
+as well as make it possible to include formulas, 
+should the library used adds support for it, 
+seeing as balances are just entered as if you had sent the normal 
+text output to a file.</p>
+</dd>
+</dl>
+</li>
+<li>
+<dl>
+<dt style="font-weight:bold">Can this application export and import Excel files?</dt>
+<dd>
+<p>While the library I utilize does support reading and writing Excel files, 
+to the point where I don't really need to add much code, 
+the Excel stuff currently contains errors that causes compilation to fail.</p>
+<p>as such, I cannot do that at this time, 
+though it might be possible for me to fix that, 
+depending on the work necessary.</p>
 </dd>
 </dl>
 </li>
