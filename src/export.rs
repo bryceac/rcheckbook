@@ -154,7 +154,7 @@ fn add_record_to_sheet(record: &Record, row_index: usize, db: &str, sheet: &mut 
 
     sheet.add_cell(vendor_cell, row_index, 5);
 
-    let memo_cell = Cell::str(record.transaction.memo.clone());
+    let memo_cell = Cell::str(record.transaction.memo.clone().replace("&", "&amp;"));
 
     sheet.add_cell(memo_cell, row_index, 6);
 
