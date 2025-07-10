@@ -8,6 +8,7 @@ use crate::database::*;
 use crate::period::*;
 
 #[derive(Parser)]
+#[clap(version = "0.1", author = "Bryce Campbell")]
 pub struct Summary {
     #[clap(default_value = "~/.checkbook/register.db")]
     pub file_path: String,

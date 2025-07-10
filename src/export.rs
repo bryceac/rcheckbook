@@ -8,6 +8,7 @@ use spsheet::{ Book, Cell, ods, Sheet };
 
 
 #[derive(Parser)]
+#[clap(version = "0.4", author = "Bryce Campbell")]
 pub struct Export {
 
     #[clap(default_value = "~/.checkbook/register.db")]

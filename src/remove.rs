@@ -2,6 +2,7 @@ use clap::Parser;
 use crate::database::*;
 
 #[derive(Parser)]
+#[clap(version = "0.3", author = "Bryce Campbell")]
 pub struct Remove {
     #[clap(default_value = "~/.checkbook/register.db")]
     pub file_path: String,

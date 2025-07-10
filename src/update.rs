@@ -3,6 +3,7 @@ use crate::database::*;
 use clap::Parser;
 
 #[derive(Parser)]
+#[clap(version = "0.3", author = "Bryce Campbell")]
 pub struct Update {
     #[clap(default_value = "~/.checkbook/register.db")]
     pub file_path: String,

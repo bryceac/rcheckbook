@@ -5,6 +5,7 @@ use crate::database::*;
 
 
 #[derive(Parser)]
+#[clap(version = "0.4", author = "Bryce Campbell")]
 pub struct List {
 
     #[clap(default_value = "~/.checkbook/register.db")]
