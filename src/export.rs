@@ -100,16 +100,16 @@ fn create_book(records: Vec<Record>, db: &str) -> Book {
     let mut book = Book::new();
     let mut sheet = Sheet::new("Register");
 
-    sheet.add_cell(Cell::str(""), 0, 0);
-    sheet.add_cell(Cell::str("Date"), 0, 1);
-    sheet.add_cell(Cell::str("Check #"), 0, 2);
-    sheet.add_cell(Cell::str("Reconciled"), 0, 3);
-    sheet.add_cell(Cell::str("Category"), 0, 4);
-    sheet.add_cell(Cell::str("Vendor"), 0, 5);
-    sheet.add_cell(Cell::str("Memo"), 0, 6);
-    sheet.add_cell(Cell::str("Credit"), 0, 7);
-    sheet.add_cell(Cell::str("Withdrawal"), 0, 8);
-    sheet.add_cell(Cell::str("Balance"), 0, 9);
+    sheet.add_cell(Cell::str("", ""), 0, 0);
+    sheet.add_cell(Cell::str("Date", ""), 0, 1);
+    sheet.add_cell(Cell::str("Check #", ""), 0, 2);
+    sheet.add_cell(Cell::str("Reconciled", ""), 0, 3);
+    sheet.add_cell(Cell::str("Category", ""), 0, 4);
+    sheet.add_cell(Cell::str("Vendor", ""), 0, 5);
+    sheet.add_cell(Cell::str("Memo", ""), 0, 6);
+    sheet.add_cell(Cell::str("Credit", ""), 0, 7);
+    sheet.add_cell(Cell::str("Withdrawal", ""), 0, 8);
+    sheet.add_cell(Cell::str("Balance", ""), 0, 9);
 
     for (index, record) in records.iter().enumerate() {
         let row_index = index+1;
@@ -123,59 +123,59 @@ fn create_book(records: Vec<Record>, db: &str) -> Book {
 }
 
 fn add_record_to_sheet(record: &Record, row_index: usize, db: &str, sheet: &mut Sheet) {
-    let id_cell = Cell::str(&record.id);
+    let id_cell = Cell::str(record.id.clone(), "".to_owned());
     sheet.add_cell(id_cell, row_index, 0);
 
     let date = format!("{}", record.transaction.date.format("%Y-%m-%d"));
 
-    let date_cell = Cell::str(date);
+    let date_cell = Cell::str(date, "YYYY/MM/DD".to_owned());
     sheet.add_cell(date_cell, row_index, 1);
 
     let check_number_cell = if let Some(check_number) = record.transaction.check_number {
-        Cell::str(check_number.to_string())
+        Cell::str(check_number.to_string(), "".to_owned())
     } else {
-        Cell::str("")
+        Cell::str("", "")
     };
 
     sheet.add_cell(check_number_cell, row_index, 2);
 
     let reconciled_cell = if record.transaction.is_reconciled {
-        Cell::str("Y")
+        Cell::str("Y", "")
     } else {
-        Cell::str("N")
+        Cell::str("N", "")
     };
 
     sheet.add_cell(reconciled_cell, row_index, 3);
 
-    let category_cell = Cell::str(record.transaction.category.clone().unwrap_or("".to_string()));
+    let category_cell = Cell::str(record.transaction.category.clone().unwrap_or("".to_string()), "".to_owned());
 
     sheet.add_cell(category_cell, row_index, 4);
 
-    let vendor_cell = Cell::str(record.transaction.vendor.clone().replace("&", "&amp;"));
+    let vendor_cell = Cell::str(record.transaction.vendor.clone().replace("&", "&amp;"), "".to_owned());
 
     sheet.add_cell(vendor_cell, row_index, 5);
 
-    let memo_cell = Cell::str(record.transaction.memo.clone().replace("&", "&amp;"));
+    let memo_cell = Cell::str(record.transaction.memo.clone().replace("&", "&amp;"), "".to_owned());
 
     sheet.add_cell(memo_cell, row_index, 6);
 
     let credit_cell = if let TransactionType::Deposit = record.transaction.transaction_type {
-        Cell::float(record.transaction.amount.into_inner())
+        Cell::float(record.transaction.amount.into_inner(), "")
     } else {
-        Cell::str("")
+        Cell::str("", "")
     };
 
     sheet.add_cell(credit_cell, row_index, 7);
 
     let withdrawal_cell = if let TransactionType::Withdrawal = record.transaction.transaction_type {
-        Cell::float(record.transaction.amount.into_inner())
+        Cell::float(record.transaction.amount.into_inner(), "")
     } else {
-        Cell::str("")
+        Cell::str("", "")
     };
 
     sheet.add_cell(withdrawal_cell, row_index, 8);
 
-    let balance_cell = Cell::float(retrieve_balance_for_record(db, record.clone()));
+    let balance_cell = Cell::float(retrieve_balance_for_record(db, record.clone()), "");
 
     sheet.add_cell(balance_cell, row_index, 9)
 }
