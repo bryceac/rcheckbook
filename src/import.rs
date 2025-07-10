@@ -4,7 +4,7 @@ use clap::Parser;
 use crate::{ database::*, shared::* };
 use bcheck::{ Record, Transaction, TransactionType, is_proper_date_format };
 use qif::{ DateFormat, QIF, Transaction as QIFTransaction, TransactionStatus, Type as QIFType };
-use spsheet::{ Value, ods, Sheet };
+use spsheet::{ Value, ods, Sheet, xlsx };
 
 
 #[derive(Parser)]
@@ -47,6 +47,7 @@ impl Import {
                 }
             },
             ref p if p.ends_with(".ods") => records_from_ods(p),
+            ref p if p.ends_with(".xlsx") => records_from_xlsx(p),
             _ => vec![]
         };
 
@@ -270,6 +271,24 @@ fn records_from_ods(p: &str) -> Vec<Record> {
     let mut records: Vec<Record> = vec![];
 
     if let Ok(book) = ods::read(&Path::new(p)) {
+        let sheet = book.get_sheet(0);
+
+        let number_of_rows = sheet.get_rows().len();
+
+        for row_index in 0..number_of_rows {
+            if let Some(record) = record_from_row(row_index, sheet) {
+                records.push(record);
+            }
+        }
+    }
+
+    records
+}
+
+fn records_from_xlsx(p: &str) -> Vec<Record> {
+    let mut records: Vec<Record> = vec![];
+
+    if let Ok(book) = xlsx::read(&Path::new(p)) {
         let sheet = book.get_sheet(0);
 
         let number_of_rows = sheet.get_rows().len();
