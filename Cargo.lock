@@ -871,7 +871,7 @@ checksum = "7fcf8323ef1faaee30a44a340193b1ac6814fd9b7b4e88e9d4519a3e4abe1cfd"
 [[package]]
 name = "spsheet"
 version = "0.1.0"
-source = "git+https://github.com/bryceac/spsheet-rs.git#1006a452fb36f850a2afe2dafe6a29a6fbfca97f"
+source = "git+https://github.com/bryceac/spsheet-rs.git#b66d616f122399424ae17760cc27fb17e4d1267f"
 dependencies = [
  "chrono",
  "era-jp",
