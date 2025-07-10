@@ -9,7 +9,6 @@ use crate::summary::Summary;
 
 #[derive(Parser)]
 pub enum SubCommand {
-    #[clap(version = "0.3", author = "Bryce Campbell")]
     Add(Add),
     #[clap(version = "0.4", author = "Bryce Campbell")]
     Import(Import),
