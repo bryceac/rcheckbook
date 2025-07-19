@@ -9,7 +9,7 @@ use spsheet::{ Value, ods, Sheet };
 
 
 #[derive(Parser)]
-#[clap(version = "0.4", author = "Bryce Campbell")]
+#[clap(version = "0.4.4", author = "Bryce Campbell")]
 pub struct Import {
 
     #[clap(default_value = "~/.checkbook/register.db")]
