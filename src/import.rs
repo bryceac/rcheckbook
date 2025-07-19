@@ -170,10 +170,13 @@ fn record_from_row(row: &[Data]) -> Option<Record> {
     for (column_index, data) in row.iter().enumerate() {
         match column_index {
             0 => if let calamine::Data::String(record_id) = data {
-                id = record_id
+                id = record_id;
             },
             1 => if let calamine::Data::String(record_date) = data {
-                date = record_date
+                date = record_date;
+            },
+            2 => if let calamine::Data::Int(record_check_number) = data {
+                check_number = record_check_number;
             }
             _ => ()
         }
