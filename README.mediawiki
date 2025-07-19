@@ -62,7 +62,8 @@ have update method check if transactions have actually changed.</p>
 </dd>
 <dt style="font-weight:bold">0.4.4</dt>
 <dd>
-<p>add support for importing and exporting XLSX files.</p>
+<p>add support for importing and exporting XLSX files, and 
+give feedback to user on progress on imports from ODS and XLSX.</p>
 <p>Released 7/19/2025
 </dd>
 </dl>
@@ -136,12 +137,15 @@ text output to a file.</p>
 <dl>
 <dt style="font-weight:bold">Can this application export and import Excel files?</dt>
 <dd>
-<p>While the library I utilize does support reading and writing Excel files, 
-to the point where I don't really need to add much code, 
-the Excel stuff currently contains errors that causes compilation to fail.</p>
-<p>as such, I cannot do that at this time, 
-though it might be possible for me to fix that, 
-depending on the work necessary.</p>
+<p>As of version 0.4.4, it does.</p>
+<p>While the library I used claimed to have Excel support, it was a little broken, 
+which meant that support was not possible.</p>
+<p>However, 
+I have recently fixed things in the library so that it 
+can now export Excel files, though it still had troubles parsing it.</p>
+<p>To remedy this I make use of two libraries now. 
+The initial one is used to only create Excel files, 
+and the other is only used to read Excel files.</p>
 </dd>
 </dl>
 </li>
