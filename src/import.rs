@@ -155,17 +155,6 @@ fn record_from_row(row: &[Data]) -> Option<Record> {
     let mut memo = "";
     let mut credit = 0.0;
     let mut withdrawal = 0.0;
-    let transaction_type = if credit > 0.0 {
-        TransactionType::Deposit
-    } else {
-        TransactionType::Withdrawal
-    };
-
-    let amount = if credit > 0.0 {
-        credit
-    } else {
-        withdrawal
-    };
 
     for (column_index, data) in row.iter().enumerate() {
         if let calamine::Data::Empty = data { 
@@ -182,7 +171,7 @@ fn record_from_row(row: &[Data]) -> Option<Record> {
                     check_number = record_check_number.to_owned()
                 },
                 3 => if let calamine::Data::Bool(record_reconciled) = data {
-    
+                    is_reconciled = record_reconciled.to_owned()
                 },
                 4 => if let calamine::Data::String(record_category) = data {
                     category = record_category;
@@ -203,6 +192,18 @@ fn record_from_row(row: &[Data]) -> Option<Record> {
             };
         }
     }
+
+    let transaction_type = if credit > 0.0 {
+        TransactionType::Deposit
+    } else {
+        TransactionType::Withdrawal
+    };
+
+    let amount = if credit > 0.0 {
+        credit
+    } else {
+        withdrawal
+    };
 
     if is_proper_date_format(date) {
         if let Ok(transaction) = Transaction::from(Some(date), 
