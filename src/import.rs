@@ -135,9 +135,14 @@ fn records_from_xlsx(p: &str) -> Vec<Record> {
     let mut workbook: Xlsx<_> = open_workbook(p).expect("Could not read workbook");
     let range = workbook.worksheet_range_at(0).unwrap().expect("Could not read sheet");
 
-    for row in range.rows() {
-        if let Some(record) = record_from_row(row) {
-            records.push(record)
+    let number_of_rows = range.rows().count();
+
+    for (row_index, row) in range.rows().enumerate() {
+        println!("attempting to import transaction {} of {} transactions", row_index+1, number_of_rows);
+
+        match record_from_row(row) {
+            Ok(record) => records.push(record),
+            Err(error) => println!("{}", error)
         }
     }
 
