@@ -3,6 +3,7 @@ mod records;
 mod subcommand;
 mod add;
 mod import;
+mod errors;
 mod export;
 mod list;
 mod remove;
