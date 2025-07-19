@@ -152,8 +152,8 @@ fn record_from_row(row: &[Data]) -> Result<Record, ImportError> {
                 2 => if let calamine::Data::Int(record_check_number) = data {
                     check_number = record_check_number.to_owned()
                 },
-                3 => if let calamine::Data::Bool(record_reconciled) = data {
-                    is_reconciled = record_reconciled.to_owned()
+                3 => if let calamine::Data::String(record_reconciled) = data {
+                    is_reconciled = record_reconciled.to_uppercase() == "Y"
                 },
                 4 => if let calamine::Data::String(record_category) = data {
                     category = record_category;
