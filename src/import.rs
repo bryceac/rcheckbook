@@ -1,7 +1,7 @@
 use std::path::Path;
 
 use clap::Parser;
-use crate::{ database::*, shared::* };
+use crate::{ database::*, shared::*, errors::ImportError };
 use bcheck::{ Record, Transaction, TransactionType, is_proper_date_format };
 use qif::{ DateFormat, QIF, Transaction as QIFTransaction, TransactionStatus, Type as QIFType };
 // use spsheet::{ Value, ods, Sheet, xlsx };
@@ -144,8 +144,7 @@ fn records_from_xlsx(p: &str) -> Vec<Record> {
     records
 }
 
-fn record_from_row(row: &[Data]) -> Option<Record> {
-    let mut record: Option<Record> = None;
+fn record_from_row(row: &[Data]) -> Result<Record, ImportError> {
     let mut id = "";
     let mut date = "";
     let mut check_number = 0;
@@ -205,8 +204,11 @@ fn record_from_row(row: &[Data]) -> Option<Record> {
         withdrawal
     };
 
-    if is_proper_date_format(date) {
-        if let Ok(transaction) = Transaction::from(Some(date), 
+    if credit > 0.0 && withdrawal > 0.0 {
+        return Err(ImportError::TransactionTypeParsingError);
+    }
+
+    if let Ok(transaction) = Transaction::from(Some(date), 
         Some(check_number.try_into().expect("check number must be positive integer.")), 
         Some(category), 
         vendor,
@@ -214,11 +216,10 @@ fn record_from_row(row: &[Data]) -> Option<Record> {
         amount, 
         transaction_type, 
         is_reconciled) {
-            record = Some(Record::from(id, transaction))
+            Ok(Record::from(id, transaction))
+        } else {
+            Err(ImportError::InvalidDateFormat)
         }
-    }
-
-    record
 }
 
 /* fn record_from_row(row_index: usize, sheet: &Sheet) -> Option<Record> {
