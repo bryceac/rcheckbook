@@ -21,6 +21,7 @@ url_path = "0.1.3"
 chrono = "0.4"
 qif = "0.1"
 spsheet = { git = "https://github.com/bryceac/spsheet-rs.git", features = ["ods", "xlsx"] }
+calamine = "0.29.0"
 
 [package.metadata.deb]
 license-file = ["LICENSE", "4"]
