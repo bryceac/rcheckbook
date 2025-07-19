@@ -129,7 +129,7 @@ fn records_from_section(qif: QIF, section: QIFType) -> Vec<Record> {
     }
 }
 
-fn record_from_row(row_index: usize, sheet: &Sheet) -> Option<Record> {
+/* fn record_from_row(row_index: usize, sheet: &Sheet) -> Option<Record> {
     let id = if let Some(cell) = sheet.get_cell(row_index, 0) {
         if let Value::Str(id) = cell.get_value() {
             Some(id.to_owned())
@@ -301,5 +301,5 @@ fn records_from_xlsx(p: &str) -> Vec<Record> {
     }
 
     records
-}
+} */
 
