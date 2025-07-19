@@ -168,35 +168,39 @@ fn record_from_row(row: &[Data]) -> Option<Record> {
     };
 
     for (column_index, data) in row.iter().enumerate() {
-        match column_index {
-            0 => if let calamine::Data::String(record_id) = data {
-                id = record_id;
-            },
-            1 => if let calamine::Data::String(record_date) = data {
-                date = record_date;
-            },
-            2 => if let calamine::Data::Int(record_check_number) = data {
-                check_number = record_check_number;
-            },
-            3 => if let calamine::Data::Bool(record_reconciled) = data {
-
-            },
-            4 => if let calamine::Data::String(record_category) = data {
-                category = record_category;
-            },
-            5 => if let calamine::Data::String(record_vendor) = data {
-                vendor = record_vendor;
-            },
-            6 => if let calamine::Data::String(record_memo) = data {
-                memo = record_memo;
-            },
-            7 => if let calamine::Data::Float(record_deposit) = data {
-                credit = record_deposit
-            },
-            8 => if let calamine::Data::Float(record_withdrawal) = data {
-                withdrawal = record_withdrawal;
-            },
-            _ => ()
+        if let calamine::Data::Empty = data { 
+            continue;
+        } else {
+            match column_index {
+                0 => if let calamine::Data::String(record_id) = data {
+                    id = record_id;
+                },
+                1 => if let calamine::Data::String(record_date) = data {
+                    date = record_date;
+                },
+                2 => if let calamine::Data::Int(record_check_number) = data {
+                    check_number = record_check_number.to_owned()
+                },
+                3 => if let calamine::Data::Bool(record_reconciled) = data {
+    
+                },
+                4 => if let calamine::Data::String(record_category) = data {
+                    category = record_category;
+                },
+                5 => if let calamine::Data::String(record_vendor) = data {
+                    vendor = record_vendor;
+                },
+                6 => if let calamine::Data::String(record_memo) = data {
+                    memo = record_memo;
+                },
+                7 => if let calamine::Data::Float(record_deposit) = data {
+                    credit = record_deposit.to_owned()
+                },
+                8 => if let calamine::Data::Float(record_withdrawal) = data {
+                    withdrawal = record_withdrawal.to_owned()
+                },
+                _ => ()
+            };
         }
     }
 
