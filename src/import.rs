@@ -2,7 +2,7 @@ use std::path::Path;
 
 use clap::Parser;
 use crate::{ database::*, shared::*, errors::ImportError };
-use bcheck::{ Record, Transaction, TransactionType };
+use bcheck::{ Record, Transaction, TransactionType, is_proper_date_format };
 use qif::{ DateFormat, QIF, Transaction as QIFTransaction, TransactionStatus, Type as QIFType };
 use calamine::{ Data, open_workbook, Xlsx, Reader };
 use spsheet::{ Value, ods, Sheet };
@@ -377,6 +377,9 @@ fn records_from_ods(p: &str) -> Vec<Record> {
         let number_of_rows = sheet.get_rows().len();
 
         for row_index in 0..number_of_rows {
+            if row_index > 0 {
+                println!("attempting to import transaction {} of {} transactions", row_index, number_of_rows-1);
+            }
             if let Some(record) = record_from_ods_row(row_index, sheet) {
                 records.push(record);
             }
