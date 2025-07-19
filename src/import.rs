@@ -5,7 +5,7 @@ use crate::{ database::*, shared::* };
 use bcheck::{ Record, Transaction, TransactionType, is_proper_date_format };
 use qif::{ DateFormat, QIF, Transaction as QIFTransaction, TransactionStatus, Type as QIFType };
 // use spsheet::{ Value, ods, Sheet, xlsx };
-use calamine::{ open_workbook, Xlsx, Ods };
+use calamine::{ Data, open_workbook, Xlsx, Ods, Reader };
 
 
 #[derive(Parser)]
@@ -128,6 +128,58 @@ fn records_from_section(qif: QIF, section: QIFType) -> Vec<Record> {
             vec![]
         },
     }
+}
+
+fn records_from_xlsx(p: &str) -> Vec<Record> {
+    let mut records = vec![];
+    let mut workbook: Xlsx<_> = open_workbook(p).expect("Could not read workbook");
+    let range = workbook.worksheet_range_at(0).unwrap().expect("Could not read sheet");
+
+    for row in range.rows() {
+        if let Some(record) = record_from_row(row) {
+            records.push(record)
+        }
+    }
+
+    records
+}
+
+fn record_from_row(row: &[Data]) -> Option<Record> {
+    let mut record: Option<Record> = None;
+    let mut id = "";
+    let mut date = "";
+    let mut check_number = 0;
+    let mut is_reconciled = false;
+    let mut category = "";
+    let mut vendor = "";
+    let mut memo = "";
+    let mut credit = 0.0;
+    let mut withdrawal = 0.0;
+    let transaction_type = if credit > 0.0 {
+        TransactionType::Deposit
+    } else {
+        TransactionType::Withdrawal
+    };
+
+    let amount = if credit > 0.0 {
+        credit
+    } else {
+        withdrawal
+    };
+
+    for (column_index, data) in row.iter().enumerate() {
+        match column_index {
+            0 => if let calamine::Data::String(record_id) = data {
+                id = record_id
+            },
+            1 => if let calamine::Data::String(record_date) = data {
+                date = record_date
+            }
+            _ => ()
+        }
+    }
+
+    record
 }
 
 /* fn record_from_row(row_index: usize, sheet: &Sheet) -> Option<Record> {
