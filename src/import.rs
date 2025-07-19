@@ -204,6 +204,19 @@ fn record_from_row(row: &[Data]) -> Option<Record> {
         }
     }
 
+    if is_proper_date_format(date) {
+        if let Ok(transaction) = Transaction::from(Some(date), 
+        Some(check_number.try_into().expect("check number must be positive integer.")), 
+        Some(category), 
+        vendor,
+        memo, 
+        amount, 
+        transaction_type, 
+        is_reconciled) {
+            record = Some(Record::from(id, transaction))
+        }
+    }
+
     record
 }
 
