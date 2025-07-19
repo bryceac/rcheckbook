@@ -1,8 +1,11 @@
+use std::path::Path;
+
 use clap::Parser;
 use crate::{ database::*, shared::*, errors::ImportError };
 use bcheck::{ Record, Transaction, TransactionType };
 use qif::{ DateFormat, QIF, Transaction as QIFTransaction, TransactionStatus, Type as QIFType };
-use calamine::{ Data, open_workbook, Xlsx, Ods, Reader };
+use calamine::{ Data, open_workbook, Xlsx, Reader };
+use spsheet::{ Value, ods, Sheet };
 
 
 #[derive(Parser)]
@@ -127,7 +130,7 @@ fn records_from_section(qif: QIF, section: QIFType) -> Vec<Record> {
     }
 }
 
-fn record_from_row(row: &[Data]) -> Result<Record, ImportError> {
+fn record_from_xlsx_row(row: &[Data]) -> Result<Record, ImportError> {
     let mut id = "";
     let mut date = "";
     let mut check_number = 0;
@@ -217,7 +220,7 @@ fn records_from_xlsx(p: &str) -> Vec<Record> {
             continue;
         } else {
             println!("attempting to import transaction {} of {} transactions", row_index, number_of_rows);
-            match record_from_row(row) {
+            match record_from_xlsx_row(row) {
                 Ok(record) => records.push(record),
                 Err(error) => println!("{}", error)
             }
@@ -225,29 +228,162 @@ fn records_from_xlsx(p: &str) -> Vec<Record> {
     }
 
     records
+}
+
+fn record_from_ods_row(row_index: usize, sheet: &Sheet) -> Option<Record> {
+    let id = if let Some(cell) = sheet.get_cell(row_index, 0) {
+        if let Value::Str(id) = cell.get_value() {
+            Some(id.to_owned())
+        } else {
+            None
+        }
+    } else {
+        None
+    };
+
+    let date = if let Some(cell) = sheet.get_cell(row_index, 1) {
+        if let Value::Str(date) = cell.get_value() {
+            Some(date.as_str())
+        } else {
+            None
+        }
+    } else {
+        None
+    };
+
+    let check_number = if let Some(cell) = sheet.get_cell(row_index, 2) {
+        if let Value::Str(check_number) = cell.get_value() {
+            if let Ok(number) = check_number.parse::<u32>() {
+                Some(number)
+            } else {
+                None
+            }
+        } else {
+            None
+        }
+    } else {
+        None
+    };
+
+    let is_reconciled = if let Some(cell) = sheet.get_cell(row_index, 3) {
+        if let Value::Str(is_reconciled) = cell.get_value() {
+            is_reconciled.to_uppercase() == "Y"
+        } else {
+            false
+        }
+    } else {
+        false
+    };
+
+    let category = if let Some(cell) = sheet.get_cell(row_index, 4) {
+        if let Value::Str(category) = cell.get_value() {
+            if category.is_empty() {
+                None
+            } else {
+                Some(category.as_str())
+            }
+        } else {
+            None
+        }
+    } else {
+        None
+    };
+
+    let vendor = if let Some(cell) = sheet.get_cell(row_index, 5) {
+        if let Value::Str(vendor) = cell.get_value() {
+            if vendor.is_empty() {
+                None
+            } else {
+                Some(vendor.as_str())
+            }
+        } else {
+            None
+        }
+    } else {
+        None
+    };
+
+    let memo = if let Some(cell) = sheet.get_cell(row_index, 6) {
+        if let Value::Str(memo) = cell.get_value() {
+            Some(memo.as_str())
+        } else {
+            None
+        }
+    } else {
+        None
+    };
+
+    let credit = if let Some(cell) = sheet.get_cell(row_index, 7) {
+        if let Value::Float(amount) = cell.get_value() {
+            Some(amount.to_owned())
+        } else {
+            None
+        }
+    } else {
+        None
+    };
+
+    let withdrawal = if let Some(cell) = sheet.get_cell(row_index, 8) {
+        if let Value::Float(amount) = cell.get_value() {
+            Some(amount.to_owned())
+        } else {
+            None
+        }
+    } else {
+        None
+    };
+
+    let transaction_type: TransactionType = if let Some(_) = credit {
+        TransactionType::Deposit
+    } else {
+        TransactionType::Withdrawal
+    };
+
+    let amount =  if let Some(credit) = credit {
+        credit
+    } else if let Some(withdrawal) = withdrawal {
+        withdrawal
+    } else {
+        0.0
+    };
+
+    if let None = date {
+        None
+    } else if let None = vendor {
+        None
+    } else if !is_proper_date_format(date.unwrap()) {
+        None
+    } else {
+        let transaction = Transaction::from(
+            date, 
+            check_number, 
+            category, 
+            vendor.unwrap(), 
+            memo.unwrap_or(""), 
+            amount, 
+            transaction_type, 
+            is_reconciled);
+
+        Some(Record::from(id.as_deref().unwrap_or(""), transaction.unwrap()))
+    }
 }
 
 fn records_from_ods(p: &str) -> Vec<Record> {
-    let mut records = vec![];
-    let mut workbook: Ods<_> = open_workbook(p).expect("Could not read workbook");
-    let range = workbook.worksheet_range_at(0).unwrap().expect("Could not read sheet");
+    let mut records: Vec<Record> = vec![];
 
-    let number_of_rows = range.rows().count();
+    if let Ok(book) = ods::read(&Path::new(p)) {
+        let sheet = book.get_sheet(0);
 
-    for (row_index, row) in range.rows().enumerate() {
-        
+        let number_of_rows = sheet.get_rows().len();
 
-        if row_index == 0 {
-            continue;
-        } else {
-            println!("attempting to import transaction {} of {} transactions", row_index, number_of_rows);
-            match record_from_row(row) {
-                Ok(record) => records.push(record),
-                Err(error) => println!("{}", error)
+        for row_index in 0..number_of_rows {
+            if let Some(record) = record_from_ods_row(row_index, sheet) {
+                records.push(record);
             }
         }
     }
 
     records
 }
+
 
