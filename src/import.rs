@@ -130,44 +130,6 @@ fn records_from_section(qif: QIF, section: QIFType) -> Vec<Record> {
     }
 }
 
-fn records_from_xlsx(p: &str) -> Vec<Record> {
-    let mut records = vec![];
-    let mut workbook: Xlsx<_> = open_workbook(p).expect("Could not read workbook");
-    let range = workbook.worksheet_range_at(0).unwrap().expect("Could not read sheet");
-
-    let number_of_rows = range.rows().count();
-
-    for (row_index, row) in range.rows().enumerate() {
-        println!("attempting to import transaction {} of {} transactions", row_index+1, number_of_rows);
-
-        match record_from_row(row) {
-            Ok(record) => records.push(record),
-            Err(error) => println!("{}", error)
-        }
-    }
-
-    records
-}
-
-fn records_from_ods(p: &str) -> Vec<Record> {
-    let mut records = vec![];
-    let mut workbook: Ods<_> = open_workbook(p).expect("Could not read workbook");
-    let range = workbook.worksheet_range_at(0).unwrap().expect("Could not read sheet");
-
-    let number_of_rows = range.rows().count();
-
-    for (row_index, row) in range.rows().enumerate() {
-        println!("attempting to import transaction {} of {} transactions", row_index+1, number_of_rows);
-
-        match record_from_row(row) {
-            Ok(record) => records.push(record),
-            Err(error) => println!("{}", error)
-        }
-    }
-
-    records
-}
-
 fn record_from_row(row: &[Data]) -> Result<Record, ImportError> {
     let mut id = "";
     let mut date = "";
@@ -244,6 +206,44 @@ fn record_from_row(row: &[Data]) -> Result<Record, ImportError> {
         } else {
             Err(ImportError::InvalidDateFormat)
         }
+}
+
+fn records_from_xlsx(p: &str) -> Vec<Record> {
+    let mut records = vec![];
+    let mut workbook: Xlsx<_> = open_workbook(p).expect("Could not read workbook");
+    let range = workbook.worksheet_range_at(0).unwrap().expect("Could not read sheet");
+
+    let number_of_rows = range.rows().count();
+
+    for (row_index, row) in range.rows().enumerate() {
+        println!("attempting to import transaction {} of {} transactions", row_index+1, number_of_rows);
+
+        match record_from_row(row) {
+            Ok(record) => records.push(record),
+            Err(error) => println!("{}", error)
+        }
+    }
+
+    records
+}
+
+fn records_from_ods(p: &str) -> Vec<Record> {
+    let mut records = vec![];
+    let mut workbook: Ods<_> = open_workbook(p).expect("Could not read workbook");
+    let range = workbook.worksheet_range_at(0).unwrap().expect("Could not read sheet");
+
+    let number_of_rows = range.rows().count();
+
+    for (row_index, row) in range.rows().enumerate() {
+        println!("attempting to import transaction {} of {} transactions", row_index+1, number_of_rows);
+
+        match record_from_row(row) {
+            Ok(record) => records.push(record),
+            Err(error) => println!("{}", error)
+        }
+    }
+
+    records
 }
 
 /* fn record_from_row(row_index: usize, sheet: &Sheet) -> Option<Record> {
