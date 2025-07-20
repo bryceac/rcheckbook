@@ -41,7 +41,8 @@ impl Export {
                     OdsError::Io(error) => println!("{}", error),
                     OdsError::Utf8(error) => println!("{}", error),
                     OdsError::Xml(error) => println!("{}", error),
-                    OdsError::Zip(error) => println!("{}", error)
+                    OdsError::Zip(error) => println!("{}", error),
+                    _ => ()
                 }
             },
             _ => if let Err(error) = records.save_tsv(&destination_path) {
