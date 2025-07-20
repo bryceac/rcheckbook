@@ -4,7 +4,7 @@ use clap::Parser;
 use crate::{ database::*, shared::* };
 use bcheck::{ Record, Save, TransactionType };
 use qif::{ DateFormat, QIF, Transaction as QIFTransaction, TransactionBuildingError, Section };
-use spsheet::{ Book, Cell, ods, Sheet, xlsx };
+use spsheet::{ Book, Cell, Sheet, xlsx };
 
 
 #[derive(Parser)]
