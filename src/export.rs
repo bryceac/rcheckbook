@@ -182,7 +182,43 @@ fn create_xlsx_book(p: &str, records: Vec<Record>, db: &str) -> Result<Workbook,
     workbook.close()?;
 }
 
-fn 
+fn add_record_to_xlsx_sheet(record: &Record, row_index: u32, db: &str, sheet: &mut Worksheet) -> Result<(), XlsxError> {
+    sheet.write_string(row_index, 0, record.id.clone())?;
+
+    let date_string = format!("{}", record.transaction.date.format("%Y-%m-%d"));
+    sheet.set_value(row_index, 1, date_string);
+
+    sheet.set_value(row_index, 2, if let Some(check_number) = record.transaction.check_number {
+        format!("{}", check_number)
+    } else {
+        String::default()
+    });
+
+    sheet.set_value(row_index, 3, if record.transaction.is_reconciled {
+        "Y"
+    } else {
+        "N"
+    });
+
+    sheet.set_value(row_index, 4, if let Some(category) = &record.transaction.category {
+        category.to_owned()
+    } else {
+        String::default()
+    });
+
+    sheet.set_value(row_index, 5, record.transaction.vendor.clone());
+    sheet.set_value(row_index, 6, record.transaction.memo.clone());
+
+    let amount_string = format!("{:.2}", record.transaction.amount);
+
+    if let TransactionType::Deposit = record.transaction.transaction_type {
+        sheet.set_value(row_index, 7, amount_string)
+    } else {
+        sheet.set_value(row_index, 8, amount_string)
+    };
+
+    sheet.set_value(row_index, 9, retrieve_balance_for_record(db, record.clone()));
+}
 
 /* fn create_book(records: Vec<Record>, db: &str) -> Book {
     let mut book = Book::new();
