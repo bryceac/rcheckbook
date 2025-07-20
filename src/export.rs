@@ -45,14 +45,8 @@ impl Export {
                     _ => ()
                 }
             },
-            ref p if p.ends_with(".ods") => if let Err(error) = create_xlsx_book(&destination_path, records, &self.file_path) {
-                match error {
-                    OdsError::Io(error) => println!("{}", error),
-                    OdsError::Utf8(error) => println!("{}", error),
-                    OdsError::Xml(error) => println!("{}", error),
-                    OdsError::Zip(error) => println!("{}", error),
-                    _ => ()
-                }
+            ref p if p.ends_with(".xlsx") => if let Err(error) = create_xlsx_book(&destination_path, records, &self.file_path) {
+                println!("{}", error)
             },
             _ => if let Err(error) = records.save_tsv(&destination_path) {
                 println!("{}", error);
