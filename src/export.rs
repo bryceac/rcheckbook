@@ -103,7 +103,6 @@ fn create_ods_book(records: Vec<Record>, db: &str) -> WorkBook {
 
     let mut sheet = Sheet::new("Register");
 
-    sheet.set_value(0, 0, "");
     sheet.set_value(0, 1, "Date");
     sheet.set_value(0, 2, "Check #");
     sheet.set_value(0, 3, "Reconciled");
@@ -123,7 +122,7 @@ fn add_record_to_sheet(record: &Record, row_index: usize, db: &str, sheet: &mut 
     sheet.set_value(row_index, 0, record.id);
     
     let date_string = format!("{}", record.transaction.date.format("%Y-%m-%d"));
-    sheet.set_value(row_index, 1);
+    sheet.set_value(row_index, 1, date_string);
 
     sheet.set_value(row_index, 2, if let Some(check_number) = record.transaction.check_number {
         format!("{}", check_number)
@@ -141,7 +140,20 @@ fn add_record_to_sheet(record: &Record, row_index: usize, db: &str, sheet: &mut 
         category
     } else {
         String::default()
-    })
+    });
+
+    sheet.set_value(row_index, 5, record.transaction.vendor);
+    sheet.set_value(row_index, 6, record.transaction.memo);
+
+    let amount_string = format!("{:.2}", record.transaction.amount);
+
+    if let TransactionType::Deposit = record.transaction.transaction_type {
+        sheet.set_value(row_index, 7, amount_string)
+    } else {
+        sheet.set_value(row_index, 8, amount_string)
+    };
+
+    sheet.set_value(row_index, 9, retrieve_balance_for_record(db, record.clone()));
 }
 
 /* fn create_book(records: Vec<Record>, db: &str) -> Book {
