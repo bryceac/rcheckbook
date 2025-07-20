@@ -124,7 +124,7 @@ fn create_ods_book(records: Vec<Record>, db: &str) -> WorkBook {
     workbook
 }
 
-fn add_record_to_sheet(record: &Record, row_index: usize, db: &str, sheet: &mut Sheet) {
+fn add_record_to_sheet(record: &Record, row_index: u32, db: &str, sheet: &mut Sheet) {
     sheet.set_value(row_index, 0, record.id);
     
     let date_string = format!("{}", record.transaction.date.format("%Y-%m-%d"));
