@@ -182,7 +182,7 @@ fn create_xlsx_book(p: &str, records: Vec<Record>, db: &str) -> Result<(), XlsxE
     for (index, record) in records.iter().enumerate() {
         let row_index = index+1;
 
-        add_record_to_xlsx_sheet(record, row_index.try_into().expect("Could not cast number"), db, &mut sheet)
+        add_record_to_xlsx_sheet(record, row_index.try_into().expect("Could not cast number"), db, &mut sheet)?;
     }
 
     workbook.close()?;
