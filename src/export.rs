@@ -163,7 +163,7 @@ fn add_record_to_ods_sheet(record: &Record, row_index: u32, db: &str, sheet: &mu
     sheet.set_value(row_index, 9, retrieve_balance_for_record(db, record.clone()));
 }
 
-fn create_xlsx_book(p: &str, records: Vec<Record>, db: &str) -> Result<Workbook, XlsxError> {
+fn create_xlsx_book(p: &str, records: Vec<Record>, db: &str) -> Result<(), XlsxError> {
     let workbook = Workbook::new(p)?;
 
     let mut sheet = workbook.add_worksheet(None)?;
@@ -180,10 +180,12 @@ fn create_xlsx_book(p: &str, records: Vec<Record>, db: &str) -> Result<Workbook,
     sheet.write_string(0, 9, "Balance", None)?;
 
     workbook.close()?;
+
+    Ok(())
 }
 
 fn add_record_to_xlsx_sheet(record: &Record, row_index: u32, db: &str, sheet: &mut Worksheet) -> Result<(), XlsxError> {
-    sheet.write_string(row_index, 0, record.id.clone(), None)?;
+    sheet.write_string(row_index, 0, &record.id, None)?;
 
     let date_string = format!("{}", record.transaction.date.format("%Y-%m-%d"));
     sheet.write_string(row_index, 1, &date_string, None)?;
@@ -206,8 +208,8 @@ fn add_record_to_xlsx_sheet(record: &Record, row_index: u32, db: &str, sheet: &m
         &String::default()
     }, None)?;
 
-    sheet.write_string(row_index, 5, record.transaction.vendor.clone(), None)?;
-    sheet.write_string(row_index, 6, record.transaction.memo.clone(), None)?;
+    sheet.write_string(row_index, 5, &record.transaction.vendor, None)?;
+    sheet.write_string(row_index, 6, &record.transaction.memo, None)?;
 
     let amount_string = format!("{:.2}", record.transaction.amount);
 
