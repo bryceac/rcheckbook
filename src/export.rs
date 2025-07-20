@@ -119,6 +119,31 @@ fn create_ods_book(records: Vec<Record>, db: &str) -> WorkBook {
     workbook
 }
 
+fn add_record_to_sheet(record: &Record, row_index: usize, db: &str, sheet: &mut Sheet) {
+    sheet.set_value(row_index, 0, record.id);
+    
+    let date_string = format!("{}", record.transaction.date.format("%Y-%m-%d"));
+    sheet.set_value(row_index, 1);
+
+    sheet.set_value(row_index, 2, if let Some(check_number) = record.transaction.check_number {
+        format!("{}", check_number)
+    } else {
+        String::default()
+    });
+
+    sheet.set_value(row_index, 3, if record.transaction.is_reconciled {
+        "Y"
+    } else {
+        "N"
+    });
+
+    sheet.set_value(row_index, 4, if let Some(category) = record.transaction.category {
+        category
+    } else {
+        String::default()
+    })
+}
+
 /* fn create_book(records: Vec<Record>, db: &str) -> Book {
     let mut book = Book::new();
     let mut sheet = Sheet::new("Register");
