@@ -5,7 +5,7 @@ use crate::{ database::*, shared::* };
 use bcheck::{ Record, Save, TransactionType };
 use qif::{ DateFormat, QIF, Transaction as QIFTransaction, TransactionBuildingError, Section };
 // use spsheet::{ Book, Cell, Sheet, xlsx };
-use spreadsheet_ods::{ OdsError, Sheet, Value, WorkBook };
+use spreadsheet_ods::{ ods, OdsError, Sheet, Value, WorkBook };
 use icu_locid::locale;
 
 
@@ -39,7 +39,7 @@ impl Export {
             ref p if p.ends_with(".ods") => if let Err(error) = ods::write(&create_book(records, &self.file_path), Path::new(&destination_path)) {
                 match error {
                     OdsError::Io(error) => println!("{}", error),
-                    OdsError::Uft8(error) => println!("{}", error),
+                    OdsError::Utf8(error) => println!("{}", error),
                     OdsError::Xml(error) => println!("{}", error),
                     OdsError::Zip(error) => println!("{}", error)
                 }
@@ -99,7 +99,7 @@ fn store_to_qif(records: Vec<Record>) -> QIF {
 }
 
 fn create_ods_book(records: Vec<Record>, db: &str) -> WorkBook {
-    WorkBook::new(locale!("en_US"));
+    WorkBook::new(locale!("en_US"))
 }
 
 /* fn create_book(records: Vec<Record>, db: &str) -> Book {
