@@ -5,7 +5,7 @@ use crate::{ database::*, shared::* };
 use bcheck::{ Record, Save, TransactionType };
 use qif::{ DateFormat, QIF, Transaction as QIFTransaction, TransactionBuildingError, Section };
 // use spsheet::{ Book, Cell, Sheet, xlsx };
-use spreadsheet_ods::{ Sheet, Value, WorkBook };
+use spreadsheet_ods::{ OdsError, Sheet, Value, WorkBook };
 
 
 #[derive(Parser)]
