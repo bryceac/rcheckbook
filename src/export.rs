@@ -224,12 +224,10 @@ fn add_record_to_xlsx_sheet(record: &Record, row_index: u32, db: &str, sheet: &m
     sheet.write_string(row_index, 5, &record.transaction.vendor, None)?;
     sheet.write_string(row_index, 6, &record.transaction.memo, None)?;
 
-    let amount_string = format!("{:.2}", record.transaction.amount);
-
     if let TransactionType::Deposit = record.transaction.transaction_type {
-        sheet.write_string(row_index, 7, &amount_string, None)?
+        sheet.write_number(row_index, 7, record.transaction.amount, None)?
     } else {
-        sheet.write_string(row_index, 8, &amount_string, None)?
+        sheet.write_number(row_index, 8, record.transaction.amount, None)?
     };
 
     sheet.write_number(row_index, 9, retrieve_balance_for_record(db, record.clone()), None)?;
