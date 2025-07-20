@@ -240,7 +240,7 @@ fn records_from_xlsx(p: &str) -> Vec<Record> {
     records
 }
 
-fn record_from_ods_row(row_index: usize, sheet: &Sheet) -> Result<Record, ImportError> {
+/* fn record_from_ods_row(row_index: usize, sheet: &Sheet) -> Result<Record, ImportError> {
     let mut id = "";
     let mut date = "";
     let mut check_number = 0;
@@ -368,6 +368,6 @@ fn records_from_ods(p: &str) -> Vec<Record> {
     }
 
     records
-}
+} */
 
 
