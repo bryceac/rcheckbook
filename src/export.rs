@@ -204,11 +204,13 @@ fn add_record_to_xlsx_sheet(record: &Record, row_index: u32, db: &str, sheet: &m
         "N"
     }, None)?;
 
-    sheet.write_string(row_index, 4, if let Some(category) = &record.transaction.category {
-        category
+    let category = if let Some(category) = record.transaction.category {
+        category.to_owned()
     } else {
-        &String::default()
-    }, None)?;
+        String::default()
+    };
+
+    sheet.write_string(row_index, 4, &category, None)?;
 
     sheet.write_string(row_index, 5, &record.transaction.vendor, None)?;
     sheet.write_string(row_index, 6, &record.transaction.memo, None)?;
