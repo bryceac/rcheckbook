@@ -5,6 +5,7 @@ use crate::{ database::*, shared::* };
 use bcheck::{ Record, Save, TransactionType };
 use qif::{ DateFormat, QIF, Transaction as QIFTransaction, TransactionBuildingError, Section };
 use spreadsheet_ods::{ write_ods, OdsError, Sheet, WorkBook };
+use xlsxwriter::prelude::*;
 use icu_locid::locale;
 
 
@@ -160,6 +161,12 @@ fn add_record_to_sheet(record: &Record, row_index: u32, db: &str, sheet: &mut Sh
     };
 
     sheet.set_value(row_index, 9, retrieve_balance_for_record(db, record.clone()));
+}
+
+fn create_xlsx_book(p: &str, records: Vec<Record>, db: &str) -> Result<Workbook, XlsxError> {
+    let workbook = Workbook::new(p)?;
+
+    workbook
 }
 
 /* fn create_book(records: Vec<Record>, db: &str) -> Book {
