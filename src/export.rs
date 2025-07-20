@@ -166,7 +166,9 @@ fn add_record_to_sheet(record: &Record, row_index: u32, db: &str, sheet: &mut Sh
 fn create_xlsx_book(p: &str, records: Vec<Record>, db: &str) -> Result<Workbook, XlsxError> {
     let workbook = Workbook::new(p)?;
 
-    workbook
+    let mut sheet = workbook.add_sheet(None)?;
+
+    workbook.close()?;
 }
 
 /* fn create_book(records: Vec<Record>, db: &str) -> Book {
