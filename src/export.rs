@@ -4,7 +4,7 @@ use clap::Parser;
 use crate::{ database::*, shared::* };
 use bcheck::{ Record, Save, TransactionType };
 use qif::{ DateFormat, QIF, Transaction as QIFTransaction, TransactionBuildingError, Section };
-use spreadsheet_ods::{ write_ods, OdsError, Sheet, Value, WorkBook };
+use spreadsheet_ods::{ write_ods, OdsError, Sheet, WorkBook };
 use icu_locid::locale;
 
 
