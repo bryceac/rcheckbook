@@ -4,8 +4,8 @@ use clap::Parser;
 use crate::{ database::*, shared::* };
 use bcheck::{ Record, Save, TransactionType };
 use qif::{ DateFormat, QIF, Transaction as QIFTransaction, TransactionBuildingError, Section };
-use spsheet::{ Book, Cell, Sheet, xlsx };
-use spreadsheet_ods::{ Sheet, Value, Workbook };
+// use spsheet::{ Book, Cell, Sheet, xlsx };
+use spreadsheet_ods::{ Sheet, Value, WorkBook };
 
 
 #[derive(Parser)]
@@ -43,14 +43,6 @@ impl Export {
                     ods::OdsError::Zip(error) => println!("{}", error)
                 }
             },
-            ref p if p.ends_with(".xlsx") => if let Err(error) = xlsx::write(&create_book(records, &self.file_path), Path::new(&destination_path)) {
-                match error {
-                    xlsx::XlsxError::Io(error) => println!("{}", error),
-                    xlsx::XlsxError::Uft8(error) => println!("{}", error),
-                    xlsx::XlsxError::Xml(error) => println!("{}", error),
-                    xlsx::XlsxError::Zip(error) => println!("{}", error)
-                }
-            }
             _ => if let Err(error) = records.save_tsv(&destination_path) {
                 println!("{}", error);
             }
@@ -103,6 +95,10 @@ fn store_to_qif(records: Vec<Record>) -> QIF {
     }
 
     qif.build()
+}
+
+fn create_ods_book(records: Vec<Record>, db: &str) -> Workbook {
+    Workbook
 }
 
 /* fn create_book(records: Vec<Record>, db: &str) -> Book {
