@@ -64,7 +64,7 @@ have update method check if transactions have actually changed.</p>
 <dd>
 <p>add support for importing and exporting XLSX files, and 
 give feedback to user on progress on imports from ODS and XLSX.</p>
-<p>Released 7/19/2025
+<p>To be Released</p>
 </dd>
 </dl>
 
