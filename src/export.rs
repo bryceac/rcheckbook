@@ -105,7 +105,7 @@ fn store_to_qif(records: Vec<Record>) -> QIF {
     qif.build()
 }
 
-fn create_book(records: Vec<Record>, db: &str) -> Book {
+/* fn create_book(records: Vec<Record>, db: &str) -> Book {
     let mut book = Book::new();
     let mut sheet = Sheet::new("Register");
 
@@ -187,4 +187,4 @@ fn add_record_to_sheet(record: &Record, row_index: usize, db: &str, sheet: &mut 
     let balance_cell = Cell::float(retrieve_balance_for_record(db, record.clone()), "");
 
     sheet.add_cell(balance_cell, row_index, 9)
-}
+} */
