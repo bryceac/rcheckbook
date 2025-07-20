@@ -195,7 +195,11 @@ fn record_from_xlsx_row(row: &[Data]) -> Result<Record, ImportError> {
     }
 
     if let Ok(transaction) = Transaction::from(Some(date), 
-        Some(check_number.try_into().expect("check number must be positive integer.")), 
+        if check_number > 0 {
+            Some(check_number)
+        } else {
+            None
+        }, 
         if category.is_empty() {
             None
         } else {
