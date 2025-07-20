@@ -117,7 +117,7 @@ fn create_ods_book(records: Vec<Record>, db: &str) -> WorkBook {
     for (index, record) in records.iter().enumerate() {
         let row_index = index+1;
 
-        add_record_to_sheet(record, row_index.try_into().expect("Could not cast number"), db, &mut sheet)
+        add_record_toods_sheet(record, row_index.try_into().expect("Could not cast number"), db, &mut sheet)
     }
 
     workbook.push_sheet(sheet);
@@ -125,7 +125,7 @@ fn create_ods_book(records: Vec<Record>, db: &str) -> WorkBook {
     workbook
 }
 
-fn add_record_to_sheet(record: &Record, row_index: u32, db: &str, sheet: &mut Sheet) {
+fn add_record_to_ods_sheet(record: &Record, row_index: u32, db: &str, sheet: &mut Sheet) {
     sheet.set_value(row_index, 0, record.id.clone());
     
     let date_string = format!("{}", record.transaction.date.format("%Y-%m-%d"));
@@ -168,8 +168,21 @@ fn create_xlsx_book(p: &str, records: Vec<Record>, db: &str) -> Result<Workbook,
 
     let mut sheet = workbook.add_sheet(None)?;
 
+    sheet.write_blank(0, 0, None)?;
+    sheet.write_string(0, 1, "Date", None)?;
+    sheet.write_string(0, 2, "Check #", None)?;
+    sheet.write_string(0, 3, "Reconciled", None)?;
+    sheet.write_string(0, 4, "Category", None)?;
+    sheet.write_string(0, 5, "Vendor", None)?;
+    sheet.write_string(0, 6, "Memo", None)?;
+    sheet.write_string(0, 7, "Credit", None)?;
+    sheet.write_string(0, 8, "Withdrawal", None)?;
+    sheet.write_string(0, 9, "Balance", None)?;
+
     workbook.close()?;
 }
+
+fn 
 
 /* fn create_book(records: Vec<Record>, db: &str) -> Book {
     let mut book = Book::new();
