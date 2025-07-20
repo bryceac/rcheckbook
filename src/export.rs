@@ -194,7 +194,7 @@ fn add_record_to_xlsx_sheet(record: &Record, row_index: u32, db: &str, sheet: &m
         format!("{}", check_number)
     } else {
         String::default()
-    }
+    };
 
     sheet.write_string(row_index, 2, &check_number, None)?;
 
@@ -204,7 +204,7 @@ fn add_record_to_xlsx_sheet(record: &Record, row_index: u32, db: &str, sheet: &m
         "N"
     }, None)?;
 
-    let category = if let Some(category) = record.transaction.category {
+    let category = if let Some(category) = &record.transaction.category {
         category.to_owned()
     } else {
         String::default()
