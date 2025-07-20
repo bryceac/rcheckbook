@@ -6,6 +6,7 @@ use bcheck::{ Record, Save, TransactionType };
 use qif::{ DateFormat, QIF, Transaction as QIFTransaction, TransactionBuildingError, Section };
 // use spsheet::{ Book, Cell, Sheet, xlsx };
 use spreadsheet_ods::{ OdsError, Sheet, Value, WorkBook };
+use icu_locid::locale;
 
 
 #[derive(Parser)]
@@ -37,10 +38,10 @@ impl Export {
             },
             ref p if p.ends_with(".ods") => if let Err(error) = ods::write(&create_book(records, &self.file_path), Path::new(&destination_path)) {
                 match error {
-                    ods::OdsError::Io(error) => println!("{}", error),
-                    ods::OdsError::Uft8(error) => println!("{}", error),
-                    ods::OdsError::Xml(error) => println!("{}", error),
-                    ods::OdsError::Zip(error) => println!("{}", error)
+                    OdsError::Io(error) => println!("{}", error),
+                    OdsError::Uft8(error) => println!("{}", error),
+                    OdsError::Xml(error) => println!("{}", error),
+                    OdsError::Zip(error) => println!("{}", error)
                 }
             },
             _ => if let Err(error) = records.save_tsv(&destination_path) {
