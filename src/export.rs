@@ -99,7 +99,9 @@ fn store_to_qif(records: Vec<Record>) -> QIF {
 }
 
 fn create_ods_book(records: Vec<Record>, db: &str) -> WorkBook {
-    WorkBook::new(locale!("en_US"))
+    let mut workbook = WorkBook::new(locale!("en_US"));
+
+    workbook
 }
 
 /* fn create_book(records: Vec<Record>, db: &str) -> Book {
