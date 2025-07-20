@@ -179,6 +179,12 @@ fn create_xlsx_book(p: &str, records: Vec<Record>, db: &str) -> Result<(), XlsxE
     sheet.write_string(0, 8, "Withdrawal", None)?;
     sheet.write_string(0, 9, "Balance", None)?;
 
+    for (index, record) in records.iter().enumerate() {
+        let row_index = index+1;
+
+        add_record_to_xlsx_sheet(record, row_index.try_into().expect("Could not cast number"), db, &mut sheet)
+    }
+
     workbook.close()?;
 
     Ok(())
