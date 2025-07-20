@@ -180,6 +180,10 @@ fn record_from_xlsx_row(row: &[Data]) -> Result<Record, ImportError> {
         }
     }
 
+    if credit > 0.0 && withdrawal > 0.0 {
+        return Err(ImportError::TransactionTypeParsingError);
+    }
+
     let transaction_type = if credit > 0.0 {
         TransactionType::Deposit
     } else {
@@ -191,10 +195,6 @@ fn record_from_xlsx_row(row: &[Data]) -> Result<Record, ImportError> {
     } else {
         withdrawal
     };
-
-    if credit > 0.0 && withdrawal > 0.0 {
-        return Err(ImportError::TransactionTypeParsingError);
-    }
 
     if let Ok(transaction) = Transaction::from(Some(date), 
         if check_number > 0 {
@@ -306,6 +306,10 @@ fn record_from_ods_row(row_index: usize, sheet: &Sheet) -> Result<Record, Import
             withdrawal = amount.to_owned()
         }
     };
+
+    if credit > 0.0 && withdrawal > 0.0 {
+        return Err(ImportError::TransactionTypeParsingError);
+    }
 
     let transaction_type: TransactionType = if credit > 0.0 {
         TransactionType::Deposit
