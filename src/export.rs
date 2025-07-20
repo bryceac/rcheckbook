@@ -116,7 +116,7 @@ fn create_ods_book(records: Vec<Record>, db: &str) -> WorkBook {
     for (index, record) in records.iter().enumerate() {
         let row_index = index+1;
 
-        add_record_to_sheet(record, row_index, db, &mut sheet)
+        add_record_to_sheet(record, row_index.try_into().expect("Could not cast number"), db, &mut sheet)
     }
 
     workbook.push_sheet(sheet);
