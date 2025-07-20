@@ -186,7 +186,7 @@ fn record_from_xlsx_row(row: &[Data]) -> Result<Record, ImportError> {
         TransactionType::Withdrawal
     };
 
-    let amount = if credit > 0.0 {
+    let amount = if let TransactionType::Deposit = transaction_type {
         credit
     } else {
         withdrawal
