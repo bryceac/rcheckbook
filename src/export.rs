@@ -186,12 +186,12 @@ fn add_record_to_xlsx_sheet(record: &Record, row_index: u32, db: &str, sheet: &m
     sheet.write_string(row_index, 0, record.id.clone(), None)?;
 
     let date_string = format!("{}", record.transaction.date.format("%Y-%m-%d"));
-    sheet.write_string(row_index, 1, date_string, None)?;
+    sheet.write_string(row_index, 1, &date_string, None)?;
 
     sheet.write_string(row_index, 2, if let Some(check_number) = record.transaction.check_number {
-        format!("{}", check_number)
+        &format!("{}", check_number)
     } else {
-        String::default()
+        &String::default()
     }, None)?;
 
     sheet.write_string(row_index, 3, if record.transaction.is_reconciled {
@@ -201,9 +201,9 @@ fn add_record_to_xlsx_sheet(record: &Record, row_index: u32, db: &str, sheet: &m
     }, None)?;
 
     sheet.write_string(row_index, 4, if let Some(category) = &record.transaction.category {
-        category.to_owned()
+        category
     } else {
-        String::default()
+        &String::default()
     }, None)?;
 
     sheet.write_string(row_index, 5, record.transaction.vendor.clone(), None)?;
@@ -212,9 +212,9 @@ fn add_record_to_xlsx_sheet(record: &Record, row_index: u32, db: &str, sheet: &m
     let amount_string = format!("{:.2}", record.transaction.amount);
 
     if let TransactionType::Deposit = record.transaction.transaction_type {
-        sheet.write_string(row_index, 7, amount_string, None)?
+        sheet.write_string(row_index, 7, &amount_string, None)?
     } else {
-        sheet.write_string(row_index, 8, amount_string, None)?
+        sheet.write_string(row_index, 8, &amount_string, None)?
     };
 
     sheet.write_number(row_index, 9, retrieve_balance_for_record(db, record.clone()), None)?;
