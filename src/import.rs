@@ -240,6 +240,116 @@ fn records_from_xlsx(p: &str) -> Vec<Record> {
     records
 }
 
+fn record_from_ods_row(row: &[Data]) -> Result<Record, ImportError> {
+    let mut id = "";
+    let mut date = "";
+    let mut check_number = 0;
+    let mut is_reconciled = false;
+    let mut category = "";
+    let mut vendor = "";
+    let mut memo = "";
+    let mut credit = 0.0;
+    let mut withdrawal = 0.0;
+
+    for (column_index, data) in row.iter().enumerate() {
+        if let calamine::Data::Empty = data { 
+            continue;
+        } else {
+            match column_index {
+                0 => if let calamine::Data::String(record_id) = data {
+                    id = record_id;
+                },
+                1 => if let calamine::Data::String(record_date) = data {
+                    date = record_date;
+                },
+                2 => if let calamine::Data::String(record_check_number) = data {
+                    if !record_check_number.is_empty() {
+                        check_number = record_check_number.parse::<u32>().expect("value must be a number 0 or greater")
+                    }
+                },
+                3 => if let calamine::Data::String(record_reconciled) = data {
+                    is_reconciled = record_reconciled.to_uppercase() == "Y"
+                },
+                4 => if let calamine::Data::String(record_category) = data {
+                    category = record_category;
+                },
+                5 => if let calamine::Data::String(record_vendor) = data {
+                    vendor = record_vendor;
+                },
+                6 => if let calamine::Data::String(record_memo) = data {
+                    memo = record_memo;
+                },
+                7 => if let calamine::Data::Float(record_deposit) = data {
+                    credit = record_deposit.to_owned()
+                },
+                8 => if let calamine::Data::Float(record_withdrawal) = data {
+                    withdrawal = record_withdrawal.to_owned()
+                },
+                _ => ()
+            };
+        }
+    }
+
+    if credit > 0.0 && withdrawal > 0.0 {
+        return Err(ImportError::TransactionTypeParsingError);
+    }
+
+    let transaction_type = if credit > 0.0 {
+        TransactionType::Deposit
+    } else {
+        TransactionType::Withdrawal
+    };
+
+    let amount = if let TransactionType::Deposit = transaction_type {
+        credit
+    } else {
+        withdrawal
+    };
+
+    if let Ok(transaction) = Transaction::from(Some(date), 
+        if check_number > 0 {
+            Some(check_number)
+        } else {
+            None
+        }, 
+        if category.is_empty() {
+            None
+        } else {
+            Some(category)
+        }, 
+        vendor,
+        memo, 
+        amount, 
+        transaction_type, 
+        is_reconciled) {
+            Ok(Record::from(id, transaction))
+        } else {
+            Err(ImportError::InvalidDateFormat)
+        }
+}
+
+fn records_from_ods(p: &str) -> Vec<Record> {
+    let mut records = vec![];
+    let mut workbook: Ods<_> = open_workbook(p).expect("Could not read workbook");
+    let range = workbook.worksheet_range_at(0).unwrap().expect("Could not read sheet");
+
+    let number_of_rows = range.rows().count()-1;
+
+    for (row_index, row) in range.rows().enumerate() {
+        if row_index == 0 {
+            continue;
+        } else {
+            println!("attempting to import transaction {} of {} transactions", row_index, number_of_rows);
+            match record_from_ods_row(row) {
+                Ok(record) => records.push(record),
+                Err(error) => println!("{}", error)
+            }
+        }
+    }
+
+    records
+}
+
 /* fn record_from_ods_row(row_index: usize, sheet: &Sheet) -> Result<Record, ImportError> {
     let mut id = "";
     let mut date = "";
