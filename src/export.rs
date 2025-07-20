@@ -125,7 +125,7 @@ fn create_ods_book(records: Vec<Record>, db: &str) -> WorkBook {
 }
 
 fn add_record_to_sheet(record: &Record, row_index: u32, db: &str, sheet: &mut Sheet) {
-    sheet.set_value(row_index, 0, record.id);
+    sheet.set_value(row_index, 0, record.id.clone());
     
     let date_string = format!("{}", record.transaction.date.format("%Y-%m-%d"));
     sheet.set_value(row_index, 1, date_string);
@@ -142,14 +142,14 @@ fn add_record_to_sheet(record: &Record, row_index: u32, db: &str, sheet: &mut Sh
         "N"
     });
 
-    sheet.set_value(row_index, 4, if let Some(category) = record.transaction.category {
+    sheet.set_value(row_index, 4, if let Some(category) = &record.transaction.category {
         category
     } else {
         String::default()
     });
 
-    sheet.set_value(row_index, 5, record.transaction.vendor);
-    sheet.set_value(row_index, 6, record.transaction.memo);
+    sheet.set_value(row_index, 5, record.transaction.vendor.clone());
+    sheet.set_value(row_index, 6, record.transaction.memo.clone());
 
     let amount_string = format!("{:.2}", record.transaction.amount);
 
