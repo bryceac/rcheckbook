@@ -323,25 +323,26 @@ fn record_from_ods_row(row_index: usize, sheet: &Sheet) -> Result<Record, Import
         withdrawal
     };
 
-    if let None = date {
-        None
-    } else if let None = vendor {
-        None
-    } else if !is_proper_date_format(date.unwrap()) {
-        None
-    } else {
-        let transaction = Transaction::from(
-            date, 
-            check_number, 
-            category, 
-            vendor.unwrap(), 
-            memo.unwrap_or(""), 
-            amount, 
-            transaction_type, 
-            is_reconciled);
-
-        Some(Record::from(id.as_deref().unwrap_or(""), transaction.unwrap()))
-    }
+    if let Ok(transaction) = Transaction::from(Some(date), 
+        if check_number > 0 {
+            Some(check_number)
+        } else {
+            None
+        }, 
+        if category.is_empty() {
+            None
+        } else {
+            Some(category)
+        }, 
+        vendor,
+        memo, 
+        amount, 
+        transaction_type, 
+        is_reconciled) {
+            Ok(Record::from(id, transaction))
+        } else {
+            Err(ImportError::InvalidDateFormat)
+        }
 }
 
 fn records_from_ods(p: &str) -> Vec<Record> {
