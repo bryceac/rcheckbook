@@ -103,6 +103,17 @@ fn create_ods_book(records: Vec<Record>, db: &str) -> WorkBook {
 
     let mut sheet = Sheet::new("Register");
 
+    sheet.set_value(0, 0, "");
+    sheet.set_value(0, 1, "Date");
+    sheet.set_value(0, 2, "Check #");
+    sheet.set_value(0, 3, "Reconciled");
+    sheet.set_value(0, 4, "Category");
+    sheet.set_value(0, 5, "Vendor");
+    sheet.set_value(0, 6, "Memo");
+    sheet.set_value(0, 7, "Credit");
+    sheet.set_value(0, 8, "Withdrawal");
+    sheet.set_value(0, 9, "Balance");
+
     workbook.push_sheet(sheet);
 
     workbook
