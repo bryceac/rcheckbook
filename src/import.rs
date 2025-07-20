@@ -241,14 +241,20 @@ fn records_from_xlsx(p: &str) -> Vec<Record> {
 }
 
 fn record_from_ods_row(row_index: usize, sheet: &Sheet) -> Option<Record> {
-    let id = if let Some(cell) = sheet.get_cell(row_index, 0) {
-        if let Value::Str(id) = cell.get_value() {
-            Some(id.to_owned())
-        } else {
-            None
+    let mut id = "";
+    let mut date = "";
+    let mut check_number = 0;
+    let mut is_reconciled = false;
+    let mut category = "";
+    let mut vendor = "";
+    let mut memo = "";
+    let mut credit = 0.0;
+    let mut withdrawal = 0.0;
+
+    if let Some(cell) = sheet.get_cell(row_index, 0) {
+        if let Value::Str(record_id) = cell.get_value() {
+            id = record_id
         }
-    } else {
-        None
     };
 
     let date = if let Some(cell) = sheet.get_cell(row_index, 1) {
