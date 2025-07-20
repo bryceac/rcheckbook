@@ -5,7 +5,7 @@ use crate::{ database::*, shared::* };
 use bcheck::{ Record, Save, TransactionType };
 use qif::{ DateFormat, QIF, Transaction as QIFTransaction, TransactionBuildingError, Section };
 // use spsheet::{ Book, Cell, Sheet, xlsx };
-use spreadsheet_ods::{ ods, OdsError, Sheet, Value, WorkBook };
+use spreadsheet_ods::{ write_ods, OdsError, Sheet, Value, WorkBook };
 use icu_locid::locale;
 
 
@@ -36,7 +36,7 @@ impl Export {
             p if p.ends_with(".qif") => if let Err(error) = store_to_qif(records).save(&p, &DateFormat::MonthDayFullYear) {
                 println!("{}", error);
             },
-            ref p if p.ends_with(".ods") => if let Err(error) = ods::write(&create_book(records, &self.file_path), Path::new(&destination_path)) {
+            ref p if p.ends_with(".ods") => if let Err(error) = write_ods(&create_ods_book(records, &self.file_path), Path::new(&destination_path)) {
                 match error {
                     OdsError::Io(error) => println!("{}", error),
                     OdsError::Utf8(error) => println!("{}", error),
