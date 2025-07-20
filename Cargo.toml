@@ -24,6 +24,7 @@ spsheet = { git = "https://github.com/bryceac/spsheet-rs.git", features = ["ods"
 calamine = "0.29.0"
 spreadsheet-ods = "0.25.0"
 icu_locid = "1.5.0"
+xlsxwriter = "0.6.1"
 
 [package.metadata.deb]
 license-file = ["LICENSE", "4"]
