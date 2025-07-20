@@ -354,12 +354,16 @@ fn records_from_ods(p: &str) -> Vec<Record> {
         let number_of_rows = sheet.get_rows().len();
 
         for row_index in 0..number_of_rows {
-            if row_index > 0 {
+            if row_index == 0 {
+                continue;
+            } else {
                 println!("attempting to import transaction {} of {} transactions", row_index, number_of_rows-1);
+                match record_from_ods_row(row_index, sheet) {
+                    Ok(record) => records.push(record),
+                    Err(error) => println!("{}", error)
+                }
             }
-            if let Some(record) = record_from_ods_row(row_index, sheet) {
-                records.push(record);
-            }
+            
         }
     }
 
