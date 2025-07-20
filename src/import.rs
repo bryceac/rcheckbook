@@ -253,114 +253,70 @@ fn record_from_ods_row(row_index: usize, sheet: &Sheet) -> Option<Record> {
 
     if let Some(cell) = sheet.get_cell(row_index, 0) {
         if let Value::Str(record_id) = cell.get_value() {
-            id = record_id
+            id = record_id.as_str()
         }
     };
 
-    let date = if let Some(cell) = sheet.get_cell(row_index, 1) {
-        if let Value::Str(date) = cell.get_value() {
-            Some(date.as_str())
-        } else {
-            None
+    if let Some(cell) = sheet.get_cell(row_index, 1) {
+        if let Value::Str(record_date) = cell.get_value() {
+            date = record_date.as_str()
         }
-    } else {
-        None
     };
 
-    let check_number = if let Some(cell) = sheet.get_cell(row_index, 2) {
-        if let Value::Str(check_number) = cell.get_value() {
-            if let Ok(number) = check_number.parse::<u32>() {
-                Some(number)
-            } else {
-                None
+    if let Some(cell) = sheet.get_cell(row_index, 2) {
+        if let Value::Str(record_check_number) = cell.get_value() {
+            if let Ok(number) = record_check_number.parse::<u32>() {
+                check_number = number
             }
-        } else {
-            None
         }
-    } else {
-        None
     };
 
-    let is_reconciled = if let Some(cell) = sheet.get_cell(row_index, 3) {
-        if let Value::Str(is_reconciled) = cell.get_value() {
-            is_reconciled.to_uppercase() == "Y"
-        } else {
-            false
+    if let Some(cell) = sheet.get_cell(row_index, 3) {
+        if let Value::Str(record_reconciled) = cell.get_value() {
+            is_reconciled = record_reconciled.to_uppercase() == "Y"
         }
-    } else {
-        false
     };
 
-    let category = if let Some(cell) = sheet.get_cell(row_index, 4) {
-        if let Value::Str(category) = cell.get_value() {
-            if category.is_empty() {
-                None
-            } else {
-                Some(category.as_str())
-            }
-        } else {
-            None
+    if let Some(cell) = sheet.get_cell(row_index, 4) {
+        if let Value::Str(record_category) = cell.get_value() {
+            category = record_category.as_str()
         }
-    } else {
-        None
     };
 
-    let vendor = if let Some(cell) = sheet.get_cell(row_index, 5) {
-        if let Value::Str(vendor) = cell.get_value() {
-            if vendor.is_empty() {
-                None
-            } else {
-                Some(vendor.as_str())
-            }
-        } else {
-            None
+    if let Some(cell) = sheet.get_cell(row_index, 5) {
+        if let Value::Str(record_vendor) = cell.get_value() {
+            vendor = record_vendor.as_str()
         }
-    } else {
-        None
     };
 
-    let memo = if let Some(cell) = sheet.get_cell(row_index, 6) {
-        if let Value::Str(memo) = cell.get_value() {
-            Some(memo.as_str())
-        } else {
-            None
+    if let Some(cell) = sheet.get_cell(row_index, 6) {
+        if let Value::Str(record_memo) = cell.get_value() {
+            memo = record_memo.as_str()
         }
-    } else {
-        None
     };
 
-    let credit = if let Some(cell) = sheet.get_cell(row_index, 7) {
+    if let Some(cell) = sheet.get_cell(row_index, 7) {
         if let Value::Float(amount) = cell.get_value() {
-            Some(amount.to_owned())
-        } else {
-            None
+            credit = amount.to_owned()
         }
-    } else {
-        None
     };
 
-    let withdrawal = if let Some(cell) = sheet.get_cell(row_index, 8) {
+    if let Some(cell) = sheet.get_cell(row_index, 8) {
         if let Value::Float(amount) = cell.get_value() {
-            Some(amount.to_owned())
-        } else {
-            None
+            withdrawal = amount.to_owned()
         }
-    } else {
-        None
     };
 
-    let transaction_type: TransactionType = if let Some(_) = credit {
+    let transaction_type: TransactionType = if credit > 0.0 {
         TransactionType::Deposit
     } else {
         TransactionType::Withdrawal
     };
 
-    let amount =  if let Some(credit) = credit {
+    let amount =  if let TransactionType::Deposit = transaction_type {
         credit
-    } else if let Some(withdrawal) = withdrawal {
+    }  else {
         withdrawal
-    } else {
-        0.0
     };
 
     if let None = date {
