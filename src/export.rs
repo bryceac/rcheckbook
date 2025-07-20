@@ -190,11 +190,13 @@ fn add_record_to_xlsx_sheet(record: &Record, row_index: u32, db: &str, sheet: &m
     let date_string = format!("{}", record.transaction.date.format("%Y-%m-%d"));
     sheet.write_string(row_index, 1, &date_string, None)?;
 
-    sheet.write_string(row_index, 2, if let Some(check_number) = record.transaction.check_number {
-        &format!("{}", check_number)
+    let check_number = if let Some(check_number) = record.transaction.check_number {
+        format!("{}", check_number)
     } else {
-        &String::default()
-    }, None)?;
+        String::default()
+    }
+
+    sheet.write_string(row_index, 2, &check_number, None)?;
 
     sheet.write_string(row_index, 3, if record.transaction.is_reconciled {
         "Y"
