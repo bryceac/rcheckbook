@@ -113,7 +113,7 @@ fn create_ods_book(records: Vec<Record>, db: &str) -> WorkBook {
     sheet.set_value(0, 8, "Withdrawal");
     sheet.set_value(0, 9, "Balance");
 
-    for (index, record) in records.iter().enumerate {
+    for (index, record) in records.iter().enumerate() {
         let row_index = index+1;
 
         add_record_to_sheet(record, row_index, db, &mut sheet)
