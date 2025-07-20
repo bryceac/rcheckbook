@@ -166,7 +166,7 @@ fn add_record_to_ods_sheet(record: &Record, row_index: u32, db: &str, sheet: &mu
 fn create_xlsx_book(p: &str, records: Vec<Record>, db: &str) -> Result<Workbook, XlsxError> {
     let workbook = Workbook::new(p)?;
 
-    let mut sheet = workbook.add_sheet(None)?;
+    let mut sheet = workbook.add_worksheet(None)?;
 
     sheet.write_blank(0, 0, None)?;
     sheet.write_string(0, 1, "Date", None)?;
