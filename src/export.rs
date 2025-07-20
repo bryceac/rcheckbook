@@ -143,7 +143,7 @@ fn add_record_to_sheet(record: &Record, row_index: u32, db: &str, sheet: &mut Sh
     });
 
     sheet.set_value(row_index, 4, if let Some(category) = &record.transaction.category {
-        category
+        category.to_owned()
     } else {
         String::default()
     });
