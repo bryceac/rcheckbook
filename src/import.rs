@@ -152,8 +152,8 @@ fn record_from_xlsx_row(row: &[Data]) -> Result<Record, ImportError> {
                 1 => if let calamine::Data::String(record_date) = data {
                     date = record_date;
                 },
-                2 => if let calamine::Data::Int(record_check_number) = data {
-                    check_number = record_check_number.to_owned() as u32
+                2 => if let calamine::Data::String(record_check_number) = data {
+                    check_number = record_check_number.parse::<u32>().expect("value must be a number 0 or greater")
                 },
                 3 => if let calamine::Data::String(record_reconciled) = data {
                     is_reconciled = record_reconciled.to_uppercase() == "Y"
