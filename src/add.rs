@@ -3,7 +3,7 @@ use clap::Parser;
 use crate::database::*;
 
 #[derive(Parser)]
-#[clap(version = "0.3", author = "Bryce Campbell")]
+#[clap(version = "0.3", author = "Bryce Campbell", long_about = "add entry to ledger. Adding a new entry can be done like this rcheckbook add --check-number 1260 --vendor \"Sam Hill Credit Union\" -m \"Open Account\" -a 500.0 -t deposit. If you want to include a date, you can do so with --date, which expects the date to be in YYYY-MM-DD format.")]
 pub struct Add {
 
     #[clap(default_value = "~/.checkbook/register.db")]
