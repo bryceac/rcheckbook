@@ -277,7 +277,7 @@ fn record_from_ods_row(row: &[Data]) -> Result<Record, ImportError> {
                     memo = record_memo;
                 },
                 7 => if let calamine::Data::String(record_deposit) = data {
-                    if let Ok(credit_amount) = record_withdrawal.parse::<f64>() {
+                    if let Ok(credit_amount) = record_deposit.parse::<f64>() {
                         credit = credit_amount
                     }
                 },
