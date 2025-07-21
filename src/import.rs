@@ -276,11 +276,15 @@ fn record_from_ods_row(row: &[Data]) -> Result<Record, ImportError> {
                 6 => if let calamine::Data::String(record_memo) = data {
                     memo = record_memo;
                 },
-                7 => if let calamine::Data::Float(record_deposit) = data {
-                    credit = record_deposit.to_owned()
+                7 => if let calamine::Data::String(record_deposit) = data {
+                    if let Some(credit_amount) = record_withdrawal.parse::<f64>() {
+                        credit = credit_amount
+                    }
                 },
-                8 => if let calamine::Data::Float(record_withdrawal) = data {
-                    withdrawal = record_withdrawal.to_owned()
+                8 => if let calamine::Data::String(record_withdrawal) = data {
+                    if let Some(withdrawal_amount) = record_withdrawal.parse::<f64>() {
+                        withdrawal = withdrawal_amount
+                    }
                 },
                 _ => ()
             };
