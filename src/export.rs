@@ -10,7 +10,7 @@ use icu_locid::locale;
 
 
 #[derive(Parser)]
-#[clap(version = "0.4.4", author = "Bryce Campbell")]
+#[clap(version = "0.4.5", author = "Bryce Campbell", long_about = "Export ledger to file. Exports are done based upon given file extension, with support for JSON (bcheck), QIF, Excel (xlsx), ODS, and TSV. Default output is TSV. Excel and ODS output will include headers and a column for balances, unlike TSV. However, TSV files can only be imported when they have the TSV extension.")]
 pub struct Export {
 
     #[clap(default_value = "~/.checkbook/register.db")]
