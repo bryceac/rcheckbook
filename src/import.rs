@@ -6,7 +6,7 @@ use calamine::{ Data, open_workbook, Ods, Xlsx, Reader };
 
 
 #[derive(Parser)]
-#[clap(version = "0.4.4", author = "Bryce Campbell")]
+#[clap(version = "0.4.5", author = "Bryce Campbell", long_about = "import data from file. Import is run based on file extension. Supported formats are JSON (bcheck), TSV, QIF, Excel (xlsx), and ODS.")]
 pub struct Import {
 
     #[clap(default_value = "~/.checkbook/register.db")]
