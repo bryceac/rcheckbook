@@ -8,7 +8,7 @@ use crate::database::*;
 #[clap(version = "0.4", author = "Bryce Campbell")]
 pub struct List {
 
-    #[clap(default_value = "~/.checkbook/register.db")]
+    #[clap(default_value = "~/.checkbook/register.db", long_about = "Display the ledger. To display the ledger, you can do something as simple as this rcheckbook list. With the exception of a balance column, it will display the same data as if you did a TSV export and display everything. You can also get filtered results with the c flag like this rcheckbook list -c Utilities. This will list everything in the Utilities category. You can filter by vendor and memo in the same capacity by using the -v and -m flags instead of or in addition to -c. and finally -r and --unreconciled will filter out reconciled or unreconciled transaction, to see what you have reconciled or left to be accounted for.")]
     pub file_path: String,
 
     #[clap(long, short)]
