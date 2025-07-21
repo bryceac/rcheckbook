@@ -3,7 +3,7 @@ use crate::database::*;
 use clap::Parser;
 
 #[derive(Parser)]
-#[clap(version = "0.3", author = "Bryce Campbell")]
+#[clap(version = "0.3", author = "Bryce Campbell", long_about = "Update an existing entry. Updating entries in the checkbook can be done like this rcheckbook update -i FF04C3DC-F0FE-472E-8737-0F4034C049F0 -r. This will mark the transaction with the given identifier as reconciled. Nearly anything can be updated, including whether the transaction is a deposit or not with the -t flag. If you want to correct a date, that is done with the --date flag and expects the date to be in YYYY-MM-DD format.")]
 pub struct Update {
     #[clap(default_value = "~/.checkbook/register.db")]
     pub file_path: String,
