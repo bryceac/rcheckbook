@@ -7,7 +7,7 @@
 '''Description:''' A Rust-based CLI ledger that can help you keep track 
 of finances.
 
-'''Version:''' 0.4.4
+'''Version:''' 0.4.5
 
 ==Notes==
 
@@ -64,7 +64,13 @@ have update method check if transactions have actually changed.</p>
 <dd>
 <p>add support for importing and exporting XLSX files, and 
 give feedback to user on progress on imports from ODS and XLSX.</p>
-<p>Released 7/19/2025
+<p>Released 7/19/2025</p>
+</dd>
+<dt style="font-weight:bold">0.4.5</dt>
+<dd>
+<p>Fix issues with importing data from ODS and Excel files, 
+where values do not import properly.</p>
+<p>Released 7/21/2025</p>
 </dd>
 </dl>
 
