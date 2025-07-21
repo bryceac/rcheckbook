@@ -8,7 +8,7 @@ use crate::database::*;
 use crate::period::*;
 
 #[derive(Parser)]
-#[clap(version = "0.1", author = "Bryce Campbell")]
+#[clap(version = "0.1", author = "Bryce Campbell", long_about = "Get a summary of the ledger. To get a summary of the ledger, you can do something like this rcheckbook summary half-year. This will give you a summary of everything all the way back to 6 months ago. If you leave it off, it will give you everything. Other options include week, month, year, quarter (3 months), and all, which is the default.")]
 pub struct Summary {
     #[clap(default_value = "~/.checkbook/register.db")]
     pub file_path: String,
