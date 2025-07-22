@@ -34,11 +34,11 @@ section = "unknown"
 priority = "optional"
 assets = [
     ["target/release/rcheckbook", "usr/local/bin/", "755"],
-    ["register.db", "opt/rcheckbook/", "644"],
+    ["register.db", "var/db/rcheckbook/", "644"],
 ]
 
 [package.metadata.generate-rpm]
 assets = [
     { source = "target/release/rcheckbook", dest = "/usr/local/bin/", mode = "755" },
-    { source = "register.db", dest = "/opt/rcheckbook/", mode = "644" }
+    { source = "register.db", dest = "/var/db/rcheckbook/", mode = "644" }
 ]
