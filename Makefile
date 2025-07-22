@@ -1,6 +1,6 @@
 prefix ?= /usr/local
 bindir = $(prefix)/bin
-resourcedir = /opt/rcheckbook
+resourcedir = /var/db/rcheckbook
 SYS := $(shell $(CC) -dumpmachine)
 
 build:
