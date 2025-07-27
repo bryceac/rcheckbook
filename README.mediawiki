@@ -72,6 +72,12 @@ give feedback to user on progress on imports from ODS and XLSX.</p>
 where values do not import properly.</p>
 <p>Released 7/21/2025</p>
 </dd>
+</dd>
+<dt style="font-weight:bold">0.5.0</dt>
+<dd>
+<p>Add ability to filter transactions based on if they are an expense or incoe when listing.</p>
+<p>Released 7/27/2025</p>
+</dd>
 </dl>
 
 ===Questions===

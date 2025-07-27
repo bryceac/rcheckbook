@@ -5,7 +5,7 @@ use crate::database::*;
 
 
 #[derive(Parser)]
-#[clap(version = "0.4", author = "Bryce Campbell", long_about = "Display the ledger. \r\n\r\nTo display the ledger, you can do something as simple as this: \r\n\r\nrcheckbook list \r\n\r\nWith the exception of a balance column, this will display the same data as if you did a TSV export and display everything. \r\n\r\nYou can also get filtered results with the c flag like this: \r\n\r\nrcheckbook list -c Utilities \r\n\r\nThis will list everything in the Utilities category. \r\n\r\nYou can filter by vendor and memo in the same capacity by using the -v and -m flags instead of or in addition to -c. \r\n\r\nFinally, -r and --unreconciled will filter out reconciled or unreconciled transaction, to see what you have reconciled or left to be accounted for.")]
+#[clap(version = "0.5", author = "Bryce Campbell", long_about = "Display the ledger. \r\n\r\nTo display the ledger, you can do something as simple as this: \r\n\r\nrcheckbook list \r\n\r\nWith the exception of a balance column, this will display the same data as if you did a TSV export and display everything. \r\n\r\nYou can also get filtered results with the c flag like this: \r\n\r\nrcheckbook list -c Utilities \r\n\r\nThis will list everything in the Utilities category. \r\n\r\nYou can filter by vendor and memo in the same capacity by using the -v and -m flags instead of or in addition to -c. \r\n\r\nFinally, -r and --unreconciled will filter out reconciled or unreconciled transaction, to see what you have reconciled or left to be accounted for.")]
 pub struct List {
 
     #[clap(default_value = "~/.checkbook/register.db")]
