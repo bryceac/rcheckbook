@@ -64,7 +64,7 @@ fn retrieve_records(r: &Vec<Record>, category: &Option<String>, vendor: &Option<
     }
 
     if let Some(record_type) = transaction_type {
-        filtered_records = filtered_records.into_iter().filter(|record| record.transaction.transaction_type == record_type).collect();
+        filtered_records = filtered_records.into_iter().filter(|record| record.transaction.transaction_type == record_type.to_owned()).collect();
     }
 
     return filtered_records;
