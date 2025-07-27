@@ -1,5 +1,5 @@
 use clap::Parser;
-use bcheck::Record;
+use bcheck::{Record, TransactionType};
 use crate::records::Records;
 use crate::database::*;
 
@@ -24,7 +24,10 @@ pub struct List {
     pub reconciled: bool,
 
     #[clap(long)]
-    pub not_reconciled: bool
+    pub not_reconciled: bool,
+
+    #[clap(long, short)]
+    pub transaction_type: Option<TransactionType>
 }
 
 impl List {
