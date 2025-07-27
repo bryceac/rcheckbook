@@ -38,7 +38,7 @@ impl List {
         if self.reconciled && self.not_reconciled {
             print!("Please use only one flag!\r\nNo transactions can be both reconciled and unreconciled.\r\n")
         } else {
-            display(&record_store, &self.category, &self.vendor, &self.memo, &self.reconciled, &self.not_reconciled, &self.file_path)
+            display(&record_store, &self.category, &self.vendor, &self.memo, &self.reconciled, &self.not_reconciled, self.transaction_type, &self.file_path)
         }  
     }
 }
