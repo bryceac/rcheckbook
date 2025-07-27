@@ -210,6 +210,15 @@ rcheckbook list -c Utilities
 
 You can filter stuff down by category.
 
+If you want to see expenses only, you can do something like this:
+
+<pre>rcheckbook list -t withdrawal</pre>
+
+The <strong>-t<strong> option works like updating or adding entries, 
+so replacing <strong>withdrawal</strong> with <strong>deposit</strong> will do the opposite.
+
+Also like the update command, <strong>-t</strong> is optional and everything will be listed if left off.
+
 ====Adding new Entries====
 
 Transactions can be added like this:
