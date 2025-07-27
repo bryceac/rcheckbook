@@ -43,7 +43,7 @@ impl List {
     }
 }
 
-fn retrieve_records(r: &Vec<Record>, category: &Option<String>, vendor: &Option<String>, memo: &Option<String>, reconciled: &bool, unreconciled: &bool) -> Vec<Record> {
+fn retrieve_records(r: &Vec<Record>, category: &Option<String>, vendor: &Option<String>, memo: &Option<String>, reconciled: &bool, unreconciled: &bool, transaction_type: Option<TransactionType>) -> Vec<Record> {
     let mut filtered_records: Vec<Record> = r.clone();
     if let Some(category) = category {
         filtered_records = filtered_records.into_iter().filter(|record| record.transaction.category.clone().unwrap_or("Uncategorized".to_string()).to_lowercase() == category.to_string().to_lowercase()).collect();
@@ -66,8 +66,8 @@ fn retrieve_records(r: &Vec<Record>, category: &Option<String>, vendor: &Option<
     return filtered_records;
 }
 
-fn display(store: &Records, category: &Option<String>, vendor: &Option<String>, memo: &Option<String>, reconciled: &bool, unreconciled: &bool, db: &str) {
-    for record in retrieve_records(&store.sorted_records(), category, vendor, memo, reconciled, unreconciled) {
+fn display(store: &Records, category: &Option<String>, vendor: &Option<String>, memo: &Option<String>, reconciled: &bool, unreconciled: &bool, transaction_type: Option<TransactionType>, db: &str) {
+    for record in retrieve_records(&store.sorted_records(), category, vendor, memo, reconciled, unreconciled, transaction_type) {
         let balance = store.balance_for_record(db, &record);
         println!("{}\t{:.2}", record, balance);
     }
