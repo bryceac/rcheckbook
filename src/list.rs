@@ -63,6 +63,12 @@ fn retrieve_records(r: &Vec<Record>, category: &Option<String>, vendor: &Option<
         filtered_records = filtered_records.into_iter().filter(|record| !record.transaction.is_reconciled).collect();
     }
 
+    match transaction_type {
+        TransactionType::Deposit => filtered_records = filtered_records,into_iter().filter(|record| record.transaction.transaction_type == TransactionType::Deposit),
+        TransactionType::Withdrawal => filtered_records = filtered_records,into_iter().filter(|record| record.transaction.transaction_type == TransactionType::Withdrawal),
+        _ => ()
+    }
+
     return filtered_records;
 }
 
