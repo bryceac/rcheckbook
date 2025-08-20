@@ -57,7 +57,7 @@ fn qif_transaction_to_transaction(transaction: &QIFTransaction) -> Result<Transa
     Transaction::from(
         Some(&transaction.date.format(&DateFormat::FullYearMonthDay.chrono_str()).to_string()), 
         transaction.check_number, 
-        if let Some(ref category) = transaction.category.clone() {
+        if let Some(ref category) = transaction.category {
             Some(category.as_str())
         } else {
             None
