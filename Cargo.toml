@@ -2,7 +2,7 @@
 name = "rcheckbook"
 authors = ["Bryce Campbell <tonyhawk2100@gmail.com>"]
 version = "0.5.0"
-edition = "2021"
+edition = "2024"
 license = "MIT"
 description = "CLI checkbook ledger that can help keep track of finances."
 homepage = "https://github.com/bryceac/rcheckbook"
