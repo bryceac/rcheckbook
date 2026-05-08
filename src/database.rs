@@ -1,4 +1,4 @@
-use std::{ fs, path::{ Path, PathBuf } };
+use std::{ fs::{ self, File }, path::{ Path, PathBuf }, io::{ self, Read } };
 
 #[cfg(windows)]
 use std::env;
@@ -270,4 +270,12 @@ pub fn add_records_to_db(p: &str, r: &Vec<Record>) {
     for record in r {
         update_or_add_record(p, record);
     }
+}
+
+fn file_content(p: &str) -> Result<String, io::Error> {
+    let mut file_content = String::new();
+
+    File::open(p)?.read_to_string(&mut file_content)?;
+
+    Ok(file_content)
 }
