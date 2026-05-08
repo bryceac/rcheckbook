@@ -7,7 +7,7 @@
 '''Description:''' A Rust-based CLI ledger that can help you keep track 
 of finances.
 
-'''Version:''' 0.5.0
+'''Version:''' 0.5.1
 
 ==Notes==
 
@@ -77,6 +77,13 @@ where values do not import properly.</p>
 <dd>
 <p>Add ability to filter transactions based on if they are an expense or incoe when listing.</p>
 <p>Released 7/27/2025</p>
+</dd>
+<dt style="font-weight:bold">0.5.1</dt>
+<dd>
+<p>Switch from precreated Database to using an SQL dump to generate Database.</p>
+<p>Please be aware that this change <strong>should not</strong> 
+drastically affect the usage of the program, 
+but will help make it easier to modify the database later on.</p>
 </dd>
 </dl>
 

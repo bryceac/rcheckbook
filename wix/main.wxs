@@ -98,10 +98,10 @@
 
                         <Component Id='database' Guid='*' Win64='$(var.Win64)'>
                             <File
-                                Id='register.db'
-                                Name='register.db'
+                                Id='register.sql'
+                                Name='register.sql'
                                 DiskId='1'
-                                Source='register.db'
+                                Source='register.sql'
                                 KeyPath='yes'/>
                         </Component>
                     </Directory>
