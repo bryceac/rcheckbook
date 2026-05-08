@@ -1,6 +1,6 @@
 prefix ?= /usr/local
 bindir = $(prefix)/bin
-resourcedir = /var/db/rcheckbook
+resourcedir = /usr/local/share/rcheckbook
 SYS := $(shell $(CC) -dumpmachine)
 
 build:
@@ -10,10 +10,10 @@ ifneq (, $(findstring darwin, $(SYS)))
 	test ! -d $(resourcedir) && mkdir -p $(resourcedir)
 
 	install "target/release/rcheckbook" "$(bindir)/rcheckbook"
-	install "register.db" "$(resourcedir)/register.db"
+	install "register.sql" "$(resourcedir)/register.sql"
 else
 	install -D "target/release/rcheckbook" "$(bindir)/rcheckbook"
-	install "register.db" "$(resourcedir)/register.db"
+	install "register.sql" "$(resourcedir)/register.sql"
 endif
 uninstall:
 	rm -rf "$(bindir)/rcheckbook"
