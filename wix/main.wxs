@@ -96,7 +96,7 @@
                                 KeyPath='yes'/>
                         </Component>
 
-                        <Component Id='database' Guid='*' Win64='$(var.Win64)'>
+                        <Component Id='schema' Guid='*' Win64='$(var.Win64)'>
                             <File
                                 Id='register.sql'
                                 Name='register.sql'
@@ -126,7 +126,7 @@
             
             <ComponentRef Id='binary0'/>
 
-            <ComponentRef Id='database'/>
+            <ComponentRef Id='schema'/>
 
             <Feature
                 Id='Environment'
