@@ -28,7 +28,6 @@ pub fn copy_database_if_not_exists(p: &str) {
 
     if !destination_path.exists() {
         let _ = fs::create_dir_all(destination_path.parent().unwrap());
-        // let _ = fs::copy(original_path, destination_path);
 
         if let Ok(db) = Connection::open(&destination_path) {
             if let Some(schema_path_string) = schema_path.as_path().as_os_str().to_str() {
