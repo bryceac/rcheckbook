@@ -4,7 +4,7 @@ CREATE TABLE "categories" (
 	"id"	INTEGER,
 	"category"	TEXT NOT NULL,
 	PRIMARY KEY("id" AUTOINCREMENT)
-);
+) STRICT;
 DROP TABLE IF EXISTS "trades";
 CREATE TABLE "trades" (
 	"id"	TEXT,
@@ -16,7 +16,7 @@ CREATE TABLE "trades" (
 	"category"	INTEGER DEFAULT NULL,
 	"reconciled"	INTEGER NOT NULL DEFAULT 0 CHECK("reconciled" IN (0, 1)),
 	PRIMARY KEY("id")
-);
+) STRICT;
 INSERT INTO "categories" VALUES (1,'Utilities'),
  (2,'Gifts'),
  (3,'Groceries'),
