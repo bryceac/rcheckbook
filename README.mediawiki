@@ -84,6 +84,7 @@ where values do not import properly.</p>
 <p>Please be aware that this change <strong>should not</strong> 
 drastically affect the usage of the program, 
 but will help make it easier to modify the database later on.</p>
+<p>Released 5/8/2026</p>
 </dd>
 </dl>
 
