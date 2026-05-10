@@ -86,6 +86,12 @@ drastically affect the usage of the program,
 but will help make it easier to modify the database later on.</p>
 <p>Released 5/8/2026</p>
 </dd>
+<dt style="font-weight:bold">0.5.2</dt>
+<dd>
+<p>Make sure user get reporting of import progress, 
+regardless of type of file.</p>
+<p>Released 5/10/2026</p>
+</dd>
 </dl>
 
 ===Questions===
