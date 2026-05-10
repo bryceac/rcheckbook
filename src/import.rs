@@ -220,13 +220,10 @@ fn records_from_xlsx(p: &str) -> Vec<Record> {
     let mut workbook: Xlsx<_> = open_workbook(p).expect("Could not read workbook");
     let range = workbook.worksheet_range_at(0).unwrap().expect("Could not read sheet");
 
-    let number_of_rows = range.rows().count()-1;
-
     for (row_index, row) in range.rows().enumerate() {
         if row_index == 0 {
             continue;
         } else {
-            println!("attempting to import transaction {} of {} transactions", row_index, number_of_rows);
             match record_from_xlsx_row(row) {
                 Ok(record) => records.push(record),
                 Err(error) => println!("{}", error)
@@ -333,14 +330,10 @@ fn records_from_ods(p: &str) -> Vec<Record> {
     let mut records = vec![];
     let mut workbook: Ods<_> = open_workbook(p).expect("Could not read workbook");
     let range = workbook.worksheet_range_at(0).unwrap().expect("Could not read sheet");
-
-    let number_of_rows = range.rows().count()-1;
-
     for (row_index, row) in range.rows().enumerate() {
         if row_index == 0 {
             continue;
         } else {
-            println!("attempting to import transaction {} of {} transactions", row_index, number_of_rows);
             match record_from_ods_row(row) {
                 Ok(record) => records.push(record),
                 Err(error) => println!("{}", error)
