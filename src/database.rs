@@ -266,7 +266,8 @@ pub fn update_or_add_record(p: &str, r: &Record) {
 }
 
 pub fn add_records_to_db(p: &str, r: &Vec<Record>) {
-    for record in r {
+    for (index, record) in r.iter().enumerate() {
+        println!("Importing entry {} of {}", index+1, r.len());
         update_or_add_record(p, record);
     }
 }
