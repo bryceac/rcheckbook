@@ -84,7 +84,7 @@ pub fn load_records_from_db(p: &str) -> Vec<Record> {
                     let transaction = Transaction::builder()
                     .set_date(&date)
                     .set_check_number(check_number)
-                    .set_category(if category.to_lowercase() == "null" { "" } else { &category })
+                    .set_category(&category)
                     .set_vendor(&vendor)
                     .set_memo(&memo)
                     .set_amount_and_type(amount)
