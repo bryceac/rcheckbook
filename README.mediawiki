@@ -7,11 +7,11 @@
 '''Description:''' A Rust-based CLI ledger that can help you keep track 
 of finances.
 
-'''Version:''' 0.5.2
+'''Version:''' 0.6
 
 ==Notes==
 
-This program has been tested on macOS Big Sur, but <strong>should</strong> work on any platform.
+This program has been tested on macOS Tahoe, but <strong>should</strong> work on any platform.
 
 ===Version History===
 
@@ -91,6 +91,21 @@ but will help make it easier to modify the database later on.</p>
 <p>Make sure user get reporting of import progress, 
 regardless of type of file.</p>
 <p>Released 5/10/2026</p>
+</dd>
+</dd>
+<dt style="font-weight:bold">0.6.0</dt>
+<dd>
+<p>Update major backend crate, in order to make things a little easier.</p>
+<p>Please note that because of this update that JSON exports 
+might prove troublesome on the original iOS and macOS apps, 
+as a mandatory field is nw optional here.</p>
+<p>While I can and plan to update the iOS side of things, 
+issues with SQLite on the macOS side 
+prevent me from deploying a fix.</p>
+<p>As such, 
+please rely on this program for managing the desktop side or 
+use TSV exports instead.</p>
+<p>Released 5/16/2026</p>
 </dd>
 </dl>
 
@@ -238,10 +253,16 @@ Also like the update command, <strong>-t</strong> is optional and everything wil
 Transactions can be added like this:
 
 <pre>
-rcheckbook add --check-number 1260 --vendor "Sam Hill Credit Union" -m "Open Account" -a 500.0 -t deposit
+rcheckbook add --check-number 1260 --vendor "Sam Hill Credit Union" -m "Open Account" -a 500.0
 </pre>
 
 Everything but the vendor is optional, but this saves time in filling in details.
+
+Starting with version 0.6, the type of transaction no longer needs to be specified.
+
+If you provide a negative value, it will automatically be registered as a withdrawal.
+
+A positive nonzero value will mark it as a deposit.
 
 If no database exists, one will be copied over, 
 like the import command from above.
@@ -265,6 +286,12 @@ rcheckbook update -i FF04C3DC-F0FE-472E-8737-0F4034C049F0 -r
 </pre>
 
 This will mark the record with the given identifier as reconciled.
+
+Unlike adding entries, 
+updating the amount will not automatically update the transaction type.
+This was done because the user might have entered the correct amount 
+but given the wrong sign, so both type and 
+amount need to be provided for updates.
 
 ====Summaries====
 
@@ -335,7 +362,7 @@ If you choose to manga things via a text editor, these keys make up the JSON str
 </dd>
 <dt style="font-style:bold">type</dt>
 <dd>
-<p>The kind of transaction, which can only be either a <strong>deposit</strong> or <strong>withdrawal</strong>. Defaults to <strong>withdrawal</strong> if left out.<strong>Required</strong></p>
+<p>The kind of transaction, which can only be either a <strong>deposit</strong> or <strong>withdrawal</strong>. Defaults to <strong>withdrawal</strong> if left out.<strong>Optional</strong></p>
 </dd>
 <dt style="font-style:bold">is_reconciled</dt>
 <dd>
@@ -366,7 +393,6 @@ The file structure looks like this:
       "amount" : 200,
       "vendor" : "Fake Street Electronics",
       "memo" : "Head set",
-      "type" : "withdrawal",
       "date" : "2021-07-08"
     }
   },
