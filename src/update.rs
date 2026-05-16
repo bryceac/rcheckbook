@@ -1,6 +1,8 @@
-use bcheck::{ LocalDateTimeStringExt, TransactionType, OrderedFloat };
+use bcheck::TransactionType;
+use chrono::NaiveDate;
 use crate::database::*;
 use clap::Parser;
+use ordered_float::OrderedFloat;
 
 #[derive(Parser)]
 #[clap(version = "0.3", author = "Bryce Campbell", long_about = "Update an existing entry. \r\n\r\nUpdating entries in the checkbook can be done like this: \r\n\r\nrcheckbook update -i FF04C3DC-F0FE-472E-8737-0F4034C049F0 -r \r\n\r\nThis will mark the transaction with the given identifier as reconciled. \r\n\r\nNearly anything can be updated, including whether the transaction is a deposit or not with the -t flag. \r\n\r\nIf you want to correct a date, that is done with the --date flag and expects the date to be in YYYY-MM-DD format.")]
@@ -48,12 +50,8 @@ impl Update {
 
         if let Some(mut stored_record) = retrieve_record_with_id_from_db(p, &self.id) {
             if let Some(date) = &self.date {
-                match date.local_datetime() {
-                    Ok(new_date) => stored_record.transaction.date = new_date,
-                    Err(error) => {
-                        println!("{}", error);
-                        return;
-                    }
+                if let Ok(naive_date) = NaiveDate::parse_from_str(date, qif::DateFormat::FullYearMonthDay.chrono_str()) {
+                    stored_record.transaction.date = naive_date
                 }
             }
 
@@ -78,7 +76,7 @@ impl Update {
             }
 
             if let Some(amount) = self.amount {
-                stored_record.transaction.amount = OrderedFloat(amount);
+                stored_record.transaction.amount = OrderedFloat::<f64>(amount);
             }
 
             if let Some(transaction_type) = self.transaction_type.clone() {

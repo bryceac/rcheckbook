@@ -1,12 +1,12 @@
 use clap::Parser;
 use crate::{ database::*, shared::*, errors::ImportError };
-use bcheck::{ Record, Transaction, TransactionType };
+use bcheck::{ Record, Transaction };
 use qif::{ DateFormat, QIF, Transaction as QIFTransaction, TransactionStatus, Type as QIFType };
 use calamine::{ Data, open_workbook, Ods, Xlsx, Reader };
 
 
 #[derive(Parser)]
-#[clap(version = "0.4.6", author = "Bryce Campbell", long_about = "import data from file. \r\n\r\nImport is run based on file extension. Supported formats are: \r\n\r\n* JSON (bcheck)\r\n* TSV\r\n* QIF\r\n* Excel (xlsx)\r\n* ODS")]
+#[clap(version = "0.5", author = "Bryce Campbell", long_about = "import data from file. \r\n\r\nImport is run based on file extension. Supported formats are: \r\n\r\n* JSON (bcheck)\r\n* TSV\r\n* QIF\r\n* Excel (xlsx)\r\n* ODS")]
 pub struct Import {
 
     #[clap(default_value = "~/.checkbook/register.db")]
@@ -53,28 +53,20 @@ impl Import {
     }
 }
 
-fn qif_transaction_to_transaction(transaction: &QIFTransaction) -> Result<Transaction, String> {
-    Transaction::from(
-        Some(&transaction.date.format(&DateFormat::FullYearMonthDay.chrono_str()).to_string()), 
-        transaction.check_number, 
-        if let Some(ref category) = transaction.category {
-            Some(category)
-        } else {
-            None
-        }, 
-        &transaction.vendor, 
-        &transaction.memo, 
-        transaction.amount.abs(), 
-        if transaction.amount <= 0.0 {
-            TransactionType::Withdrawal
-        } else {
-            TransactionType::Deposit
-        }, 
-        if let Some(status) = transaction.status.clone() {
-            status == TransactionStatus::Reconciled
-        } else {
-            false
-        })
+fn qif_transaction_to_transaction(transaction: &QIFTransaction) -> Transaction {
+    Transaction::builder()
+    .set_date(&transaction.date.format(&DateFormat::FullYearMonthDay.chrono_str()).to_string())
+    .set_check_number(transaction.check_number.unwrap_or(0))
+    .set_category(&transaction.category.clone().unwrap_or(String::default()))
+    .set_vendor(&transaction.vendor)
+    .set_memo(&transaction.memo)
+    .set_amount_and_type(transaction.amount)
+    .set_is_reconciled(if let Some(status) = transaction.status.clone() {
+        status == TransactionStatus::Reconciled
+    } else {
+        false
+    })
+    .build()
 }
 
 fn records_from_section(qif: QIF, section: QIFType) -> Vec<Record> {
@@ -82,8 +74,7 @@ fn records_from_section(qif: QIF, section: QIFType) -> Vec<Record> {
         QIFType::Bank => if let Some(bank) = qif.bank {
             bank.transactions.into_iter()
             .map(|t| qif_transaction_to_transaction(&t))
-            .filter(|t| t.is_ok())
-            .map(|t| Record::from("", t.unwrap()))
+            .map(|t| Record::from("", t))
             .collect()
         } else {
             vec![]
@@ -91,8 +82,7 @@ fn records_from_section(qif: QIF, section: QIFType) -> Vec<Record> {
         QIFType::Cash => if let Some(cash) = qif.cash {
             cash.transactions.into_iter()
             .map(|t| qif_transaction_to_transaction(&t))
-            .filter(|t| t.is_ok())
-            .map(|t| Record::from("", t.unwrap()))
+            .map(|t| Record::from("", t))
             .collect()
         } else {
             vec![]
@@ -100,8 +90,7 @@ fn records_from_section(qif: QIF, section: QIFType) -> Vec<Record> {
         QIFType::CreditCard => if let Some(credit_card) = qif.credit_card {
             credit_card.transactions.into_iter()
             .map(|t| qif_transaction_to_transaction(&t))
-            .filter(|t| t.is_ok())
-            .map(|t| Record::from("", t.unwrap()))
+            .map(|t| Record::from("", t))
             .collect()
         } else {
             vec![]
@@ -109,8 +98,7 @@ fn records_from_section(qif: QIF, section: QIFType) -> Vec<Record> {
         QIFType::Liability => if let Some(liability) = qif.liability {
             liability.transactions.into_iter()
             .map(|t| qif_transaction_to_transaction(&t))
-            .filter(|t| t.is_ok())
-            .map(|t| Record::from("", t.unwrap()))
+            .map(|t| Record::from("", t))
             .collect()
         } else {
             vec![]
@@ -118,8 +106,7 @@ fn records_from_section(qif: QIF, section: QIFType) -> Vec<Record> {
         QIFType::Asset => if let Some(asset) = qif.asset {
             asset.transactions.into_iter()
             .map(|t| qif_transaction_to_transaction(&t))
-            .filter(|t| t.is_ok())
-            .map(|t| Record::from("", t.unwrap()))
+            .map(|t| Record::from("", t))
             .collect()
         } else {
             vec![]
@@ -181,38 +168,23 @@ fn record_from_xlsx_row(row: &[Data]) -> Result<Record, ImportError> {
         return Err(ImportError::TransactionTypeParsingError);
     }
 
-    let transaction_type = if credit > 0.0 {
-        TransactionType::Deposit
-    } else {
-        TransactionType::Withdrawal
-    };
-
-    let amount = if let TransactionType::Deposit = transaction_type {
+    let amount = if credit > 0.0 {
         credit
     } else {
-        withdrawal
+        if withdrawal > 0.0 { withdrawal*-1.0 } else { withdrawal }
     };
 
-    if let Ok(transaction) = Transaction::from(Some(date), 
-        if check_number > 0 {
-            Some(check_number)
-        } else {
-            None
-        }, 
-        if category.is_empty() {
-            None
-        } else {
-            Some(category)
-        }, 
-        vendor,
-        memo, 
-        amount, 
-        transaction_type, 
-        is_reconciled) {
-            Ok(Record::from(id, transaction))
-        } else {
-            Err(ImportError::InvalidDateFormat)
-        }
+    let transaction = Transaction::builder()
+    .set_date(date)
+    .set_check_number(check_number)
+    .set_category(category)
+    .set_vendor(vendor)
+    .set_memo(memo)
+    .set_amount_and_type(amount)
+    .set_is_reconciled(is_reconciled)
+    .build();
+
+    Ok(Record::from(id, transaction))
 }
 
 fn records_from_xlsx(p: &str) -> Vec<Record> {
@@ -292,38 +264,23 @@ fn record_from_ods_row(row: &[Data]) -> Result<Record, ImportError> {
         return Err(ImportError::TransactionTypeParsingError);
     }
 
-    let transaction_type = if credit > 0.0 {
-        TransactionType::Deposit
-    } else {
-        TransactionType::Withdrawal
-    };
-
-    let amount = if let TransactionType::Deposit = transaction_type {
+    let amount = if credit > 0.0 {
         credit
     } else {
-        withdrawal
+        if withdrawal > 0.0 { withdrawal*-1.0 } else { withdrawal }
     };
 
-    if let Ok(transaction) = Transaction::from(Some(date), 
-        if check_number > 0 {
-            Some(check_number)
-        } else {
-            None
-        }, 
-        if category.is_empty() {
-            None
-        } else {
-            Some(category)
-        }, 
-        vendor,
-        memo, 
-        amount, 
-        transaction_type, 
-        is_reconciled) {
-            Ok(Record::from(id, transaction))
-        } else {
-            Err(ImportError::InvalidDateFormat)
-        }
+    let transaction = Transaction::builder()
+    .set_date(date)
+    .set_check_number(check_number)
+    .set_category(category)
+    .set_vendor(vendor)
+    .set_memo(memo)
+    .set_amount_and_type(amount)
+    .set_is_reconciled(is_reconciled)
+    .build();
+
+    Ok(Record::from(id, transaction))
 }
 
 fn records_from_ods(p: &str) -> Vec<Record> {

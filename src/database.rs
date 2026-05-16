@@ -51,58 +51,43 @@ pub fn load_records_from_db(p: &str) -> Vec<Record> {
             if let Ok(mut statement) = db.prepare("SELECT * from ledger") {
                 let record_query = statement.query_map([], |row| {
                     let id: String = row.get_unwrap(0);
-                    let date_string: String = row.get_unwrap(1);
-                    let check_number: Option<u32> = if let Ok(num) = row.get(2) {
-                        Some(num)
+
+                    let date: String = row.get_unwrap(1);
+                    let check_number: u32 = if let Ok(num) = row.get(2) {
+                        num
                     } else {
-                        None
-                    };
-                    let category: Option<String> = if let Ok(c) = row.get(6) {
-                        Some(c)
-                    } else {
-                        None
-                    };
-                    let vendor: String = if let Ok(v) = row.get(4) {
-                        v
-                    } else {
-                        String::default()
+                        0
                     };
 
-                    let memo: String = if let Ok(m) = row.get(5) {
-                        m
-                    } else {
-                        String::default()
-                    };
+                    let category: String = row.get_unwrap(6);
 
-                    let mut amount: f64 = if let Ok(a) = row.get(7) {
+                    let vendor: String = row.get_unwrap(4);
+
+                    let memo: String = row.get_unwrap(5);
+
+                    let amount: f64 = if let Ok(a) = row.get(7) {
                         a
                     } else {
                         0.0
                     };
 
-                    let transaction_type = if amount > 0.0 {
-                        TransactionType::Deposit
-                    } else {
-                        TransactionType::Withdrawal
-                    };
-
-                    amount = amount.abs();
-
-                    let is_reconciled = if let Ok(r) = row.get(3) {
+                    let is_reconciled: String = if let Ok(r) = row.get(3) {
                         r
                     } else {
-                        String::from("N")
+                        "N".to_string()
                     };
 
-                    Ok(Record::from(&id, 
-                    Transaction::from(Some(&date_string),
-                    check_number, 
-                    category.as_deref(), 
-                    &vendor, 
-                    &memo, 
-                    amount, 
-                    transaction_type, 
-                    if is_reconciled == "Y" { true } else { false }).unwrap()))
+                    let transaction = Transaction::builder()
+                    .set_date(&date)
+                    .set_check_number(check_number)
+                    .set_category(if category.to_lowercase() == "null" { "" } else { &category })
+                    .set_vendor(&vendor)
+                    .set_memo(&memo)
+                    .set_amount_and_type(amount)
+                    .set_is_reconciled(is_reconciled.to_lowercase() == "y")
+                    .build();
+
+                    Ok(Record::from(&id, transaction))
                 }).unwrap();
                 
                 for row in record_query {

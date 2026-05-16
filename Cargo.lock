@@ -172,13 +172,12 @@ checksum = "72b3254f16251a8381aa12e40e3c4d2f0199f8c6508fbecb9d91f575e0fbb8c6"
 
 [[package]]
 name = "bcheck"
-version = "0.3.4"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b3e7ab1decf272f422eb7d44a59e8f1221d823fd949576e45f80dc6144ce08d7"
+checksum = "504bb8f55c062edb79fc72b37273190a92bfef823c7b77a13c52a974ad46343e"
 dependencies = [
  "chrono",
  "ordered-float",
- "regex",
  "serde",
  "serde_json",
  "uuid",
@@ -1293,6 +1292,7 @@ dependencies = [
  "chrono",
  "clap",
  "icu_locid",
+ "ordered-float",
  "qif",
  "rusqlite",
  "shellexpand",

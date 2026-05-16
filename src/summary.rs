@@ -22,7 +22,7 @@ impl Summary {
         copy_database_if_not_exists(&self.file_path);
         let record_store = Records::from(load_records_from_db(&self.file_path));
         let categories = load_categories_from_db(&self.file_path);
-        let today = Local::now();
+        let today = Local::now().date_naive();
 
         match self.period {
             Period::Week => {
