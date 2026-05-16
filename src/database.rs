@@ -59,7 +59,11 @@ pub fn load_records_from_db(p: &str) -> Vec<Record> {
                         0
                     };
 
-                    let category: String = row.get_unwrap(6);
+                    let category: String = if let Ok(c) = row.get(6) {
+                        c
+                    } else {
+                        String::default()
+                    };
 
                     let vendor: String = row.get_unwrap(4);
 
