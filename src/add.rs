@@ -3,7 +3,7 @@ use clap::Parser;
 use crate::database::*;
 
 #[derive(Parser)]
-#[clap(version = "0.4", author = "Bryce Campbell", long_about = "add entry to ledger. \r\n\r\nAdding a new entry can be done like this: \r\n\r\nrcheckbook add --check-number 1260 --vendor \"Sam Hill Credit Union\" -m \"Open Account\" -a 500.0\r\n\r\nIf you want to include a date, you can do so with -d, which expects the date to be in YYYY-MM-DD format.")]
+#[clap(version = "0.4.1", author = "Bryce Campbell", long_about = "add entry to ledger. \r\n\r\nAdding a new entry can be done like this: \r\n\r\nrcheckbook add --check-number 1260 --vendor \"Sam Hill Credit Union\" -m \"Open Account\" -a 500.0\r\n\r\nIf you want to include a date, you can do so with -d, which expects the date to be in YYYY-MM-DD format.")]
 pub struct Add {
 
     #[clap(default_value = "~/.checkbook/register.db")]
