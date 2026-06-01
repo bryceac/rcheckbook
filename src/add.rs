@@ -24,7 +24,7 @@ pub struct Add {
     #[clap(long, short, default_value = "")]
     pub memo: String,
 
-    #[clap(long, short, default_value = "0.0")]
+    #[clap(long, short, allow_hyphen_values(true), default_value = "0.0")]
     pub amount: f64,
 
     #[clap(long, short)]
