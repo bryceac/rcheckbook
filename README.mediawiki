@@ -107,6 +107,12 @@ please rely on this program for managing the desktop side or
 use TSV exports instead.</p>
 <p>Released 5/16/2026</p>
 </dd>
+</dd>
+<dt style="font-weight:bold">0.6.1</dt>
+<dd>
+<p>Fix unnoticed bug where negative values are not accepted.</p>
+<p>Released 6/1/2026</p>
+</dd>
 </dl>
 
 ===Questions===
