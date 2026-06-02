@@ -6,6 +6,7 @@ use crate::date_range::DateRange;
 use crate::records::Records;
 use crate::database::*;
 use crate::period::*;
+use fastnum::D64;
 
 #[derive(Parser)]
 #[clap(version = "0.1", author = "Bryce Campbell", long_about = "Get a summary of the ledger. \r\n\r\nTo get a summary of the ledger, you can do something like this: \r\n\r\nrcheckbook summary half-year \r\n\r\nThis will give you a summary of everything all the way back to 6 months ago. \r\n\r\nOther options include: \r\n\r\n* week\r\n* month\r\n* year\r\n* quarter (3 months)\r\n* all\r\n\r\nThe last item is the default.")]
@@ -89,11 +90,11 @@ impl Summary {
         for category in filtered_categories{
             let records_in_category: Vec<Record> = records.into_iter().filter(|record| record.transaction.category.clone().unwrap_or("Uncategorized".to_string()).to_lowercase() == category.to_lowercase()).map(|r| r.clone()).collect();
 
-            let category_total = records_in_category.into_iter().fold(0.0, |sum, record| {
+            let category_total = records_in_category.into_iter().fold(D64::from_f64(0.0), |sum, record| {
                 if let TransactionType::Withdrawal = record.transaction.transaction_type {
-                    sum - record.transaction.amount.to_f64()
+                    sum - record.transaction.amount
                 } else {
-                    sum + record.transaction.amount.to_f64()
+                    sum + record.transaction.amount
                 }
             });
 
