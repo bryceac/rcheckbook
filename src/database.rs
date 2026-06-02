@@ -187,7 +187,7 @@ pub fn add_record_to_db(p: &str, r: &Record) {
         let insert_statement = format!("INSERT INTO trades VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)");
 
         if let Ok(mut statement) = db.prepare(&insert_statement) {
-            if let Err(error) = statement.execute(params![r.id.to_uppercase(),format!("{}", r.transaction.date.format("%Y-%m-%d")), r.transaction.check_number, r.transaction.vendor, r.transaction.memo, if let TransactionType::Deposit = r.transaction.transaction_type { r.transaction.amount.into_inner() } else { r.transaction.amount.into_inner()*-1.0 }, category_id, r.transaction.is_reconciled]) {
+            if let Err(error) = statement.execute(params![r.id.to_uppercase(),format!("{}", r.transaction.date.format("%Y-%m-%d")), r.transaction.check_number, r.transaction.vendor, r.transaction.memo, if let TransactionType::Deposit = r.transaction.transaction_type { r.transaction.amount.to_f64() } else { r.transaction.amount.into_inner()*-1.0 }, category_id, r.transaction.is_reconciled]) {
                 println!("{}", error);
             }
         }
@@ -223,7 +223,7 @@ pub fn update_record_in_db(p: &str, r: &Record) {
                 let update_statement = format!("UPDATE trades SET date = (?1), check_number = (?2), vendor = (?3), memo = (?4), amount = (?5), category = (?6), reconciled = (?7) WHERE id = (?8)");
 
                 if let Ok(mut statement) = db.prepare(&update_statement) {
-                    if let Err(error) = statement.execute(params![format!("{}", r.transaction.date.format("%Y-%m-%d")), r.transaction.check_number, r.transaction.vendor, r.transaction.memo, if let TransactionType::Deposit = r.transaction.transaction_type { r.transaction.amount.into_inner() } else { r.transaction.amount.into_inner()*-1.0 }, category_id, r.transaction.is_reconciled, record.id]) {
+                    if let Err(error) = statement.execute(params![format!("{}", r.transaction.date.format("%Y-%m-%d")), r.transaction.check_number, r.transaction.vendor, r.transaction.memo, if let TransactionType::Deposit = r.transaction.transaction_type { r.transaction.amount.to_f64() } else { r.transaction.amount.to_f64()*-1.0 }, category_id, r.transaction.is_reconciled, record.id]) {
                         println!("{}", error);
                     }
                 }
