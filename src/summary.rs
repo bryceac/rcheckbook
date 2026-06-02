@@ -91,9 +91,9 @@ impl Summary {
 
             let category_total = records_in_category.into_iter().fold(0.0, |sum, record| {
                 if let TransactionType::Withdrawal = record.transaction.transaction_type {
-                    sum - record.transaction.amount.into_inner()
+                    sum - record.transaction.amount.to_f64()
                 } else {
-                    sum + record.transaction.amount.into_inner()
+                    sum + record.transaction.amount.to_f64()
                 }
             });
 
@@ -113,22 +113,22 @@ impl Summary {
         let balance_entry = format!("\r\nBalance\t{:.2}\r\n\r\n", balance);
         report.push_str(&balance_entry);
 
-        let total_income = records.into_iter().filter(|r| r.transaction.transaction_type == TransactionType::Deposit).fold(0.0, |sum, i| sum + i.transaction.amount.into_inner());
+        let total_income = records.into_iter().filter(|r| r.transaction.transaction_type == TransactionType::Deposit).fold(0.0, |sum, i| sum + i.transaction.amount.to_f64());
 
         let income_entry = format!("Total Income\t{:.2}\r\n", total_income);
         report.push_str(&income_entry);
 
 
-        let total_expenses = records.into_iter().filter(|r| r.transaction.transaction_type == TransactionType::Withdrawal).fold(0.0, |sum, i| sum + i.transaction.amount.into_inner());
+        let total_expenses = records.into_iter().filter(|r| r.transaction.transaction_type == TransactionType::Withdrawal).fold(0.0, |sum, i| sum + i.transaction.amount.to_f64());
 
         let expenditure_entry = format!("Total Expenditures\t{:.2}\r\n\r\n", total_expenses);
         report.push_str(&expenditure_entry);
 
         let total_reconciled = records.into_iter().filter(|r| r.transaction.is_reconciled).fold(0.0, |sum, i| {
             if let TransactionType::Deposit = i.transaction.transaction_type {
-                sum + i.transaction.amount.into_inner()
+                sum + i.transaction.amount.to_f64()
             } else {
-                sum - i.transaction.amount.into_inner()
+                sum - i.transaction.amount.to_f64()
             }
         });
 
@@ -137,9 +137,9 @@ impl Summary {
 
         let total_unreconciled = records.into_iter().filter(|r| !r.transaction.is_reconciled).fold(0.0, |sum, i| {
             if let TransactionType::Deposit = i.transaction.transaction_type {
-                sum + i.transaction.amount.into_inner()
+                sum + i.transaction.amount.to_f64()
             } else {
-                sum - i.transaction.amount.into_inner()
+                sum - i.transaction.amount.to_f64()
             }
         });
 
