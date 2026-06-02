@@ -113,6 +113,14 @@ use TSV exports instead.</p>
 <p>Fix unnoticed bug where negative values are not accepted.</p>
 <p>Released 6/1/2026</p>
 </dd>
+<dt style="font-weight:bold">0.6.2</dt>
+<dd>
+<p>Update underlying crate to latest version, 
+which uses a different data type for money and use different SQLite type.</p>
+<p>This change <strong>should</strong> make calculations 
+be within expected values.</p>
+<p>Released 6/2/2026</p>
+</dd>
 </dl>
 
 ===Questions===
