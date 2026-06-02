@@ -1309,6 +1309,7 @@ dependencies = [
  "calamine",
  "chrono",
  "clap",
+ "fastnum",
  "icu_locid",
  "qif",
  "rusqlite",
