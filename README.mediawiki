@@ -319,12 +319,12 @@ However, if you want certain time frames, such as:
 <li>Year</li>
 </ul>
 
-You just append the appropriate period.
+You need to provide the path to the database and then append the appropriate period.
 
 For example, if you what everything in a 6 month period until now, you would do:
 
 <pre>
-rcheckbook summary half-year
+rcheckbook summary path/to/database half-year
 </pre>
 
 This will give you a break down by the categories you have and tell you how much money went or came from that.
