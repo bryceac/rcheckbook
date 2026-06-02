@@ -63,9 +63,9 @@ fn record_to_qif(record: &Record) -> Result<QIFTransaction, TransactionBuildingE
     .set_check_number(record.transaction.check_number.unwrap_or(0))
     .set_vendor(&record.transaction.vendor)
     .set_amount(if let TransactionType::Deposit = record.transaction.transaction_type {
-        record.transaction.amount.into_inner()
+        record.transaction.amount.to_f64()
     } else {
-        record.transaction.amount.into_inner()*-1.0
+        record.transaction.amount.to_f64()*-1.0
     })
     .set_category(&record.transaction.category.clone().unwrap_or("".to_owned()))
     .set_memo(&record.transaction.memo)
@@ -225,11 +225,11 @@ fn add_record_to_xlsx_sheet(record: &Record, row_index: u32, db: &str, sheet: &m
     sheet.write_string(row_index, 6, &record.transaction.memo, None)?;
 
     if let TransactionType::Deposit = record.transaction.transaction_type {
-        sheet.write_number(row_index, 7, record.transaction.amount.into_inner(), None)?;
+        sheet.write_number(row_index, 7, record.transaction.amount.to_f64(), None)?;
         sheet.write_blank(row_index, 8, None)?;
     } else {
         sheet.write_blank(row_index, 7, None)?;
-        sheet.write_number(row_index, 8, record.transaction.amount.into_inner(), None)?;
+        sheet.write_number(row_index, 8, record.transaction.amount.to_f64(), None)?;
     }
 
     sheet.write_number(row_index, 9, retrieve_balance_for_record(db, record.clone()), None)?;
