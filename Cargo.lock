@@ -1303,7 +1303,7 @@ dependencies = [
 
 [[package]]
 name = "rcheckbook"
-version = "0.6.1"
+version = "0.6.2"
 dependencies = [
  "bcheck",
  "calamine",
