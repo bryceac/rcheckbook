@@ -12,7 +12,7 @@ CREATE TABLE "trades" (
 	"check_number"	INTEGER DEFAULT NULL,
 	"vendor"	TEXT DEFAULT '',
 	"memo"	TEXT DEFAULT '',
-	"amount"	NUMERIC NOT NULL DEFAULT 0.0,
+	"amount"	REAL NOT NULL DEFAULT 0.0,
 	"category"	INTEGER DEFAULT NULL,
 	"reconciled"	INTEGER NOT NULL DEFAULT 0 CHECK("reconciled" IN (0, 1)),
 	PRIMARY KEY("id")
