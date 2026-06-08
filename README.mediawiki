@@ -7,7 +7,7 @@
 '''Description:''' A Rust-based CLI ledger that can help you keep track 
 of finances.
 
-'''Version:''' 0.6.2
+'''Version:''' 0.6.3
 
 ==Notes==
 
@@ -120,6 +120,11 @@ which uses a different data type for money and use different SQLite type.</p>
 <p>This change <strong>should</strong> make calculations 
 be within expected values.</p>
 <p>Released 6/2/2026</p>
+</dd>
+<dt style="font-weight:bold">0.6.3</dt>
+<dd>
+<p>fix issue with database types.</p>
+<p>Released 6/8/2026</p>
 </dd>
 </dl>
 
