@@ -126,6 +126,12 @@ be within expected values.</p>
 <p>fix issue with database types.</p>
 <p>Released 6/8/2026</p>
 </dd>
+</dd>
+<dt style="font-weight:bold">0.6.4</dt>
+<dd>
+<p>make summary command less annoying to use.</p>
+<p>Released 6/10/2026</p>
+</dd>
 </dl>
 
 ===Questions===
@@ -228,7 +234,7 @@ The import is done based on file extension
 and only runs if you supply bcheck, QIF, or TSV files.
 
 if you specify a different path before calling <strong>-i</strong> 
-the database will be copied or read from that location instead.
+the database will be initialized in or read from that location instead.
 
 ====Display Register====
 
@@ -322,7 +328,7 @@ rcheckbook summary
 
 This will lay out everything over the lifetime of the tracking.
 
-However, if you want certain time frames, such as:
+As of version 0.6.4, if you want certain time frames, such as:
 
 <ul>
 <li>Week</li>
@@ -332,12 +338,12 @@ However, if you want certain time frames, such as:
 <li>Year</li>
 </ul>
 
-You need to provide the path to the database and then append the appropriate period.
+You just need to provide the period.
 
 For example, if you what everything in a 6 month period until now, you would do:
 
 <pre>
-rcheckbook summary path/to/database half-year
+rcheckbook summary -p half-year
 </pre>
 
 This will give you a break down by the categories you have and tell you how much money went or came from that.
