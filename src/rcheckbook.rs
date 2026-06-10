@@ -2,7 +2,7 @@ use clap::Parser;
 use crate::subcommand::SubCommand;
 
 #[derive(Parser)]
-#[clap(version = "0.6.3", author = "Bryce Campbell <tonyhawk2100@gmail.com>")]
+#[clap(version = "0.6.4", author = "Bryce Campbell <tonyhawk2100@gmail.com>")]
 pub struct RCheckbook {
 
     #[clap(subcommand)]

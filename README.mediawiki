@@ -7,7 +7,7 @@
 '''Description:''' A Rust-based CLI ledger that can help you keep track 
 of finances.
 
-'''Version:''' 0.6.3
+'''Version:''' 0.6.4
 
 ==Notes==
 
