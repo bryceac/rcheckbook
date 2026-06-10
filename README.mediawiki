@@ -223,7 +223,7 @@ After installing the program, all you need to do is something like this:
 
 <pre>rcheckbook import -i ~/Desktop/transaction.bcheck</pre>
 
-This will copy the database to the following folder:
+This will initialize the database in the following folder:
 
 <pre>~/.checkbook</pre>
 
