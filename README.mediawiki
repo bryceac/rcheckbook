@@ -7,7 +7,7 @@
 '''Description:''' A Rust-based CLI ledger that can help you keep track 
 of finances.
 
-'''Version:''' 0.6.4
+'''Version:''' 0.6.5
 
 ==Notes==
 
@@ -131,6 +131,11 @@ be within expected values.</p>
 <dd>
 <p>make summary command less annoying to use.</p>
 <p>Released 6/10/2026</p>
+</dd>
+<dt style="font-weight:bold">0.6.5</dt>
+<dd>
+<p>add environment variable, to allow program to be more portable.</p>
+<p>Released 6/11/2026</p>
 </dd>
 </dl>
 
