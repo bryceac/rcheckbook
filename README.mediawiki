@@ -228,7 +228,7 @@ and what it is called, though the program will still expect it to
 be called <strong>register.sql</strong> if this option falls through.
 
 To set the path and file name, you can use the 
-<strong>REGISTRY_SCHEMA</strong> environment variable.
+<strong>REGISTRY_SCHEMA_DIR</strong> environment variable.
 
 This variable will be read, 
 even if the program has already been compiled and/or installed, 
