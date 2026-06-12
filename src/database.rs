@@ -12,7 +12,7 @@ pub fn copy_database_if_not_exists(p: &str) {
 
     #[cfg(windows)]
     let schema_file: PathBuf = if let Ok(schema) = env::var("REGISTRY_SCHEMA") {
-        Path::new(&schema).to_path_buf()
+        Path::new(&real_path(&schema)).to_path_buf()
     } else if let Ok(path) = env::current_exe() {
         if let Some(db_directory) = path.parent() {
             db_directory.join("register.sql")
@@ -24,14 +24,18 @@ pub fn copy_database_if_not_exists(p: &str) {
     };
 
     #[cfg(unix)]
-    // let schema_path: PathBuf = Path::new(&real_path("/usr/local/share/rcheckbook/register.sql")).to_path_buf();
+    let schema_file: PathBuf = if let Ok(schema) = env::var("REGISTRY_SCHEMA") {
+        Path::new(&real_path(&schema)).to_path_buf()
+    } else {
+        Path::new(&real_path("/usr/local/share/rcheckbook/register.sql")).to_path_buf()
+    };
     
 
     if !destination_path.exists() {
         let _ = fs::create_dir_all(destination_path.parent().unwrap());
 
         if let Ok(db) = Connection::open(&destination_path) {
-            if let Some(schema_path_string) = schema_path.as_path().as_os_str().to_str() {
+            if let Some(schema_path_string) = schema_file.as_path().as_os_str().to_str() {
                 match file_content(schema_path_string) {
                     Ok(sql) => if let Err(error) = db.execute_batch(&sql) {
                         println!("{}", error)
