@@ -237,6 +237,20 @@ If this variable is not set, then the program will look for the schema file in t
 * program's folder (Windows)
 * the current drectory (Windows, if it cannot get the executable's directory)
 
+===Installing From Source===
+
+If you try to install from source, 
+make sure that sudo, or its equivalent, preserves your environment if you set <strong>REGISTRY_SCHEMA_DIR</strong>.
+
+On macOS and Linux, this would be done like this:
+
+<pre>
+sudo -E make -e install
+</pre>
+
+Without both of those <i>e</i>'s, the default location, 
+as outlined above will be used.
+
 ===Usage===
 
 After installing the program, all you need to do is something like this:
