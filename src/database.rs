@@ -11,8 +11,8 @@ pub fn copy_database_if_not_exists(p: &str) {
     let destination_path = Path::new(&target);
 
     #[cfg(windows)]
-    let schema_file: PathBuf = if let Ok(schema) = env::var("REGISTRY_SCHEMA_DIR") {
-        Path::new(&real_path(&schema)).to_path_buf()
+    let schema_file: PathBuf = if let Ok(schema_dir) = env::var("REGISTRY_SCHEMA_DIR") {
+        Path::new(&real_path(&schema_dir)).join("register.sql").to_path_buf()
     } else if let Ok(path) = env::current_exe() {
         if let Some(db_directory) = path.parent() {
             db_directory.join("register.sql")
@@ -24,8 +24,8 @@ pub fn copy_database_if_not_exists(p: &str) {
     };
 
     #[cfg(unix)]
-    let schema_file: PathBuf = if let Ok(schema) = env::var("REGISTRY_SCHEMA_DIR") {
-        Path::new(&real_path(&schema)).to_path_buf()
+    let schema_file: PathBuf = if let Ok(schema_dir) = env::var("REGISTRY_SCHEMA_DIR") {
+        Path::new(&real_path(&schema_dir)).join("register.sql").to_path_buf()
     } else {
         Path::new(&real_path("/usr/local/share/rcheckbook/register.sql")).to_path_buf()
     };
