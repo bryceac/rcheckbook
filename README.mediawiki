@@ -468,6 +468,18 @@ The file structure looks like this:
 ]
 </pre>
 
+===Contributing===
+
+If you would like to help make this project better, 
+feel free to fork this repo and make a pull request.
+
+As of right now, there is only one thing really needs to be done, 
+which is make sure that environment variables can be passed 
+as input for things like the database path and 
+files to be imported or exported.
+
+Other than that, this program is mostly feature complete.
+
 ===Support===
 
 If you experience troubles, use the email address below. I should be able to help you, due to this being a rather simple application, but do not be surprised if even I am stumped, due to most of my experience with programming has been with Swift.
