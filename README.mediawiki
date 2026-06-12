@@ -135,7 +135,7 @@ be within expected values.</p>
 <dt style="font-weight:bold">0.6.5</dt>
 <dd>
 <p>add environment variable, to allow program to be more portable.</p>
-<p>Released 6/11/2026</p>
+<p>Released 6/12/2026</p>
 </dd>
 </dl>
 
