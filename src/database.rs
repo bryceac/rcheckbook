@@ -1,6 +1,5 @@
 use std::{ fs::{ self, File }, path::{ Path, PathBuf }, io::{ self, Read } };
 
-#[cfg(windows)]
 use std::env;
 
 use rusqlite::{ Connection, params };
