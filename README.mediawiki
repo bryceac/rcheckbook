@@ -217,6 +217,30 @@ and the other is only used to read Excel files.</p>
 </li>
 </ol>
 
+===Schema File===
+
+If you install the program by a provided installer, 
+everything will be installed in a default location.
+
+However, if you compile from source, 
+you can specify where the schema file is located 
+and what it is called, though the program will still expect it to
+be called <strong>register.sql</strong> if this option falls through.
+
+To set the path and file name, you can use the 
+<strong>REGISTRY_SCHEMA</strong> environment variable.
+
+This variable will be read, 
+even if the program has already been compiled and/or installed, 
+and will be the source of truth.
+
+If it is not set, the program will expect the schema file to be read from
+the following places:
+
+* /usr/local/share/rcheckbook (Linux, macOS, and other Unix-like operating systems)
+* program's folder (Windows)
+* the current drectory (Windows, if it cannot get the executable's directory)
+
 ===Usage===
 
 After installing the program, all you need to do is something like this:
