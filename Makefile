@@ -1,6 +1,12 @@
 prefix ?= /usr/local
 bindir = $(prefix)/bin
-resourcedir = $(prefix)/share/rcheckbook
+
+ifneq (${REGISTRY_SCHEMA},)
+	resourcedir = ${REGISTRY_SCHEMA}
+else
+	resourcedir = $(prefix)/share/rcheckbook
+endif
+
 SYS := $(shell $(CC) -dumpmachine)
 
 build:
