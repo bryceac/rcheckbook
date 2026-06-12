@@ -1,10 +1,10 @@
 prefix ?= /usr/local
 bindir = $(prefix)/bin
 
-ifneq ($(REGISTRY_SCHEMA_DIR),)
-	resourcedir = $(REGISTRY_SCHEMA_DIR)
-else
+ifeq ($(REGISTRY_SCHEMA_DIR),)
 	resourcedir = $(prefix)/share/rcheckbook
+else
+	resourcedir = $(REGISTRY_SCHEMA_DIR)
 endif
 
 SYS := $(shell $(CC) -dumpmachine)
