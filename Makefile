@@ -1,8 +1,8 @@
 prefix ?= /usr/local
 bindir = $(prefix)/bin
 
-ifneq (${REGISTRY_SCHEMA_DIR},)
-	resourcedir = ${REGISTRY_SCHEMA_DIR}
+ifneq ($(REGISTRY_SCHEMA_DIR),)
+	resourcedir = $(REGISTRY_SCHEMA_DIR)
 else
 	resourcedir = $(prefix)/share/rcheckbook
 endif
