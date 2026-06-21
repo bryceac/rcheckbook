@@ -1,6 +1,6 @@
 prefix ?= /usr/local
 bindir = $(prefix)/bin
-mandir = $(prefix)/share/man
+mandir = $(mandir)
 
 ifeq ($(REGISTRY_SCHEMA_DIR),)
 resourcedir = $(prefix)/share/rcheckbook
@@ -19,26 +19,26 @@ ifneq (, $(findstring darwin, $(SYS)))
 	install "target/release/rcheckbook" "$(bindir)/rcheckbook"
 	install "register.sql" "$(resourcedir)/register.sql"
 
-	test ! -d $(prefix)/share/man/man1 && mkdir -p $(prefix)/share/man/man1
-	install "man/rcheckbook.1" "$(prefix)/share/man/man1/rcheckbook.1"
-	install "man/rcheckbook-add.1" "$(prefix)/share/man/man1/rcheckbook-add.1"
-	install "man/rcheckbook-export.1" "$(prefix)/share/man/man1/rcheckbook-export.1"
-	install "man/rcheckbook-import.1" "$(prefix)/share/man/man1/rcheckbook-import.1"
-	install "man/rcheckbook-list.1" "$(prefix)/share/man/man1/rcheckbook-list.1"
-	install "man/rcheckbook-remove.1" "$(prefix)/share/man/man1/rcheckbook-remove.1"
-	install "man/rcheckbook-summary.1" "$(prefix)/share/man/man1/rcheckbook-summary.1"
-	install "man/rcheckbook-update.1" "$(prefix)/share/man/man1/rcheckbook-update.1"
+	test ! -d $(mandir)/man1 && mkdir -p $(mandir)/man1
+	install "man/rcheckbook.1" "$(mandir)/man1/rcheckbook.1"
+	install "man/rcheckbook-add.1" "$(mandir)/man1/rcheckbook-add.1"
+	install "man/rcheckbook-export.1" "$(mandir)/man1/rcheckbook-export.1"
+	install "man/rcheckbook-import.1" "$(mandir)/man1/rcheckbook-import.1"
+	install "man/rcheckbook-list.1" "$(mandir)/man1/rcheckbook-list.1"
+	install "man/rcheckbook-remove.1" "$(mandir)/man1/rcheckbook-remove.1"
+	install "man/rcheckbook-summary.1" "$(mandir)/man1/rcheckbook-summary.1"
+	install "man/rcheckbook-update.1" "$(mandir)/man1/rcheckbook-update.1"
 else
 	install -D "target/release/rcheckbook" "$(bindir)/rcheckbook"
 	install "register.sql" "$(resourcedir)/register.sql"
-	install "man/rcheckbook.1" "$(prefix)/share/man/man1/rcheckbook.1"
-	install "man/rcheckbook-add.1" "$(prefix)/share/man/man1/rcheckbook-add.1"
-	install "man/rcheckbook-export.1" "$(prefix)/share/man/man1/rcheckbook-export.1"
-	install "man/rcheckbook-import.1" "$(prefix)/share/man/man1/rcheckbook-import.1"
-	install "man/rcheckbook-list.1" "$(prefix)/share/man/man1/rcheckbook-list.1"
-	install "man/rcheckbook-remove.1" "$(prefix)/share/man/man1/rcheckbook-remove.1"
-	install "man/rcheckbook-summary.1" "$(prefix)/share/man/man1/rcheckbook-summary.1"
-	install "man/rcheckbook-update.1" "$(prefix)/share/man/man1/rcheckbook-update.1"
+	install "man/rcheckbook.1" "$(mandir)/man1/rcheckbook.1"
+	install "man/rcheckbook-add.1" "$(mandir)/man1/rcheckbook-add.1"
+	install "man/rcheckbook-export.1" "$(mandir)/man1/rcheckbook-export.1"
+	install "man/rcheckbook-import.1" "$(mandir)/man1/rcheckbook-import.1"
+	install "man/rcheckbook-list.1" "$(mandir)/man1/rcheckbook-list.1"
+	install "man/rcheckbook-remove.1" "$(mandir)/man1/rcheckbook-remove.1"
+	install "man/rcheckbook-summary.1" "$(mandir)/man1/rcheckbook-summary.1"
+	install "man/rcheckbook-update.1" "$(mandir)/man1/rcheckbook-update.1"
 endif
 uninstall:
 	rm -rf "$(bindir)/rcheckbook"
