@@ -46,7 +46,7 @@ impl List {
 fn retrieve_records(r: &Vec<Record>, category: &Option<String>, vendor: &Option<String>, memo: &Option<String>, reconciled: &bool, unreconciled: &bool, transaction_type: &Option<TransactionType>) -> Vec<Record> {
     let mut filtered_records: Vec<Record> = r.clone();
     if let Some(category) = category {
-        filtered_records = filtered_records.into_iter().filter(|record| record.transaction.category.clone().unwrap_or("Uncategorized".to_string()).to_lowercase() == category.to_string().to_lowercase()).collect();
+        filtered_records = filtered_records.into_iter().filter(|record| record.transaction.category.clone().unwrap_or("Uncategorized".to_string()).to_lowercase() == category.to_string().to_lowercase() || record.transaction.category.clone().unwrap_or("Uncategorized".to_string()).to_lowercase().contains(&category.to_string().to_lowercase())).collect();
     }
 
     if let Some(vendor) = vendor {
