@@ -70,30 +70,26 @@ if it will be in your home folder,
 .B ~
 \.
 .SH EXAMPLES
-Add entry to registry:
+export registry to JSON:
 .RS
 .IP
-recheckbook add --vendor Bill 
--m "reimburse for food" -a -20
+recheckbook export -o transactions.bcheck
 .RE
 .PP
-Add reconciled transaction from Jan. 01, 1970:
+export registry to QIF:
 .RS
 .IP
-recheckbook add -d 1970-01-01 --vendor "Sam Hill Credit Union" 
--m "Interest Earned" -r -a 0.02
+recheckbook export -o transactions.qif
 .RE
 .PP
-Add transaction paid via check:
+export registry to Excel:
 .RS
 .IP
-recheckbook add --check-number 1260 --vendor "Velociraptor Entertainment" 
--m "Pay Day" -r -a 50000
+recheckbook export -o transactions.xlsx
 .RE
 .PP
-Add transaction with Category:
+export registry to TSV:
 .RS
 .IP
-recheckbook add --vendor "Fake Street Electronics" -m "Head set"
---category Gifts -a -200
+recheckbook export -o transactions.tsv
 .RE
