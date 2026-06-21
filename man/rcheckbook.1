@@ -1,0 +1,49 @@
+.TH RCHECKBOOK 1 "20 June 2026" "version 0.6.5"
+.SH NAME
+rcheckbook \- simple CLI checkbook ledger.
+.SH SYNOPSIS
+rcheckbook <Command>...
+.SH DESCRIPTION
+rcheckbook is a simple CLI checkbook ledger written in Rust, hence the
+.I R
+prefix, that can be used to help keep track of finances.
+.PP
+Each operation is performed by a subcommand, as such:
+.RS
+.IP
+adding an entry.
+.IP
+updating an entry.
+.IP
+removing an entries.
+.IP
+importing entries.
+.IP
+exporting the registry.
+.IP
+displaying the registry.
+.IP
+displaying a summary of the registry.
+.RE
+.SH OPTIONS
+
+As this program relies on using subcommands, there are no real options.
+
+However, for basic things information, the following are available:
+
+.TP
+.B -h, --help
+Displays help.
+.TP
+.B -V, --version
+Display version number.
+.SH AUTHOR
+Bryce Campbell (tonyhawk2100@gmail.com)
+.SH SEE ALSO
+rcheckbook-add(1),
+rcheckbook-export(1),
+rcheckbook-import(1),
+rcheckbook-list(1),
+rcheckbook-remove(1),
+rcheckbook-summary(1),
+rcheckbook-update(1)
