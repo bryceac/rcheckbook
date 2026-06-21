@@ -1,12 +1,11 @@
-.TH RCHECKBOOK-ADD 1 "20 June 2026" "version 0.4.1"
+.TH RCHECKBOOK-LIST 1 "21 June 2026" "version 0.5"
 .SH NAME
-rcheckbook-add \- Add entry to registry.
+rcheckbook-list \- display registry.
 .SH SYNOPSIS
-rcheckbook add [path/to/database] 
-[--date <date> | -d <date>][--check-number <check number>]
-[--category <category>]--vendor <vendor>
+rcheckbook list [path/to/database] 
+[--category <category>] [--vendor <vendor> | -v <vendor>]
 [--memo <memo> | -m <memo>][--reconciled | -r]
---amount <amount> | -a <amount>
+[--not-reconciled][--tansaction-type <type> | -t <type>]
 .SH DESCRIPTION
 Add an entry to the registry.
 .PP
