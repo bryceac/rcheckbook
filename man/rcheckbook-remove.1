@@ -21,6 +21,8 @@ The identifer of the transaction to remove.
 .PP
 the identifier can be found via the list command and
 is case insensitive.
+.SH BUGS
+Like update and export, the database is assumed to exist.
 .SH EXAMPLES
 remove entry with ID FF04C3DC-F0FE-472E-8737-0F4034C049F0:
 .RS
@@ -29,4 +31,6 @@ recheckbook remove -i FF04C3DC-F0FE-472E-8737-0F4034C049F0
 .RE
 .SH SEE ALSO
 rcheckbook-add(1),
-rcheckbook-list(1)
+rcheckbook-export(1),
+rcheckbook-list(1),
+rcheckbook-update(1)
