@@ -21,7 +21,9 @@ the amount exchanged.
 The amount exchanged.
 .PP
 A positive value denotes a deposit, 
-while a negative denotes a withdrawal.
+while a negative or zero value denotes a withdrawal.
+.PP
+If a value is not given, it will be put down as zero.
 .PP
 Because negative values are allowed, 
 it is best to provide this date last.
@@ -46,3 +48,19 @@ YYYY-MM-DD.
 
 If this is not provided when adding an entry, 
 the current date will be used.
+.TP
+.B -m <memo>, --memo <memo>
+A brief description of the exchange.
+.PP
+If not provided, this will simply be left empty.
+.PP
+However, it is best to prvide a memo, 
+so that you know what it was for.
+.TP
+.B -r, --reconciled
+Mark the transaction as reconciled.
+.PP
+If left off, the transaction will be considered unreconciled.
+.TP
+.B --vendor <vendor>
+The vendor/payee in the exchange.
