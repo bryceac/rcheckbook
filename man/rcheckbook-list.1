@@ -46,13 +46,32 @@ If not provided, this will simply be left empty.
 However, it is best to prvide a memo, 
 so that you know what it was for.
 .TP
-.B -r, --reconciled
-Mark the transaction as reconciled.
-.PP
-If left off, the transaction will be considered unreconciled.
+.B --not-reconciled
+Only list the transactions that have not been reconciled.
 .TP
-.B --vendor <vendor>
-The vendor/payee in the exchange.
+.B -r, --reconciled
+Only list the transactionss that have been reconciled.
+.TP
+.TP
+.B -t <type>, --transaction-type <type>
+.PP
+Only list the transactions that are of a given type.
+.PP
+Like when importing transactions, this value
+.B MUST
+be either
+.B deposit
+or
+.B withdrawal
+.PP
+If this is left off, everything
+will be shown.
+.B -v, --vendor <vendor>
+.PP
+Only display transactions with a given vendor.
+.PP
+If you don't know the vendor, a partial match is performed,
+so that you can find it easily.
 .SH ENVIRONMENT
 By default, this program generates a database, 
 .B when needed
