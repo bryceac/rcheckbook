@@ -1,0 +1,98 @@
+.TH RCHECKBOOK-EXPORT 1 "20 June 2026" "version 0.5"
+.SH NAME
+rcheckbook-export \- export registry to file.
+.SH SYNOPSIS
+rcheckbook export [path/to/database] 
+--output-file <file path> | -o <file path>
+.SH DESCRIPTION
+Export registry to file.
+.PP
+The export subcommand can be used to export the registry
+to the following formats:
+.RS
+.IP
+JSON (bcheck)
+.IP
+QIF
+.IP
+Excel (xlsx)
+.IP
+ODS
+.IP
+TSV
+.RE
+.PP
+The format exported to is determined by the file 
+extension.
+.PP
+The default format is TSV.
+.PP
+Like the add command, 
+if you do not provide a database path,
+the program will attempt to open
+.B register.db
+from the
+.B .checkbook
+directory in your home folder.
+.SH OPTIONS
+.TP
+.B -o <file path>, --output-file <file path>
+
+The location and name of the exported file.
+.PP
+As stated under the
+.B DESCRIPTION
+section, the file extension determines the format exported.
+.PP
+If you export your data to TSV, 
+the output will be similiar to what you would get 
+when using the list subcommand, 
+with the exception of a baance field.
+.PP
+If you would like to have headings,
+to make parsing data easier,
+use either the xlsx or ods extensions.
+.PP
+The ODS and Excel exports will contain headings and
+balance fields, but those balances will not update
+if you try modifying values there.
+.SH BUGS
+If you use an environment variable when telling
+the program the location of your registry database,
+which
+.B can
+be different from the schema file, 
+there is a likelihood that you will get an empty database.
+.PP
+To avoid this, 
+use an absolute path, or,
+if it will be in your home folder,
+.B ~
+\.
+.SH EXAMPLES
+export registry to JSON:
+.RS
+.IP
+recheckbook export -o transactions.bcheck
+.RE
+.PP
+export registry to QIF:
+.RS
+.IP
+recheckbook export -o transactions.qif
+.RE
+.PP
+export registry to Excel:
+.RS
+.IP
+recheckbook export -o transactions.xlsx
+.RE
+.PP
+export registry to TSV:
+.RS
+.IP
+recheckbook export -o transactions.tsv
+.RE
+.SH SEE ALSO
+rcheckbook-add(1),
+rcheckbook-list(1)
