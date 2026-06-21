@@ -216,7 +216,7 @@ pub fn retrieve_record_with_id_from_db(p: &str, i: &str) -> Option<Record> {
 
 pub fn update_record_in_db(p: &str, r: &Record) {
     let category_id = if let Some(category) = &r.transaction.category {
-        if !category.is_empty() && category.to_lowercase() != "uncategorized".to_string() {
+        if !category.is_empty() && category.to_lowercase() != "uncategorized" {
             if let Some(id) = category_id(p, category) {
                 Some(id)
             } else {
