@@ -3,142 +3,59 @@
 rcheckbook-export \- export registry to file.
 .SH SYNOPSIS
 rcheckbook export [path/to/database] 
-[--date <date> | -d <date>][--check-number <check number>]
-[--category <category>]--vendor <vendor>
-[--memo <memo> | -m <memo>][--reconciled | -r]
---amount <amount> | -a <amount>
+--output-file <file path> | -o <file path>
 .SH DESCRIPTION
-Add an entry to the registry.
+Export registry to file.
 .PP
-The add subcommand can be used to add an entry 
-to the registry with all the data that you know.
+The export subcommand can be used to export the registry
+to the following formats:
+.RS
+.IP
+JSON (bcheck)
+.IP
+QIF
+.IP
+Excel (xlsx)
+.IP
+ODS
+.IP
+TSV
+.RE
 .PP
-The only required information are the vendor and
-the amount exchanged.
+The format exported to is determined by the file 
+extension.
+.PP
+The default format is TSV.
+.PP
+Like the add command, 
+if you do not provide a database path,
+the program will attempt to open
+.B register.db
+from the
+.B .checkbook
+directory in your home folder.
 .SH OPTIONS
 .TP
-.B -a <amount>, --amount <amount>
-The amount exchanged.
-.PP
-A positive value denotes a deposit, 
-while a negative or zero value denotes a withdrawal.
-.PP
-If a value is not given, it will be put down as zero.
-.PP
-Because negative values are allowed, 
-it is best to provide this date last.
-.TP
-.B --category <category>
-The category to assign to the entry.
-.PP
-If your category has any spaces, make sure to wrap it up in quotes.
-.PP
-If no category is named, it will be considered Uncategorized.
-.PP
-If a specified category is not found, 
-it will be added to the registry along with the transaction.
-.PP
-The default categories are as follows:
-.RS
-.IP
-Dining
-.IP
-Gifts
-.IP
-Groceries
-.IP
-Opening Balance
-.IP
-Recreation
-.IP
-Subscriptions
-.IP
-Utilities
-.RE
-.PP
-Categories are case insensitive.
-.PP
-However, 
-the case used when specifying a new category 
-will be the case stored in the database.
-.PP
-To keep things consistent,
-it is best to capitialize things as if they were
-a title.
-.TP
-.B --check-number <check number>
-The check number associated with the exchange.
-.PP
-If not provided, it will just remain empty.
-.TP
-.B -d <date>, --date <date>
-The date the exchange took place.
-.PP
-When specifying the date, the expected format is
-YYYY-MM-DD.
+.B -o <file path>, --output-file <file path>
 
-If this is not provided when adding an entry, 
-the current date will be used.
-.TP
-.B -m <memo>, --memo <memo>
-A brief description of the exchange.
+The location and name of the exported file.
 .PP
-If not provided, this will simply be left empty.
+As stated under the
+.B DESCRIPTION
+section, the file extension determines the format exported.
 .PP
-However, it is best to prvide a memo, 
-so that you know what it was for.
-.TP
-.B -r, --reconciled
-Mark the transaction as reconciled.
+If you export your data to TSV, 
+the output will be similiar to what you would get 
+when using the list subcommand, 
+with the exception of a baance field.
 .PP
-If left off, the transaction will be considered unreconciled.
-.TP
-.B --vendor <vendor>
-The vendor/payee in the exchange.
-.SH ENVIRONMENT
-By default, this program generates a database, 
-.B when needed
-, from schema file with a particular name located 
-in a particular directory.
+If you would like to have headings,
+to make parsing data easier,
+use either the xlsx or ods extensions.
 .PP
-On Windows, it will look in the following places in order:
-.RS
-.IP
-the executable's directory
-.IP
-the current directory
-.RE
-On macOS, Linux, 
-and other Unix-like Operating Systems, it will
-look in
-.B /usr/local/share/rcheckbook
-\.
-.PP
-If the operating system doesn't have these locations,
-such as if you were running NixOS, 
-or you cannot write to them, 
-you can instead tell it look in a specific 
-place by setting
-.B REGISTRY_SCHEMA_DIR
-\.
-.PP
-When this is set, 
-the program will look for the schema file in that directory
-before looking elsewhere.
-.SH FILES
-There is only one file that is important to the program,
-which is
-.B register.sql
-\.
-.PP
-This file is typically located in the default places specified
-in the 
-.B ENVIRONMENT
-section.
-.PP
-This file
-.B MUST NOT
-be renamed.
+The ODS and Excel exports will contain headings and
+balance fields, but those balances will not update
+if you try modifying values there.
 .SH BUGS
 If you use an environment variable when telling
 the program the location of your registry database,
