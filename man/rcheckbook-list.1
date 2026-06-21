@@ -7,13 +7,17 @@ rcheckbook list [path/to/database]
 [--memo <memo> | -m <memo>][--reconciled | -r]
 [--not-reconciled][--tansaction-type <type> | -t <type>]
 .SH DESCRIPTION
-Add an entry to the registry.
+The list subcommand can be used to look at the transactions
+that took place.
 .PP
-The add subcommand can be used to add an entry 
-to the registry with all the data that you know.
+There are no required options, 
+and if none are specifed, everything will be displayed.
 .PP
-The only required information are the vendor and
-the amount exchanged.
+The items will be displayed in accordance with what was ouylined
+for
+.B TSV
+files in the documentation for the import comand,
+but with the addition of a balance field at the end.
 .PP
 If no path to database is given,
 the program will try to open a database located in
@@ -22,54 +26,14 @@ user your home directory named
 .B register.db.
 .SH OPTIONS
 .TP
-.B -a <amount>, --amount <amount>
-The amount exchanged.
-.PP
-A positive value denotes a deposit, 
-while a negative or zero value denotes a withdrawal.
-.PP
-If a value is not given, it will be put down as zero.
-.PP
-Because negative values are allowed, 
-it is best to provide this date last.
-.TP
 .B --category <category>
-The category to assign to the entry.
+Only show the transaction that belong to a given category.
 .PP
-If your category has any spaces, make sure to wrap it up in quotes.
+This is case insensitive.
 .PP
-If no category is named, it will be considered Uncategorized.
-.PP
-If a specified category is not found, 
-it will be added to the registry along with the transaction.
-.PP
-The default categories are as follows:
-.RS
-.IP
-Dining
-.IP
-Gifts
-.IP
-Groceries
-.IP
-Opening Balance
-.IP
-Recreation
-.IP
-Subscriptions
-.IP
-Utilities
-.RE
-.PP
-Categories are case insensitive.
-.PP
-However, 
-the case used when specifying a new category 
-will be the case stored in the database.
-.PP
-To keep things consistent,
-it is best to capitialize things as if they were
-a title.
+To display transactions without a category, pass
+.B Uncategorized
+, as that is what the program unwraps to when the value is none.
 .TP
 .B --check-number <check number>
 The check number associated with the exchange.
