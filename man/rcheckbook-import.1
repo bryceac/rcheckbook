@@ -25,7 +25,7 @@ TSV
 .PP
 The extension determines how the program will parse the file.
 .PP
-If no extension is provided, nothing will be imported
+If no extension is provided, nothing will be imported.
 .PP
 Like the add command, 
 if you do not provide a database path,
@@ -36,39 +36,61 @@ from the
 directory in your home folder.
 .SH OPTIONS
 .TP
-.B -o <file path>, --output-file <file path>
+.B -i <file path>, --input-file <file path>
 
-The location and name of the exported file.
+The file to import.
 .PP
 As stated under the
 .B DESCRIPTION
-section, the file extension determines the format exported.
+section, the file extension determines how the file is parsed.
 .PP
-If you export your data to TSV, 
-the output will be similiar to what you would get 
-when using the list subcommand, 
-with the exception of a baance field.
+If you import an ODS or excel file,
+the first line is assumed to 
+be a header row and it will be skipped over.
+.SH ENVIRONMENT
+By default, this program generates a database, 
+.B when needed
+, from schema file with a particular name located 
+in a particular directory.
 .PP
-If you would like to have headings,
-to make parsing data easier,
-use either the xlsx or ods extensions.
-.PP
-The ODS and Excel exports will contain headings and
-balance fields, but those balances will not update
-if you try modifying values there.
-.SH BUGS
-If you use an environment variable when telling
-the program the location of your registry database,
-which
-.B can
-be different from the schema file, 
-there is a likelihood that you will get an empty database.
-.PP
-To avoid this, 
-use an absolute path, or,
-if it will be in your home folder,
-.B ~
+On Windows, it will look in the following places in order:
+.RS
+.IP
+the executable's directory
+.IP
+the current directory
+.RE
+On macOS, Linux, 
+and other Unix-like Operating Systems, it will
+look in
+.B /usr/local/share/rcheckbook
 \.
+.PP
+If the operating system doesn't have these locations,
+such as if you were running NixOS, 
+or you cannot write to them, 
+you can instead tell it look in a specific 
+place by setting
+.B REGISTRY_SCHEMA_DIR
+\.
+.PP
+When this is set, 
+the program will look for the schema file in that directory
+before looking elsewhere.
+.SH FILES
+There is only one file that is important to the program,
+which is
+.B register.sql
+\.
+.PP
+This file is typically located in the default places specified
+in the 
+.B ENVIRONMENT
+section.
+.PP
+This file
+.B MUST NOT
+be renamed.
 .SH EXAMPLES
 export registry to JSON:
 .RS
