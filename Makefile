@@ -1,6 +1,6 @@
 prefix ?= /usr/local
 bindir = $(prefix)/bin
-mandir = $(mandir)
+mandir = $(prefix)/share/man
 
 ifeq ($(REGISTRY_SCHEMA_DIR),)
 resourcedir = $(prefix)/share/rcheckbook
