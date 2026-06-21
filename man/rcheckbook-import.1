@@ -91,6 +91,115 @@ section.
 This file
 .B MUST NOT
 be renamed.
+.SH NOTES
+When importing data, things can get confusing, depending on the format.
+.PP
+To make sure that things go smoothly, here are how a few 
+of the formats are read.
+
+.SS JSON
+JSON files, which are expected to have the
+.B bcheck
+extension have the following keys:
+.TP
+.B id
+This is the transaction's id.
+.PP
+If this is not found, 
+an identifier will be automatically generated.
+.TP
+.B transaction
+This houses all other keys pertining to the exchange.
+.TP
+.B date
+The date the exchange took place.
+.PP
+If this is not found, Today's date will be used.
+.PP 
+Like when adding transactions, the date
+.B must
+be in YYYY-MM-DD format.
+.TP
+.B check_number
+The check number associated with the transaction.
+.PP
+If not found, none will be assgned.
+.TP
+.B vendor
+The vendor/payee in the exchange.
+.PP
+This value 
+.B must 
+be present.
+.TP
+.B memo
+A brief description of the exchange.
+.TP
+.B amount
+The amount exchanged.
+.PP
+Unlike adding transactions manually, 
+this must be positive and cannot be left out.
+.TP
+.B type
+The kind of exchange that took place.
+.PP
+It can only be a
+.B deposit
+or a
+.B withdrawal.
+.PP
+If this is left out, it is assumed
+to be a withdrawal.
+.TP
+.B is_reconciled
+determines if the transaction has been reconciled.
+.PP
+If this is left out, it is assumed to be false.
+.TP
+.B category
+The category assigned to the transaction.
+.SS TSV
+TSV columns are parsed as follows in order:
+.RS
+.IP
+id
+.IP
+date
+.IP
+check number
+.IP
+reconciled
+.IP
+category
+.IP
+vendor
+.IP
+memo
+.IP
+credit
+.IP
+withdrawal
+.RE
+.PP
+The rules that apply to corresponding keys in
+the
+.B JSON
+section still apply.
+.PP
+However, is_reconciled
+.B must
+be either
+.B Y
+or
+.B N
+instead of true or false.
+.PP
+A transaction is only reconciled if value is
+.B Y
+.PP
+transaction type is determined by which field
+a value is found.
 .SH EXAMPLES
 export registry to JSON:
 .RS
