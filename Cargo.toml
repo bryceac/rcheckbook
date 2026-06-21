@@ -50,12 +50,12 @@ assets = [
 assets = [
     { source = "target/release/rcheckbook", dest = "/usr/local/bin/", mode = "755" },
     { source = "register.sql", dest = "/usr/local/share/rcheckbook/", mode = "644" },
-    { source = "man/rcheckbook.1", dest = "/usr/local/share/man/man1", mode = "644" },
-    { source = "man/rcheckbook-add.1", dest = "/usr/local/share/man/man1", mode = "644" },
-    { source = "man/rcheckbook-export.1", dest = "/usr/local/share/man/man1", mode = "644" },
-    { source = "man/rcheckbook-import.1", dest = "/usr/local/share/man/man1", mode = "644" },
-    { source = "man/rcheckbook-list.1", dest = "/usr/local/share/man/man1", mode = "644" },
-    { source = "man/rcheckbook-remove.1", dest = "/usr/local/share/man/man1", mode = "644" },
-    { source = "man/rcheckbook-summary.1", dest = "/usr/local/share/man/man1", mode = "644" },
-    { source = "man/rcheckbook-update.1", dest = "/usr/local/share/man/man1", mode = "644" }
+    { source = "man/rcheckbook.1", dest = "/usr/local/share/man/man1/", mode = "644" },
+    { source = "man/rcheckbook-add.1", dest = "/usr/local/share/man/man1/", mode = "644" },
+    { source = "man/rcheckbook-export.1", dest = "/usr/local/share/man/man1/", mode = "644" },
+    { source = "man/rcheckbook-import.1", dest = "/usr/local/share/man/man1/", mode = "644" },
+    { source = "man/rcheckbook-list.1", dest = "/usr/local/share/man/man1/", mode = "644" },
+    { source = "man/rcheckbook-remove.1", dest = "/usr/local/share/man/man1/", mode = "644" },
+    { source = "man/rcheckbook-summary.1", dest = "/usr/local/share/man/man1/", mode = "644" },
+    { source = "man/rcheckbook-update.1", dest = "/usr/local/share/man/man1/", mode = "644" }
 ]
