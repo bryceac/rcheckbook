@@ -137,6 +137,12 @@ be within expected values.</p>
 <p>add environment variable, to allow program to be more portable.</p>
 <p>Released 6/12/2026</p>
 </dd>
+</dd>
+<dt style="font-weight:bold">0.6.6</dt>
+<dd>
+<p>Make some quality of life changes and create man pages.</p>
+<p>Released 6/21/2026</p>
+</dd>
 </dl>
 
 ===Questions===
