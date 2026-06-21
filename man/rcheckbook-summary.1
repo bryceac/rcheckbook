@@ -5,27 +5,33 @@ rcheckbook-summary \- display a summary of activity.
 rcheckbook summary [path/to/database] 
 --period <period> | -p <file period>
 .SH DESCRIPTION
-Export registry to file.
+Summarize activity.
 .PP
-The export subcommand can be used to export the registry
-to the following formats:
+The summary subcommand can be used to get a summary of what has gone on.
+.PP
+You get a breakdown of:
 .RS
 .IP
-JSON (bcheck)
+categories
 .IP
-QIF
+total expenses
 .IP
-Excel (xlsx)
+total income
 .IP
-ODS
+opening balance
 .IP
-TSV
+current balance
+.IP
+amount recnciled
+.IP
+amount unreconciled
 .RE
 .PP
-The format exported to is determined by the file 
-extension.
+By default, it will take everything into account.
 .PP
-The default format is TSV.
+However, if you specify a period of time, 
+it will give you a breakdown of everything in that period
+until now.
 .PP
 Like the add command, 
 if you do not provide a database path,
@@ -36,26 +42,28 @@ from the
 directory in your home folder.
 .SH OPTIONS
 .TP
-.B -o <file path>, --output-file <file path>
+.B -p <period>, --period <period>
+The timeframe to summarize.
 
-The location and name of the exported file.
+Possible options are as follows:
+.RS
+.IP
+week
+.IP
+month
+.IP
+quarter (3 months)
+.IP
+half-year (6 months)
+.IP
+all
+.RE
 .PP
-As stated under the
-.B DESCRIPTION
-section, the file extension determines the format exported.
+The last item is the default if this is left off.
 .PP
-If you export your data to TSV, 
-the output will be similiar to what you would get 
-when using the list subcommand, 
-with the exception of a baance field.
-.PP
-If you would like to have headings,
-to make parsing data easier,
-use either the xlsx or ods extensions.
-.PP
-The ODS and Excel exports will contain headings and
-balance fields, but those balances will not update
-if you try modifying values there.
+When you provide a value, 
+the calculations and data will start from the specified
+time ago and end at now.
 .SH BUGS
 If you use an environment variable when telling
 the program the location of your registry database,
@@ -69,29 +77,29 @@ use an absolute path, or,
 if it will be in your home folder,
 .B ~
 \.
+Also, categories are listed as sums.
+.PP
+If you want to how much you spent in a category
+or how much you earned in a category,
+it is best to either make separate categories
+or you can use any available tools to do the math for you.
 .SH EXAMPLES
-export registry to JSON:
+3-Month Summary:
 .RS
 .IP
-recheckbook export -o transactions.bcheck
+recheckbook summary -p quarter
 .RE
 .PP
-export registry to QIF:
+6-Month Summary:
 .RS
 .IP
-recheckbook export -o transactions.qif
+recheckbook export -p half-year
 .RE
 .PP
-export registry to Excel:
+Summarize everything:
 .RS
 .IP
-recheckbook export -o transactions.xlsx
-.RE
-.PP
-export registry to TSV:
-.RS
-.IP
-recheckbook export -o transactions.tsv
+recheckbook summary
 .RE
 .SH SEE ALSO
 rcheckbook-add(1),
