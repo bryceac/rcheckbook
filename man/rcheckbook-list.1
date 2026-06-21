@@ -35,22 +35,8 @@ To display transactions without a category, pass
 .B Uncategorized
 , as that is what the program unwraps to when the value is none.
 .TP
-.B --check-number <check number>
-The check number associated with the exchange.
-.PP
-If not provided, it will just remain empty.
-.TP
-.B -d <date>, --date <date>
-The date the exchange took place.
-.PP
-When specifying the date, the expected format is
-YYYY-MM-DD.
-
-If this is not provided when adding an entry, 
-the current date will be used.
-.TP
 .B -m <memo>, --memo <memo>
-A brief description of the exchange.
+Only show whose memo contains or matches the specified memo.
 .PP
 If not provided, this will simply be left empty.
 .PP
