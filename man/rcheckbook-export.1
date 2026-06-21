@@ -1,0 +1,182 @@
+.TH RCHECKBOOK-ADD 1 "20 June 2026" "version 0.4.1"
+.SH NAME
+rcheckbook-add \- Add entry to registry.
+.SH SYNOPSIS
+rcheckbook add [path/to/database] 
+[--date <date> | -d <date>][--check-number <check number>]
+[--category <category>]--vendor <vendor>
+[--memo <memo> | -m <memo>][--reconciled | -r]
+--amount <amount> | -a <amount>
+.SH DESCRIPTION
+Add an entry to the registry.
+.PP
+The add subcommand can be used to add an entry 
+to the registry with all the data that you know.
+.PP
+The only required information are the vendor and
+the amount exchanged.
+.SH OPTIONS
+.TP
+.B -a <amount>, --amount <amount>
+The amount exchanged.
+.PP
+A positive value denotes a deposit, 
+while a negative or zero value denotes a withdrawal.
+.PP
+If a value is not given, it will be put down as zero.
+.PP
+Because negative values are allowed, 
+it is best to provide this date last.
+.TP
+.B --category <category>
+The category to assign to the entry.
+.PP
+If your category has any spaces, make sure to wrap it up in quotes.
+.PP
+If no category is named, it will be considered Uncategorized.
+.PP
+If a specified category is not found, 
+it will be added to the registry along with the transaction.
+.PP
+The default categories are as follows:
+.RS
+.IP
+Dining
+.IP
+Gifts
+.IP
+Groceries
+.IP
+Opening Balance
+.IP
+Recreation
+.IP
+Subscriptions
+.IP
+Utilities
+.RE
+.PP
+Categories are case insensitive.
+.PP
+However, 
+the case used when specifying a new category 
+will be the case stored in the database.
+.PP
+To keep things consistent,
+it is best to capitialize things as if they were
+a title.
+.TP
+.B --check-number <check number>
+The check number associated with the exchange.
+.PP
+If not provided, it will just remain empty.
+.TP
+.B -d <date>, --date <date>
+The date the exchange took place.
+.PP
+When specifying the date, the expected format is
+YYYY-MM-DD.
+
+If this is not provided when adding an entry, 
+the current date will be used.
+.TP
+.B -m <memo>, --memo <memo>
+A brief description of the exchange.
+.PP
+If not provided, this will simply be left empty.
+.PP
+However, it is best to prvide a memo, 
+so that you know what it was for.
+.TP
+.B -r, --reconciled
+Mark the transaction as reconciled.
+.PP
+If left off, the transaction will be considered unreconciled.
+.TP
+.B --vendor <vendor>
+The vendor/payee in the exchange.
+.SH ENVIRONMENT
+By default, this program generates a database, 
+.B when needed
+, from schema file with a particular name located 
+in a particular directory.
+.PP
+On Windows, it will look in the following places in order:
+.RS
+.IP
+the executable's directory
+.IP
+the current directory
+.RE
+On macOS, Linux, 
+and other Unix-like Operating Systems, it will
+look in
+.B /usr/local/share/rcheckbook
+\.
+.PP
+If the operating system doesn't have these locations,
+such as if you were running NixOS, 
+or you cannot write to them, 
+you can instead tell it look in a specific 
+place by setting
+.B REGISTRY_SCHEMA_DIR
+\.
+.PP
+When this is set, 
+the program will look for the schema file in that directory
+before looking elsewhere.
+.SH FILES
+There is only one file that is important to the program,
+which is
+.B register.sql
+\.
+.PP
+This file is typically located in the default places specified
+in the 
+.B ENVIRONMENT
+section.
+.PP
+This file
+.B MUST NOT
+be renamed.
+.SH BUGS
+If you use an environment variable when telling
+the program the location of your registry database,
+which
+.B can
+be different from the schema file, 
+there is a likelihood that you will get an empty database.
+.PP
+To avoid this, 
+use an absolute path, or,
+if it will be in your home folder,
+.B ~
+\.
+.SH EXAMPLES
+Add entry to registry:
+.RS
+.IP
+recheckbook add --vendor Bill 
+-m "reimburse for food" -a -20
+.RE
+.PP
+Add reconciled transaction from Jan. 01, 1970:
+.RS
+.IP
+recheckbook add -d 1970-01-01 --vendor "Sam Hill Credit Union" 
+-m "Interest Earned" -r -a 0.02
+.RE
+.PP
+Add transaction paid via check:
+.RS
+.IP
+recheckbook add --check-number 1260 --vendor "Velociraptor Entertainment" 
+-m "Pay Day" -r -a 50000
+.RE
+.PP
+Add transaction with Category:
+.RS
+.IP
+recheckbook add --vendor "Fake Street Electronics" -m "Head set"
+--category Gifts -a -200
+.RE
