@@ -56,7 +56,7 @@ impl Update {
             }
 
             if let Some(check_number) = self.check_number {
-                stored_record.transaction.check_number = Some(check_number);
+                stored_record.transaction.check_number = if check_number > 0 { Some(check_number) } else { None };
             }
 
             if let Some(category) = &self.category {
