@@ -17,30 +17,14 @@ directory in your home folder.
 .SH OPTIONS
 .TP
 .B -i <id>, --id <id>
-The identifer of the transaction to remove
+The identifer of the transaction to remove.
+.PP
+the identifier can be found via the list command.
 .SH EXAMPLES
-export registry to JSON:
+remove entry with ID FF04C3DC-F0FE-472E-8737-0F4034C049F0:
 .RS
 .IP
-recheckbook export -o transactions.bcheck
-.RE
-.PP
-export registry to QIF:
-.RS
-.IP
-recheckbook export -o transactions.qif
-.RE
-.PP
-export registry to Excel:
-.RS
-.IP
-recheckbook export -o transactions.xlsx
-.RE
-.PP
-export registry to TSV:
-.RS
-.IP
-recheckbook export -o transactions.tsv
+recheckbook remove -i FF04C3DC-F0FE-472E-8737-0F4034C049F0
 .RE
 .SH SEE ALSO
 rcheckbook-add(1),
