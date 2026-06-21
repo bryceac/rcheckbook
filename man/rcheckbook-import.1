@@ -1,14 +1,15 @@
-.TH RCHECKBOOK-EXPORT 1 "20 June 2026" "version 0.5"
+.TH RCHECKBOOK-IMPORT 1 "20 June 2026" "version 0.5"
 .SH NAME
-rcheckbook-export \- export registry to file.
+rcheckbook-import \- import transactions to registry.
 .SH SYNOPSIS
-rcheckbook export [path/to/database] 
---output-file <file path> | -o <file path>
+rcheckbook import [path/to/database] 
+--input-file <file path> | -i <file path>
 .SH DESCRIPTION
-Export registry to file.
+Import transactions to registry.
 .PP
-The export subcommand can be used to export the registry
-to the following formats:
+The import subcommand can be used to import transactions 
+to the registry from file
+in the following formats:
 .RS
 .IP
 JSON (bcheck)
@@ -22,10 +23,9 @@ ODS
 TSV
 .RE
 .PP
-The format exported to is determined by the file 
-extension.
+The extension determines how the program will parse the file.
 .PP
-The default format is TSV.
+If no extension is provided, nothing will be imported
 .PP
 Like the add command, 
 if you do not provide a database path,
