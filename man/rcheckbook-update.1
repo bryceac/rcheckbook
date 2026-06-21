@@ -1,4 +1,4 @@
-.TH RCHECKBOOK-UPDATE 1 "21 June 2026" "version 0.4"
+.TH RCHECKBOOK-UPDATE 1 "21 June 2026" "version 0.4.1"
 .SH NAME
 rcheckbook-update \- update entry in registry.
 .SH SYNOPSIS
@@ -107,30 +107,31 @@ The vendor/payee in the exchange.
 .PP
 use this to update the vendor.
 .SH EXAMPLES
-Add entry to registry:
+Correct mislabel deposit:
 .RS
 .IP
-recheckbook add --vendor Bill 
--m "reimburse for food" -a -20
+recheckbook update -i FF04C3DC-F0FE-472E-8737-0F4034C049F0 -t deposit
 .RE
 .PP
-Add reconciled transaction from Jan. 01, 1970:
+mark transaction as reconciled:
 .RS
 .IP
-recheckbook add -d 1970-01-01 --vendor "Sam Hill Credit Union" 
--m "Interest Earned" -r -a 0.02
+recheckbook update -i FF04C3DC-F0FE-472E-8737-0F4034C049F0 -r
 .RE
 .PP
-Add transaction paid via check:
+Fix vendor name:
 .RS
 .IP
-recheckbook add --check-number 1260 --vendor "Velociraptor Entertainment" 
--m "Pay Day" -r -a 50000
+recheckbook update -i FF04C3DC-F0FE-472E-8737-0F4034C049F0 --vendor
+Bill
 .RE
 .PP
-Add transaction with Category:
+Fix date:
 .RS
 .IP
-recheckbook add --vendor "Fake Street Electronics" -m "Head set"
---category Gifts -a -200
+recheckbook update -i FF04C3DC-F0FE-472E-8737-0F4034C049F0 
+-d 2026-06-15
 .RE
+.SH SEE ALSO
+rcheckbook-add(1),
+rcheckbook-import(1)
