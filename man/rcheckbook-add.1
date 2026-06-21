@@ -34,6 +34,37 @@ The category to assign to the entry.
 If your category has any spaces, make sure to wrap it up in quotes.
 .PP
 If no category is named, it will be considered Uncategorized.
+.PP
+If a specified category is not found, 
+it will be added to the registry along with the transaction.
+.PP
+The default categories are as follows:
+.RS
+.IP
+Dining
+.IP
+Gifts
+.IP
+Groceries
+.IP
+Opening Balance
+.IP
+Recreation
+.IP
+Subscriptions
+.IP
+Utilities
+.RE
+.PP
+Categories are case insensitive.
+.PP
+However, 
+the case used when specifying a new category 
+will be the case stored in the database.
+.PP
+To keep things consistent,
+it is best to capitialize things as if they were
+a title.
 .TP
 .B --check-number <check number>
 The check number associated with the exchange.
