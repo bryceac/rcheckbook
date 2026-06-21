@@ -204,29 +204,32 @@ a value is found.
 With the exception of the first line 
 being assumed to be headers, 
 these follow the same parsing rules as TSV files.
+.SS QIF
+Only Banking transactions are supported, due to
+underlying library.
 .SH EXAMPLES
-export registry to JSON:
+import JSON to registry:
 .RS
 .IP
-recheckbook export -o transactions.bcheck
+recheckbook import -o transactions.bcheck
 .RE
 .PP
-export registry to QIF:
+import QIF to registry:
 .RS
 .IP
-recheckbook export -o transactions.qif
+recheckbook import -i transactions.qif
 .RE
 .PP
-export registry to Excel:
+import Excel file to registry:
 .RS
 .IP
-recheckbook export -o transactions.xlsx
+recheckbook import -i transactions.xlsx
 .RE
 .PP
-export registry to TSV:
+import TSV to registry:
 .RS
 .IP
-recheckbook export -o transactions.tsv
+recheckbook import -i transactions.tsv
 .RE
 .SH SEE ALSO
 rcheckbook-add(1),
