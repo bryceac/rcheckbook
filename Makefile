@@ -43,7 +43,14 @@ endif
 uninstall:
 	rm -rf "$(bindir)/rcheckbook"
 	rm -rf "$(resourcedir)"
-	rm "$(mandir)/man1/rcheckbook*.1"
+	rm "$(mandir)/man1/rcheckbook.1"
+	rm "$(mandir)/man1/rcheckbook-add.1"
+	rm "$(mandir)/man1/rcheckbook-export.1"
+	rm "$(mandir)/man1/rcheckbook-import.1"
+	rm "$(mandir)/man1/rcheckbook-list.1"
+	rm "$(mandir)/man1/rcheckbook-remove.1"
+	rm "$(mandir)/man1/rcheckbook-summary.1"
+	rm "$(mandir)/man1/rcheckbook-update.1"
 clean:
 	rm -rf target
 .PHONY: build install uninstall clean
