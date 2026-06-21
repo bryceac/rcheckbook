@@ -2,7 +2,8 @@
 .SH NAME
 rcheckbook-update \- update entry in registry.
 .SH SYNOPSIS
-rcheckbook update [path/to/database] 
+rcheckbook update [path/to/database]
+--id <id> | -i <id> 
 [--date <date> | -d <date>][--check-number <check number>]
 [--category <category>]--vendor <vendor>
 [--memo <memo> | -m <memo>][--reconciled | -r]
@@ -11,13 +12,11 @@ rcheckbook update [path/to/database]
 [--transaction_type <type> | -t <type>]
 --amount <amount> | -a <amount>
 .SH DESCRIPTION
-Add an entry to the registry.
+The update subcommand can be used to update an entry 
+in the registry with all the data that you know.
 .PP
-The add subcommand can be used to add an entry 
-to the registry with all the data that you know.
-.PP
-The only required information are the vendor and
-the amount exchanged.
+Everything is optional, except for the id, 
+Because not everything will be changed.
 .PP
 If no path to database is given,
 the program will try to open a database located in
@@ -29,20 +28,15 @@ user your home directory named
 .B -a <amount>, --amount <amount>
 The amount exchanged.
 .PP
-A positive value denotes a deposit, 
-while a negative or zero value denotes a withdrawal.
-.PP
-If a value is not given, it will be put down as zero.
-.PP
-Because negative values are allowed, 
-it is best to provide this date last.
+Unlike the add command, this must be a positive number.
 .TP
 .B --category <category>
 The category to assign to the entry.
 .PP
 If your category has any spaces, make sure to wrap it up in quotes.
 .PP
-If no category is named, it will be considered Uncategorized.
+If no category is named or marked uncaegorized, 
+it will be considered Uncategorized.
 .PP
 If a specified category is not found, 
 it will be added to the registry along with the transaction.
@@ -78,89 +72,36 @@ a title.
 .B --check-number <check number>
 The check number associated with the exchange.
 .PP
-If not provided, it will just remain empty.
+Use this to update the check number.
 .TP
 .B -d <date>, --date <date>
 The date the exchange took place.
 .PP
 When specifying the date, the expected format is
 YYYY-MM-DD.
-.PP
-If this is not provided when adding an entry, 
-the current date will be used.
 .TP
 .B -m <memo>, --memo <memo>
 A brief description of the exchange.
 .PP
-If not provided, this will simply be left empty.
-.PP
-However, it is best to prvide a memo, 
-so that you know what it was for.
+Use this to update the memo.
+.TP
+.B --not-reconciled
+Mark the transaction as not reconciled.
 .TP
 .B -r, --reconciled
 Mark the transaction as reconciled.
+.TP
+.B -t <type>, --transaction-type <type>
+Set the type of transaction.
 .PP
-If left off, the transaction will be considered unreconciled.
+Like importing JSON, this can only be one of two values.
+.PP
+Unlike adding entries, where type is determined by sign,
+this is used in cases where the amount was not wrong,
+but the sign used was.
 .TP
 .B --vendor <vendor>
 The vendor/payee in the exchange.
-.SH ENVIRONMENT
-By default, this program generates a database, 
-.B when needed
-, from schema file with a particular name located 
-in a particular directory.
-.PP
-On Windows, it will look in the following places in order:
-.RS
-.IP
-the executable's directory
-.IP
-the current directory
-.RE
-On macOS, Linux, 
-and other Unix-like Operating Systems, it will
-look in
-.B /usr/local/share/rcheckbook
-\.
-.PP
-If the operating system doesn't have these locations,
-such as if you were running NixOS, 
-or you cannot write to them, 
-you can instead tell it look in a specific 
-place by setting
-.B REGISTRY_SCHEMA_DIR
-\.
-.PP
-When this is set, 
-the program will look for the schema file in that directory
-before looking elsewhere.
-.SH FILES
-There is only one file that is important to the program,
-which is
-.B register.sql
-\.
-.PP
-This file is typically located in the default places specified
-in the 
-.B ENVIRONMENT
-section.
-.PP
-This file
-.B MUST NOT
-be renamed.
-.SH BUGS
-If you use an environment variable when telling
-the program the location of your registry database,
-which
-.B can
-be different from the schema file, 
-there is a likelihood that you will get an empty database.
-.PP
-To avoid this, 
-use an absolute path, or,
-if it will be in your home folder,
-.B ~
-\.
 .SH EXAMPLES
 Add entry to registry:
 .RS
