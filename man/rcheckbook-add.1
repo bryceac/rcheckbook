@@ -1,0 +1,48 @@
+.TH RCHECKBOOK-ADD 1 "20 June 2026" "version 0.4.1"
+.SH NAME
+rcheckbook-add \- Add entry to registry.
+.SH SYNOPSIS
+rcheckbook add [path/to/database] 
+[--date <date> | -d <date>][--check-number <check number>]
+[--category <category>]--vendor <vendor>
+[--memo <memo> | -m <memo>][--reconciled | -r]
+--amount <amount> | -a <amount>
+.SH DESCRIPTION
+Add an entry to the registry.
+.PP
+The add subcommand can be used to add an entry 
+to the registry with all the data that you know.
+.PP
+The only required information are the vendor and
+the amount exchanged.
+.SH OPTIONS
+.TP
+.B -a <amount>, --amount <amount>
+The amount exchanged.
+.PP
+A positive value denotes a deposit, 
+while a negative denotes a withdrawal.
+.PP
+Because negative values are allowed, 
+it is best to provide this date last.
+.TP
+.B --category <category>
+The category to assign to the entry.
+.PP
+If your category has any spaces, make sure to wrap it up in quotes.
+.PP
+If no category is named, it will be considered Uncategorized.
+.TP
+.B --check-number <check number>
+The check number associated with the exchange.
+.PP
+If not provided, it will just remain empty.
+.TP
+.B -d <date>, --date <date>
+The date the exchange took place.
+.PP
+When specifying the date, the expected format is
+YYYY-MM-DD.
+
+If this is not provided when adding an entry, 
+the current date will be used.
