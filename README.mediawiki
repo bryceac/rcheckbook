@@ -147,7 +147,7 @@ be within expected values.</p>
 
 ===Documentation===
 
-As of early July 2026, documentation has been moved to the this project&39;s own website <a href="https://rcheckbook.org">website</a>.
+As of early July 2026, documentation has been moved to the this project&#39;s own website <a href="https://rcheckbook.org">website</a>.
 
 This was done, so that this README could be trimmed down, and referenced much easier.
 
