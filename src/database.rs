@@ -166,14 +166,15 @@ fn category_exists_in_db(p: &str, c: &str) -> bool {
 fn category_id(p: &str, c: &str) -> Option<i32> {
     let mut category_id: Option<i32> = None;
     if category_exists_in_db(p, c) {
-        if let Ok(db) = Connection::open(&real_path(p)) {
-            let category_sql = format!("SELECT id FROM categories WHERE category = '{}' COLLATE NOCASE", c);
-            category_id = if let Ok(value) = db.query_row(&category_sql, [], |row| row.get(0)) {
-                Some(value)
-            } else {
-                None
-            }
-        }
+        let db = Connection::open(&real_path(p)).unwrap();
+
+        let category_sql = format!("SELECT id FROM categories WHERE category = '{}' COLLATE NOCASE", c);
+        category_id = if let Ok(value) = db.query_row(&category_sql, [], |row| row.get(0)) {
+            Some(value)
+        } else {
+            None
+        };
+        
         category_id
     } else {
         category_id
