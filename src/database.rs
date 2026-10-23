@@ -32,7 +32,7 @@ pub fn create_database_if_not_exists(p: &str) {
 	            \"amount\"	REAL NOT NULL DEFAULT 0.0,
 	            \"category\"	INTEGER DEFAULT NULL,
 	            \"reconciled\"	INTEGER NOT NULL DEFAULT 0 CHECK(\"reconciled\" IN (0, 1)),
-	            PRIMARY KEY("id")
+	            PRIMARY KEY(\"id\")
             ) STRICT;
             INSERT INTO \"categories\" VALUES (1,'Utilities'),
             (2,'Gifts'),
