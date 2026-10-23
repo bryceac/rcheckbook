@@ -18,7 +18,7 @@ pub struct Import {
 
 impl Import {
     pub fn run(&self) {
-        copy_database_if_not_exists(&self.file_path);
+        create_database_if_not_exists(&self.file_path);
         self.import();
     }
 

@@ -32,7 +32,7 @@ pub struct List {
 
 impl List {
     pub fn run(&self) {
-        copy_database_if_not_exists(&self.file_path);
+        create_database_if_not_exists(&self.file_path);
         let record_store = Records::from(load_records_from_db(&self.file_path));
 
         if self.reconciled && self.not_reconciled {
