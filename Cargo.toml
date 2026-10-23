@@ -35,7 +35,6 @@ section = "unknown"
 priority = "optional"
 assets = [
     ["target/release/rcheckbook", "usr/local/bin/", "755"],
-    ["register.sql", "/usr/local/share/rcheckbook/", "644"],
     ["man/rcheckbook.1", "/usr/local/share/man/man1/", "644"],
     ["man/rcheckbook-add.1", "/usr/local/share/man/man1/", "644"],
     ["man/rcheckbook-export.1", "/usr/local/share/man/man1/", "644"],
@@ -49,7 +48,6 @@ assets = [
 [package.metadata.generate-rpm]
 assets = [
     { source = "target/release/rcheckbook", dest = "/usr/local/bin/", mode = "755" },
-    { source = "register.sql", dest = "/usr/local/share/rcheckbook/", mode = "644" },
     { source = "man/rcheckbook.1", dest = "/usr/local/share/man/man1/", mode = "644" },
     { source = "man/rcheckbook-add.1", dest = "/usr/local/share/man/man1/", mode = "644" },
     { source = "man/rcheckbook-export.1", dest = "/usr/local/share/man/man1/", mode = "644" },

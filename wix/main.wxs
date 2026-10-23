@@ -95,15 +95,6 @@
                                 Source='target\$(var.Profile)\rcheckbook.exe'
                                 KeyPath='yes'/>
                         </Component>
-
-                        <Component Id='schema' Guid='*' Win64='$(var.Win64)'>
-                            <File
-                                Id='register.sql'
-                                Name='register.sql'
-                                DiskId='1'
-                                Source='register.sql'
-                                KeyPath='yes'/>
-                        </Component>
                     </Directory>
                 </Directory>
             </Directory>
@@ -125,8 +116,6 @@
             <ComponentRef Id='License'/>
             
             <ComponentRef Id='binary0'/>
-
-            <ComponentRef Id='schema'/>
 
             <Feature
                 Id='Environment'
