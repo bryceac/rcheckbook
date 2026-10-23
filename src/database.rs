@@ -144,16 +144,16 @@ pub fn load_categories_from_db(p: &str) -> Vec<String> {
             stored_categories.push(category.unwrap());
         }
     }
-    
+
     stored_categories
 }
 
 pub fn retrieve_balance_for_record(p: &str, r: Record) -> f64 {
     let mut balance = 0.0;
-    if let Ok(db) = Connection::open(&real_path(p)){
-        let balance_query_string = format!("SELECT balance FROM ledger WHERE id = '{}'", r.id);
-        balance = db.query_row(&balance_query_string, [], |row| row.get(0)).unwrap();
-    } else {}
+    let db = Connection::open(&real_path(p)).unwrap();
+
+    let balance_query_string = format!("SELECT balance FROM ledger WHERE id = '{}'", r.id);
+    balance = db.query_row(&balance_query_string, [], |row| row.get(0)).unwrap();
 
     balance
 }
