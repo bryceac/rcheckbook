@@ -7,7 +7,7 @@
 '''Description:''' A Rust-based CLI ledger that can help you keep track 
 of finances.
 
-'''Version:''' 0.6.6
+'''Version:''' 0.7.0
 
 ==Notes==
 
@@ -142,6 +142,11 @@ be within expected values.</p>
 <dd>
 <p>Make some quality of life changes and create man pages.</p>
 <p>Released 6/21/2026</p>
+</dd>
+<dt style="font-weight:bold">0.7.0</dt>
+<dd>
+<p>Remove Schema file and clean up code. This allows the program to be more portable.</p>
+<p>Released 10/22/2026</p>
 </dd>
 </dl>
 
