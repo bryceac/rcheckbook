@@ -1,4 +1,4 @@
-use std::{ fs::{ self, File }, path::{ Path, PathBuf }, io::{ self, Read } };
+use std::{ fs::{ self, File }, path::{ Path } };
 
 use std::env;
 
@@ -10,7 +10,7 @@ pub fn copy_database_if_not_exists(p: &str) {
     let target = real_path(p);
     let destination_path = Path::new(&target);
 
-    #[cfg(windows)]
+    /* #[cfg(windows)]
     let schema_file: PathBuf = if let Ok(schema_dir) = env::var("REGISTRY_SCHEMA_DIR") {
         Path::new(&real_path(&schema_dir)).join("register.sql").to_path_buf()
     } else if let Ok(path) = env::current_exe() {
@@ -28,13 +28,13 @@ pub fn copy_database_if_not_exists(p: &str) {
         Path::new(&real_path(&schema_dir)).join("register.sql").to_path_buf()
     } else {
         Path::new(&real_path("/usr/local/share/rcheckbook/register.sql")).to_path_buf()
-    };
+    }; */
     
 
     if !destination_path.exists() {
         let _ = fs::create_dir_all(destination_path.parent().unwrap());
 
-        if let Ok(db) = Connection::open(&destination_path) {
+        /* if let Ok(db) = Connection::open(&destination_path) {
             if let Some(schema_path_string) = schema_file.as_path().as_os_str().to_str() {
                 match file_content(schema_path_string) {
                     Ok(sql) => if let Err(error) = db.execute_batch(&sql) {
@@ -43,7 +43,7 @@ pub fn copy_database_if_not_exists(p: &str) {
                     Err(error) => println!("{}", error)
                 }
             }
-        }
+        } */
     }
 
 }
