@@ -1,7 +1,4 @@
-use std::{ fs::{ self, File }, path::{ Path } };
-
-use std::env;
-
+use std::{ fs, path::{ Path } };
 use rusqlite::{ Connection, params };
 use bcheck::{ Record, Transaction, TransactionType };
 use crate::shared::*;
