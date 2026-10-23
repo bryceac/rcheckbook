@@ -132,19 +132,19 @@ pub fn load_records_from_db(p: &str) -> Vec<Record> {
 
 pub fn load_categories_from_db(p: &str) -> Vec<String> {
     let mut stored_categories: Vec<String> = vec![];
+    let db = Connection::open(&real_path(p)).unwrap();
 
-    if let Ok(db) = Connection::open(&real_path(p)) {
-        if let Ok(mut statement) = db.prepare("SELECT category FROM categories") {
-            let category_query = statement.query_map([], |row| {
-                let name: String = row.get_unwrap(0);
-                Ok(name)
-            }).unwrap();
+    if let Ok(mut statement) = db.prepare("SELECT category FROM categories") {
+        let category_query = statement.query_map([], |row| {
+            let name: String = row.get_unwrap(0);
+            Ok(name)
+        }).unwrap();
 
-            for category in category_query {
-                stored_categories.push(category.unwrap());
-            }
+        for category in category_query {
+            stored_categories.push(category.unwrap());
         }
-    } else {}
+    }
+    
     stored_categories
 }
 
