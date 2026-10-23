@@ -183,15 +183,15 @@ fn category_id(p: &str, c: &str) -> Option<i32> {
 
 pub fn add_category_to_db(p: &str, c: &str) {
     if !category_exists_in_db(p, c) {
-        if let Ok(db) = Connection::open(&real_path(p)) {
-            let insert_query = format!("INSERT INTO categories(category) VALUES (?1)");
+        let db = Connection::open(&real_path(p)).unwrap();
 
-            if let Ok(mut statement) = db.prepare(&insert_query) {
-                if let Err(error) = statement.execute([c]) {
-                    println!("{}", error);
-                }
+        let insert_query = format!("INSERT INTO categories(category) VALUES (?1)");
+
+        if let Ok(mut statement) = db.prepare(&insert_query) {
+            if let Err(error) = statement.execute([c]) {
+                println!("{}", error);
             }
-        } else {}
+        }
     }
 }
 
