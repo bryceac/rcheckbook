@@ -118,71 +118,14 @@ pub fn load_records_from_db(p: &str) -> Vec<Record> {
                 .build();
 
                 Ok(Record::from(&id, transaction))
-            }).unwrap();
+        }).unwrap();
                 
-            for row in record_query {
-                if let Ok(record) = row {
-                    stored_records.push(record);
-                }
+        for row in record_query {
+            if let Ok(record) = row {
+                stored_records.push(record);
             }
         }
-    /* match Connection::open(&real_path(p)) {
-        Ok(db) => {
-            if let Ok(mut statement) = db.prepare("SELECT * from ledger") {
-                let record_query = statement.query_map([], |row| {
-                    let id: String = row.get_unwrap(0);
-
-                    let date: String = row.get_unwrap(1);
-                    let check_number: u32 = if let Ok(num) = row.get(2) {
-                        num
-                    } else {
-                        0
-                    };
-
-                    let category: String = if let Ok(c) = row.get(6) {
-                        c
-                    } else {
-                        String::default()
-                    };
-
-                    let vendor: String = row.get_unwrap(4);
-
-                    let memo: String = row.get_unwrap(5);
-
-                    let amount: f64 = if let Ok(a) = row.get(7) {
-                        a
-                    } else {
-                        0.0
-                    };
-
-                    let is_reconciled: String = if let Ok(r) = row.get(3) {
-                        r
-                    } else {
-                        "N".to_string()
-                    };
-
-                    let transaction = Transaction::builder()
-                    .set_date(&date)
-                    .set_check_number(check_number)
-                    .set_category(&category)
-                    .set_vendor(&vendor)
-                    .set_memo(&memo)
-                    .set_amount_and_type(amount)
-                    .set_is_reconciled(is_reconciled.to_lowercase() == "y")
-                    .build();
-
-                    Ok(Record::from(&id, transaction))
-                }).unwrap();
-                
-                for row in record_query {
-                    if let Ok(record) = row {
-                        stored_records.push(record);
-                    }
-                }
-            }
-        },
-        _ => {}
-    } */
+    }
 
     stored_records
 }
