@@ -2,8 +2,6 @@ PREFIX := /usr/local
 BINDIR := {{PREFIX}}/bin
 MANDIR := {{PREFIX}}/share/man
 
-SYS := $(shell $(CC) -dumpmachine)
-
 build:
 	cargo build --release
 install: build
