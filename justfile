@@ -17,7 +17,7 @@ install:
 	install "man/rcheckbook-update.1" "{{MANDIR}}/man1/rcheckbook-update.1"
 
 uninstall:
-	rm -rf "{{BINDIR}}/rcheckbook"
+	rm "{{BINDIR}}/rcheckbook"
 	rm "{{MANDIR}}/man1/rcheckbook.1"
 	rm "{{MANDIR}}/man1/rcheckbook-add.1"
 	rm "{{MANDIR}}/man1/rcheckbook-export.1"
