@@ -42,4 +42,3 @@ uninstall:
 	rm "$(mandir)/man1/rcheckbook-update.1"
 clean:
 	rm -rf target
-.PHONY: build install uninstall clean
