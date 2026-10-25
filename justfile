@@ -1,6 +1,6 @@
-prefix ?= /usr/local
-bindir = $(prefix)/bin
-mandir = $(prefix)/share/man
+PREFIX := /usr/local
+BINDIR := {{PREFIX}}/bin
+MANDIR := {{PREFIX}}/share/man
 
 SYS := $(shell $(CC) -dumpmachine)
 
