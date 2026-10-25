@@ -1,10 +1,10 @@
 PREFIX := /usr/local
-BINDIR := {{PREFIX}}/bin
-MANDIR := {{PREFIX}}/share/man
+BINDIR := PREFIX+"/bin"
+MANDIR := PREFIX+"/share/man"
 
 build:
 	cargo build --release
-	
+
 [unix]
 install:
 	install "target/release/rcheckbook" "{{BINDIR}}/rcheckbook"
