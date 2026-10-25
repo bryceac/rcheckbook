@@ -1,3 +1,5 @@
+set allow-duplicate-recipes := true
+
 PREFIX := "/usr/local"
 BINDIR := PREFIX+"/bin"
 MANDIR := PREFIX+"/share/man"
@@ -29,6 +31,7 @@ install:
 	install "man/rcheckbook-remove.1" "{{MANDIR}}/man1/rcheckbook-remove.1"
 	install "man/rcheckbook-summary.1" "{{MANDIR}}/man1/rcheckbook-summary.1"
 	install "man/rcheckbook-update.1" "{{MANDIR}}/man1/rcheckbook-update.1"
+
 uninstall:
 	rm -rf "{{BINDIR}}/rcheckbook"
 	rm "{{MANDIR}}/man1/rcheckbook.1"
