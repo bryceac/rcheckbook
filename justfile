@@ -10,7 +10,6 @@ build:
 [unix]
 install:
 	install "target/release/rcheckbook" "{{BINDIR}}/rcheckbook"
-
 	install "man/rcheckbook.1" "{{MANDIR}}/man1/rcheckbook.1"
 	install "man/rcheckbook-add.1" "{{MANDIR}}/man1/rcheckbook-add.1"
 	install "man/rcheckbook-export.1" "{{MANDIR}}/man1/rcheckbook-export.1"
